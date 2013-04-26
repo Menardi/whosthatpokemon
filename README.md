@@ -3,7 +3,7 @@
 A browser-based game in which Pokémon silhouettes are shown to the user and they guess which Pokémon it is. 
 
 ##Live Demo
-See [http://gearoid.me/pokemon/] for a live demo.
+See http://gearoid.me/pokemon/ for a live demo.
 
 ##Features
 
@@ -14,14 +14,15 @@ See [http://gearoid.me/pokemon/] for a live demo.
 
 ##Setup
 
-The Pokémon images and sounds you need are not included in this repository. You can download them from [http://gearoid.me/pokemon/downloads/pokemedia.zip]. Unzip this and put _images/_ and _sounds/_ in the same directory as _index.html_.
+The Pokémon images and sounds you need are not included in this repository. You can download them from http://gearoid.me/pokemon/downloads/pokemedia.zip. Unzip this and put _images/_ and _sounds/_ in the same directory as _index.html_.
 
-Once these are in place, ppen _index.html_ in your browser.
+Once these are in place, open _index.html_ in your browser.
 
 ###Stat Tracking
 To track statistics on the backend, you will need to set up a MySQL database and put the login details into _jsonstats.php_. Use the following SQL query to set up the stats table.
 
-```create table stats (
+```mysql
+create table stats (
     id int auto_increment primary key,
     pokemonId smallint unsigned,
     correct tinyint unsigned,
@@ -32,7 +33,8 @@ To track statistics on the backend, you will need to set up a MySQL database and
     time timestamp,
     userId varchar(16),
     otherData varchar(256)
-);```
+);
+```
 
 You do not need to set this up for the rest of the game to work.
 
