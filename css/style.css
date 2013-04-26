@@ -1,0 +1,233 @@
+body {
+    background: #bdc3c7;
+    text-align: center;
+    font-family: 'Cantora One', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #FFF;
+    text-shadow: 1px 1px #333;
+}
+
+h2.sectionHead {
+    margin: 10px 0 0 0;
+    font-size: 20px;
+    color: #FFF;
+    text-shadow: 1px 1px #34495e;
+}
+
+div#container {
+    margin: auto;
+    width: 760px;
+}
+
+div.upperBox {
+    width: 500px;
+    padding: 10px;
+    color: #FFF;
+    border-radius: 10px;
+    margin: 0 auto 1em auto;
+}
+
+div.warning {
+    background-color: #A30006;
+}
+
+div#infobox {
+    background-color: #3498db;
+}
+
+div#infobox a {
+    color: #FFF;
+    text-shadow: 1px 1px #34495e;
+}
+
+div#infobox a#hideInfobox {
+    color: #333;
+    text-shadow: 1px 1px #FFF;
+}
+
+div.sidebox {
+    background-color: #34495e;
+}
+
+/*
+ * Left-hand side
+ */
+ 
+div#left {
+    float: left;
+    width: 120px;
+    color: #FFF;
+}
+
+div#left h1, div#right h1 {
+    margin: 0 0 0 0;
+}
+
+div#left div.sidebox {
+    border-radius: 10px 0 0 10px;
+}
+
+div.userChoice a {
+    display: block;
+    padding: 5px;
+    color: #FFF;
+}
+
+div.userChoice a:first-of-type {
+    border-top-left-radius: 10px;
+}
+
+div.userChoice a:last-of-type {
+    border-bottom-left-radius: 10px;
+}
+
+div.userChoice a.current {
+    background-color: #3498db;
+    text-shadow: 1px 1px #34495e;
+}
+
+div.userChoice a.selected {
+    background-color: #34495e;
+    text-shadow: 1px 1px #333;
+}
+
+/*
+ * Right-hand side
+ */
+ 
+div#right {
+    float: right;
+    width: 120px;
+    color: #FFF;
+}
+
+div#right div.sidebox {
+    border-radius: 0 10px 10px 0;
+}
+ 
+div#count, div#timer {
+    padding: 5px 0;
+}
+
+div#count h1:last-of-type {
+    margin: 0;
+}
+
+div#infoBoxRight {
+    padding: 5px;
+    width: 110px;
+    margin-top: 20px;
+    text-shadow: 1px 1px #333;
+    background-color: #8e44ad;
+}
+
+span#bestTimePokemon {
+    text-transform: capitalize;
+    display: block;
+}
+
+
+/*
+ * The main event!
+ */
+ 
+div#main {
+    background-color: #3498db;
+    border-radius: 10px;
+    padding: 10px;
+    width: 500px;
+    min-height: 580px;
+    float: left;
+    color: #FFF;
+}
+
+div#canvasContainer {
+    min-height: 350px;
+}
+
+div#shadowImage {
+    height: 350px;
+}
+
+div#main a#giveAnswer, span#nextCountdown a {
+    color: #FFF;
+}
+
+div#main a#giveAnswer {   
+    display: block;
+}
+
+div#main a#giveAnswer {
+    text-shadow: 1px 1px #c0392b;
+}
+
+div#main a#nextPokemon, span#nextCountdown {
+    text-shadow: 1px 1px #33F;
+}
+
+input {
+    margin: 1em 0;
+    height: 50px;
+    font-size: 28px;
+    border: 0;
+    text-align: center;
+    text-transform: capitalize;
+    font-family: 'Cantora One', sans-serif;
+    border-radius: 5px;
+}
+
+input.correct {
+    background-color: #27ae60;
+    color: #FFF;
+}
+
+#infoMessage {
+    font-size: 22px;
+}
+
+#infoMessage a {
+    text-shadow: 1px 1px #FFF;
+}
+
+div#infoBoxMain {
+    padding: 5px;
+    width: 490px;
+    margin-top: 20px;
+    text-shadow: 1px 1px #333;
+    background-color: #8e44ad;
+    border-radius: 10px;
+}
+
+/* Audio player */
+
+#pokemonCryPlayer {
+    margin: 170px 0;
+}
+
+div#footer {
+    float: left;
+    width: 520px;
+    font-size: 12px;
+    margin: 1em 0 1em 120px;
+    text-align: right;
+    text-shadow: 1px 1px #FFF;
+}
+
+/* Old colors:
+Overall BG: #B6C8CB
+Main Section BG: #0AB5C0
+Side BG: #086478
+Section Head: #F9D423
+Correct: #38B253
+Selected Choice: #A7C7C9 
+Main infobox: #F38630
+Right infobox: #B11623
+giveAnswer text shadow: #C00 */

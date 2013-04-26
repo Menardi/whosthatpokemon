@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Who's That Pok&eacute;mon?</title>
+    <meta description="HTML5 game where you guess the Pokémon from the silhouette!" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
+    <script src="js/names.js" type="application/javascript"></script>
+    <script src="js/pokemon.js" type="application/javascript"></script>
+</head>
+
+<body onload="init();">
+
+    <div id="container">
+
+        <noscript><div id="noJavascript" class="upperBox warning">Hey there! You need Javascript enabled for this game to work. It's used to make the Pokemon silhouettes and to check your answers. Turn it on if you want to play!</div></noscript>
+        
+        <div id="infobox" class="upperBox"><strong>New Features!</strong> Lots of new stuff has been added. Read more <a href="http://blog.gearoid.me/2013/04/24/new-features-whos-that-pokemon/" title="Blog post about new features">here</a>! Be sure to refresh to make sure all the new features are working. <a id="hideInfobox" href="#" onclick="hideInfobox(20130424)" title="Hide this message and don't show it again">(X)</a></div>
+    
+        <div id="left">
+            <h2 id="genHeader" class="sectionHead">Generation</h2>
+            <div id="genSelect" class="sidebox userChoice">
+                <a id="gen0" href="#" onclick="setGen(0);" title="All Pok&eacute;mon">All</a>
+                <a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow">Gen 1</a>
+                <a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal">Gen 2</a>
+                <a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald">Gen 3</a>
+                <a id="gen4" href="#" onclick="setGen(4);" title="Diamond, Pearl &amp; Platinum">Gen 4</a>
+                <a id="gen5" href="#" onclick="setGen(5);" title="Black &amp; White">Gen 5</a>
+            </div>
+            
+            <h2 id="difficultyHeader" class="sectionHead">Difficulty</h2>
+            <div id="difficultySelect" class="sidebox userChoice">
+                <a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork">Normal</a>
+                <a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images">Ultra</a>
+                <a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!">Master</a>
+                <a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon">Elite</a>
+            </div>
+            
+            <h2 id="spellingHeader" class="sectionHead">Spelling</h2>
+            <div id="spellingSelect" class="sidebox userChoice">
+                <a id="spell0" href="#" onclick="setSpelling(0)" title="Only exact spelling will match">Exact</a>
+                <a id="spell1" href="#" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted">Forgiving</a>
+            </div>
+                
+            <h2 id="soundHeader" class="sectionHead">Sound</h2>
+            <div id="soundSelect" class="sidebox userChoice">
+                <a id="sound0" href="#" onclick="setSound(0)" title="No cries will be played">Off</a>
+                <a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed. Will not work on Internet Explorer or Safari.">On</a>
+            </div>
+        </div>
+
+        <div id="main">
+            <div id="whosthatpokemon">
+                <h1>Who's That Pok&eacute;mon?</h1>
+
+                <div id="playArea">
+                    <div id="canvasContainer">
+                        <canvas id="shadowImage" onload="centerPokemon();">
+                            You need a new-ish browser to play this, and you need Javascript enabled too.
+                        </canvas>
+                    </div>
+                    
+                    <audio id="pokemonCryPlayer">
+                        Your browser doesn't support the audio element.
+                    </audio>
+
+                    <input type="text" id="pokemonGuess" name="pokemonGuess" oninput="checkPokemonAnswer(this.value);" tabindex="1" />
+
+                    <a href="#" id="giveAnswer" onclick="giveAnswer();">I don't know!</a>
+                    <span id="nextCountdown"></span>
+                </div>
+            </div>
+                      
+            <div id="infoMessage" style="display:none">
+                
+            </div>
+            
+            <div id="infoBoxMain" style="display: none;">
+                Your new settings will take effect for the next Pok&eacute;mon
+            </div>
+        </div>
+        
+        <div id="right">
+            <h2 id="streakHeader" class="sectionHead">Streak</h2>
+            <div id="count" class="sidebox">
+                Best
+                <h1 id="bestCountText">0</h1>
+                Current
+                <h1 id="currentCountText">0</h1>
+            </div>
+            
+            <h2 id="timeHeader" class="sectionHead">Time</h2>
+            <div id="timer" class="sidebox">
+                Best
+                <span id="bestTimePokemon"></span>
+                <h1 id="bestTimeText">-</h1>
+                Last
+                <h1 id="lastTimeText">-</h1>
+                Average
+                <h1 id="averageTimeText">-</h1>
+            </div>
+            
+            <div id="infoBoxRight" class="sidebox" style="display: none;">
+                Your streaks and times are separate for each difficulty
+            </div>
+        </div>
+        
+        <div id="footer">
+            All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney</a>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
