@@ -57,6 +57,20 @@ div.sidebox {
     background-color: #34495e;
 }
 
+#languageSelection {
+    width: 520px;
+    margin: 0 auto 1em auto;
+	text-align: right;
+}
+
+#languageSelection img {
+	cursor: pointer;
+}
+
+#languageSelection img.selected {
+	border: 1px solid #FFF;
+}
+
 /*
  * Left-hand side
  */

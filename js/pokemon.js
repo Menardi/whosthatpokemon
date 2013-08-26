@@ -8,7 +8,7 @@
 var currentPokemonNumber;
 var currentPokemonNames = {}; // a dictionary which stores English, French and German names of the current Pokemon
 var currentPokemonImageUrl;
-var lastLanguageAnswered = 'en';
+var selectedLanguage = 'en';
 
 // For Pokemon cries
 var currentPokemonSoundUrl;
@@ -75,7 +75,12 @@ var soundLevel = -1;
  * Initiates the page on first load
  */
 
-function init() {    
+function init() {
+	// Event listeners first
+	$('.languageSelector').click(function() {
+		setLanguage($(this).data('language'));
+	});
+
     loadState();
     
     generateNewNumbers(true);
@@ -83,7 +88,7 @@ function init() {
     
     var c = readCookie('lastInfobox');
     
-    if( (c!==null) && (c <= 20130424) )
+    if( (c!==null) && (c <= 20130826) )
         document.getElementById('infobox').setAttribute('style', 'display: none;');
     
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
@@ -207,6 +212,30 @@ function setSound(level) {
     soundLevel = level;
 }
 
+
+
+/*
+ * Sets the language
+ */
+ 
+function setLanguage(l) {
+	// Set the language variable
+	if (l === 'en' || l === 'fr' || l === 'de' || l === 'es') {
+		selectedLanguage = l;
+	} else {
+		return false;
+	}
+	
+	// Change all the languages on the page
+	$('.translatable').each(function() {
+		$(this).html(lang[selectedLanguage][$(this).data('lang')]);
+	});
+	
+	// Highlight the flag of the selected language
+	$('.languageSelector.selected').removeClass('selected');
+	$('#' + selectedLanguage + 'LanguageSelector').addClass('selected');
+}
+
 /*
  * Remove the silhouette of the Pokemon, and show the user that they are right, if they
  * managed to guess themselves.
@@ -251,8 +280,6 @@ function revealPokemon(correctlyGuessed, language) {
         }
         
         trackCurrentPokemon(1);
-        
-        lastLanguageAnswered = language;
     } else {
         trackCurrentPokemon(0);
         correctCount[currentDifficulty] = 0;
@@ -268,7 +295,7 @@ function revealPokemon(correctlyGuessed, language) {
     inputField.disabled = true;
     
     // Give the Pokemon name
-    document.getElementById('pokemonGuess').value = currentPokemonNames[lastLanguageAnswered];
+    document.getElementById('pokemonGuess').value = currentPokemonNames[selectedLanguage];
     
     document.getElementById('currentCountText').innerHTML = correctCount[currentDifficulty];
     document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
@@ -461,7 +488,7 @@ function checkPokemonLoaded() {
         if(++consecutiveLoadFails < 3) {
             document.getElementById('nextCountdown').innerHTML = 'This is taking a while to load. Do you want to try loading another one? It won\'t affect your streak. <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>';
         } else {
-            document.getElementById('nextCountdown').innerHTML = 'Is your connection slow or down? Maybe try a harder difficulty, they load faster. Or <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>';
+            document.getElementById('nextCountdown').innerHTML = 'Is your connection slow or down? Maybe try a harder difficulty, they load faster. <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>';
         }
         
         document.getElementById('nextCountdown').setAttribute('style', 'display: block');
@@ -627,7 +654,9 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-        document.getElementById('nextCountdown').innerHTML = 'Next Pok&eacute;mon in ' + nextTimer + ' seconds';
+		var countdownMessage = lang[selectedLanguage]['nextpokemon'];
+		countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
+        $('#nextCountdown').html(countdownMessage);
         nextTimer--;
     } else {
         newPokemon();
@@ -696,7 +725,7 @@ function getPokemonNames(number) {
 }
 
 function getLocalPokemonName(number) {
-    return getPokemonNames(number)[lastLanguageAnswered];
+    return getPokemonNames(number)[selectedLanguage];
 }
 
 
@@ -743,18 +772,21 @@ function soundPlayed() {
 function checkPokemonAnswer(g) {
     var guess = g.toLowerCase();
     
-    // First check English, then French and German
-    if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames['en']) ) ) {
-        revealPokemon(true, 'en');
-    } else if (guess == currentPokemonNames['en']) {
-        revealPokemon(true, 'en');
-    } else if (guess == removeAccents(currentPokemonNames['fr'])) {
-        revealPokemon(true, 'fr');
-    } else if (guess == removeAccents(currentPokemonNames['de'])) {
-        revealPokemon(true, 'de');
-    } else {
-        return false;
-    }
+    if (selectedLanguage === 'en') {
+		if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames['en']) ) ) {
+			revealPokemon(true, 'en');
+		} else if (guess == currentPokemonNames['en']) {
+			revealPokemon(true, 'en');
+		}
+	} else if (selectedLanguage === 'fr') {
+		if (guess == removeAccents(currentPokemonNames['fr'])) {
+			revealPokemon(true, 'fr');
+		}
+	} else if (selectedLanguage === 'de') {
+		if (guess == removeAccents(currentPokemonNames['de'])) {
+			revealPokemon(true, 'de');
+		}
+	}
 }
 
 
@@ -995,6 +1027,7 @@ function saveState() {
     createCookie('difficulty', currentDifficulty, 365);
     createCookie('spelling', spellingLevel, 365);
     createCookie('sound', soundLevel, 365);
+	createCookie('language', selectedLanguage, 365);
     
     for(var i=0; i<bestCount.length; i++) {
         if (bestCount[i] > 0) {
@@ -1053,6 +1086,9 @@ function loadState() {
     } else {
         setSound(0);
     }
+    
+    c = readCookie('language') || 'en';
+    setLanguage(c);
     
     for(var i=0; i<bestCount.length; i++) {
         var bc = readCookie('bestCount' + i);

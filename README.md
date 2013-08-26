@@ -42,3 +42,5 @@ You do not need to set this up for the rest of the game to work.
 This code is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported Licence]("http://creativecommons.org/licenses/by-nc-sa/3.0/").
 
 All the Pokémon names, images and sounds are copyrighted by Nintendo.
+
+Flag icons are from http://www.famfamfam.com/lab/icons/flags/
