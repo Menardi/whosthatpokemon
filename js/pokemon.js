@@ -75,7 +75,7 @@ var soundLevel = -1;
  * Initiates the page on first load
  */
 
-function init() {
+$(document).ready(function() {
 	// Event listeners first
 	$('.languageSelector').click(function() {
 		setLanguage($(this).data('language'));
@@ -92,7 +92,7 @@ function init() {
         document.getElementById('infobox').setAttribute('style', 'display: none;');
     
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
-}
+});
 
 
 

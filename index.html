@@ -6,13 +6,27 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
-    <script src="js/zepto.min.js" type="application/javascript"></script>
+    <script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
     <script src="js/lang.js" type="application/javascript"></script>
     <script src="js/names.js" type="application/javascript"></script>
     <script src="js/pokemon.js" type="application/javascript"></script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-4900095-9']);
+		_gaq.push(['_setDomainName', 'gearoid.me']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
 </head>
 
-<body onload="init();">
+<body>
 
     <div id="container">
 
@@ -29,7 +43,7 @@
         <div id="left">
             <h2 id="genHeader" class="sectionHead translatable" data-lang="generation">Generation</h2>
             <div id="genSelect" class="sidebox userChoice">
-                <a id="gen0" href="#" onclick="setGen(0);" title="All Pok&eacute;mon"class="translatable" data-lang="all">All</a>
+                <a id="gen0" href="#" onclick="setGen(0);" title="All Pok&eacute;mon" class="translatable" data-lang="all">All</a>
                 <a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="translatable" data-lang="generation-1">Gen 1</a>
                 <a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="translatable" data-lang="generation-2">Gen 2</a>
                 <a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="translatable" data-lang="generation-3">Gen 3</a>
