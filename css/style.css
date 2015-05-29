@@ -203,6 +203,15 @@ input.correct {
     color: #FFF;
 }
 
+div#alsoKnownAs h2 {
+    margin: 0;
+}
+div#alsoKnownAs ul  {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0px 0;
+}
+
 #infoMessage {
     font-size: 22px;
 }
@@ -231,7 +240,7 @@ div#footer {
     width: 520px;
     font-size: 12px;
     margin: 1em 0 1em 120px;
-    text-align: right;
+    text-align: center;
     text-shadow: 1px 1px #FFF;
 }
 
