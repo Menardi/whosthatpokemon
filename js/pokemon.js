@@ -971,15 +971,15 @@ function trackCurrentPokemon(correct) {
     stats[untrackedPokemon].timeTaken = timeTaken;
     untrackedPokemon++;
     
-    // // Send stats to the server every 5 guesses
-    // if (untrackedPokemon >= 5) {
-    //     var jsonStats = JSON.stringify(stats),
-    //         req = new XMLHttpRequest();
-    //     req.open('POST', 'jsonstats.php');
-    //     req.setRequestHeader('Content-type', 'application/json', true);
-    //     req.send(jsonStats);
-    //     untrackedPokemon = 0;
-    // }
+    // Send stats to the server every 5 guesses
+    if (untrackedPokemon >= 5) {
+        var jsonStats = JSON.stringify(stats),
+            req = new XMLHttpRequest();
+        req.open('POST', 'jsonstats.php');
+        req.setRequestHeader('Content-type', 'application/json', true);
+        req.send(jsonStats);
+        untrackedPokemon = 0;
+    }
         
 }
 
