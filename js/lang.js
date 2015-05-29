@@ -34,7 +34,10 @@ lang = {
 		"streak-info":	"Your streaks and times are separate for each difficulty",
 		"settings-effect": "Your new settings will take effect for the next Pok&eacute;mon",
 		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!',
-		"footer":  		'All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney'
+		"footer":  		'All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney',
+		"language":		'Language',
+		"settings":		'Settings',
+		"stats":		'Stats',
 	},
 	"fr": {
 		"title": 		"Quel Pok&eacute;mon Est-Ce?",
@@ -71,7 +74,10 @@ lang = {
 		"streak-info":	"Vos records sont distincts pour chaque difficulté",
 		"settings-effect": "Vos nouveaux paramètres prendront effet pour la prochaine Pok&eacute;mon",
 		"infobox":		'"Quel Pokémon Est-Ce?" a été traduit en français et en allemand! Cela a été principalement automatisé, donc si vous pouvez aider à faire mieux, s\'il vous plaît <a href="mailto:hello@gearoid.me">écrivez-moi</a> ou contribuer sur <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. Nouvelles langues bienvenus!',
-		"footer":		'Toutes les images de Nintendo. Les images et les données de <a href="http://veekun.com/dex/downloads">Veekun</a>. Créé par <a href="http://gearoid.me">Gear&oacute;id Moroney</a>.'
+		"footer":		'Toutes les images de Nintendo. Les images et les données de <a href="http://veekun.com/dex/downloads">Veekun</a>. Créé par <a href="http://gearoid.me">Gear&oacute;id Moroney</a>.',
+		"language":		'Langue',
+		"settings":		'Options',
+		"stats":		'Stats',
 	},
 	"de": {
 		"title": 		"Wer ist das Pokémon?",
@@ -108,7 +114,10 @@ lang = {
 		"streak-info":	"Ihre Aufzeichnungen sind für jeden Schwierigkeitsgrad separaten",
 		"settings-effect": "Ihre neuen Einstellungen werden für die nächste Pok&eacute;mon nehmen",
 		"infobox":		'"Wer ist das Pokémon?" hat übersetzt Französisch und Deutsch! Dies war weitgehend automatisiert, so dass, wenn Sie helfen können es besser machen, bitte <a href="mailto:hello@gearoid.me">mailen Sie mir</a> oder tragen auf <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. Neue Sprachen begrüßen zu dürfen!',
-		"footer":		'Alle Bilder Nintendo. Bilder und Daten von <a href="http://veekun.com/dex/downloads">Veekun</a>. Erstellt von <a href="http://gearoid.me">Gear&oacute;id Moroney</a>.'
+		"footer":		'Alle Bilder Nintendo. Bilder und Daten von <a href="http://veekun.com/dex/downloads">Veekun</a>. Erstellt von <a href="http://gearoid.me">Gear&oacute;id Moroney</a>.',
+		"language":		'Sprache',
+		"settings":		'Options',
+		"stats":		'Statistik',
 	},
 	"jp": {
 		"title": 		"だれだ？",
@@ -145,6 +154,9 @@ lang = {
 		"streak-info":	"各難度で連勝や時間が違います。",
 		"settings-effect": "この後で新しい設定が有効になります。",
 		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!',
-		"footer":  		'すべての画像 &copy; Nintendo. イラスト、スプライト、データが<a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>から取られました。<br/>サイト作成者：<a href="http://blog.gearoid.me">Gear&oacute;id Moroney'
+		"footer":  		'すべての画像 &copy; Nintendo. イラスト、スプライト、データが<a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>から取られました。<br/>サイト作成者：<a href="http://blog.gearoid.me">Gear&oacute;id Moroney',
+		"language":		'ランゲージ',
+		"settings":		'オプション',
+		"stats":		'レコード',
 	}
 };
