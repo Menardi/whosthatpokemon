@@ -203,6 +203,15 @@ input.correct {
     color: #FFF;
 }
 
+div#alsoKnownAs h2 {
+    margin: 0;
+}
+div#alsoKnownAs ul  {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
 #infoMessage {
     font-size: 22px;
 }

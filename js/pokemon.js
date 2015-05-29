@@ -220,7 +220,7 @@ function setSound(level) {
  
 function setLanguage(l) {
 	// Set the language variable
-	if (l === 'en' || l === 'fr' || l === 'de' || l === 'es') {
+	if (l === 'en' || l === 'fr' || l === 'de' || l === 'es' || l === 'jp') {
 		selectedLanguage = l;
 	} else {
 		return false;
@@ -234,6 +234,16 @@ function setLanguage(l) {
 	// Highlight the flag of the selected language
 	$('.languageSelector.selected').removeClass('selected');
 	$('#' + selectedLanguage + 'LanguageSelector').addClass('selected');
+
+    //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
+    if (l !== 'en') {
+        document.getElementById('spell1').setAttribute('style', 'visibility: hidden');
+        setSpelling(0)
+    } else {
+        document.getElementById('spell1').setAttribute('style', 'visibility: inherit');
+    }
+
+
 }
 
 /*
@@ -318,6 +328,17 @@ function revealPokemon(correctlyGuessed, language) {
     
     document.getElementById('giveAnswer').setAttribute('style', 'display: none');
     document.getElementById('nextCountdown').setAttribute('style', 'display: block');
+
+    // Before we preload the new pokemon, we display this pokemon's other names
+    document.getElementById('alsoKnownAs').setAttribute('style', 'display: block');
+    for (l in lang) {
+        if (l !== selectedLanguage && l !== undefined) {
+             document.getElementById("alsoKnownAs" + l).innerHTML = currentPokemonNames[l];
+             document.getElementById("alsoKnownAs" + l).parentElement.setAttribute('style', 'display: block');
+        } else {
+             document.getElementById("alsoKnownAs" + l).parentElement.setAttribute('style', 'display: none');
+        }
+    }
     
     // Update to any new settings that have been selected
     generateNewNumbers();
@@ -366,6 +387,7 @@ function preloadPokemon() {
     } else {
         return false;
     }
+
     
     if(currentPokemonImageUrl !== null) {
         img = new Image();
@@ -377,6 +399,7 @@ function preloadPokemon() {
     } else {
         return false;
     }
+
 }
 
 
@@ -418,6 +441,7 @@ function newPokemon() {
         
         document.getElementById('giveAnswer').setAttribute('style', 'display: block');
         document.getElementById('nextCountdown').setAttribute('style', 'display: none');
+        document.getElementById('alsoKnownAs').setAttribute('style', 'display: none');
         
         document.getElementById('infoBoxMain').setAttribute('style', 'display: none');
         
@@ -720,7 +744,7 @@ function getRandomPokemonNumber() {
  */
  
 function getPokemonNames(number) {
-    var names = { 'en' : englishPokemon[number-1], 'fr' : frenchPokemon[number-1], 'de' : germanPokemon[number-1] };
+    var names = { 'en' : englishPokemon[number-1], 'fr' : frenchPokemon[number-1], 'de' : germanPokemon[number-1], 'jp' : japanesePokemon[number-1] };
     return names;
 }
 
@@ -786,7 +810,11 @@ function checkPokemonAnswer(g) {
 		if (guess == removeAccents(currentPokemonNames['de'])) {
 			revealPokemon(true, 'de');
 		}
-	}
+	} else if (selectedLanguage === 'jp') {
+        if (guess == removeAccents(currentPokemonNames['jp'])) {
+            revealPokemon(true, 'jp');
+        }
+    }
 }
 
 
@@ -943,15 +971,15 @@ function trackCurrentPokemon(correct) {
     stats[untrackedPokemon].timeTaken = timeTaken;
     untrackedPokemon++;
     
-    // Send stats to the server every 5 guesses
-    if (untrackedPokemon >= 5) {
-        var jsonStats = JSON.stringify(stats),
-            req = new XMLHttpRequest();
-        req.open('POST', 'jsonstats.php');
-        req.setRequestHeader('Content-type', 'application/json', true);
-        req.send(jsonStats);
-        untrackedPokemon = 0;
-    }
+    // // Send stats to the server every 5 guesses
+    // if (untrackedPokemon >= 5) {
+    //     var jsonStats = JSON.stringify(stats),
+    //         req = new XMLHttpRequest();
+    //     req.open('POST', 'jsonstats.php');
+    //     req.setRequestHeader('Content-type', 'application/json', true);
+    //     req.send(jsonStats);
+    //     untrackedPokemon = 0;
+    // }
         
 }
 
