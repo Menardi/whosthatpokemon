@@ -33,7 +33,8 @@ lang = {
 		"loadnew":		"Load a new Pok&eacute;mon?",
 		"streak-info":	"Your streaks and times are separate for each difficulty",
 		"settings-effect": "Your new settings will take effect for the next Pok&eacute;mon",
-		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!'
+		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!',
+		"footer":  		'All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney'
 	},
 	"fr": {
 		"title": 		"Quel Pok&eacute;mon Est-Ce?",
@@ -143,6 +144,7 @@ lang = {
 		"loadnew":		"新たなポケモンをロードしますか？",
 		"streak-info":	"各難度で連勝や時間が違います。",
 		"settings-effect": "この後で新しい設定が有効になります。",
-		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!'
+		"infobox":		'"Who\'s That Pokémon?" has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!',
+		"footer":  		'すべての画像 &copy; Nintendo. イラスト、スプライト、データが<a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>から取られました。<br/>サイト作成者：<a href="http://blog.gearoid.me">Gear&oacute;id Moroney'
 	}
 };
