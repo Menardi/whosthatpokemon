@@ -100,43 +100,24 @@ $(document).ready(function() {
  * Set the range of numbers to generate from depending on the Pokemon Generation selected
  */
  
-function setGen(selectedGen) {
+function setGen(genToAffect) {
 
-    if (selectedGen == 1) {
-        minPokemonNumber = 1;
-        maxPokemonNumber = 151;
-    } else if (selectedGen == 2) {
-        minPokemonNumber = 152;
-        maxPokemonNumber = 251;
-    } else if (selectedGen == 3) {
-        minPokemonNumber = 252;
-        maxPokemonNumber = 386;
-    } else if (selectedGen == 4) {
-        minPokemonNumber = 387;
-        maxPokemonNumber = 493;
-    } else if (selectedGen == 5) {
-        minPokemonNumber = 494;
-        maxPokemonNumber = 649;
-    } else {
-        minPokemonNumber = 1;
-        maxPokemonNumber = 649;
-    }
 
     if (newGen == -1) {
         // first time this has been called, so make the choice active, not just selected
-        document.getElementById('gen' + selectedGen).className += " current";
-        currentGen = selectedGen;
+        document.getElementById('gen' + newGen).className += " current";
+        currentGen = [genToAffect];
     } else {
-        document.getElementById('gen' + newGen).className = document.getElementById('gen' + newGen).className.replace('selected','');
+        document.getElementById('gen' + genToAffect).className = document.getElementById('gen' + genToAffect).className.replace('selected','');
         
         // only make it selected if it's not already current
-        if(selectedGen != currentGen)
-           document.getElementById('gen' + selectedGen).className += " selected";
+        if(genToAffect != currentGen)
+           document.getElementById('gen' + genToAffect).className += " selected";
            
         document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
     }
     
-    newGen = selectedGen;
+    newGen = genToAffect;
     
     /*
      * This should only happen if the user has reached the end of a generation and then changed
@@ -357,17 +338,49 @@ function revealPokemon(correctlyGuessed, language) {
 
 function generateNewNumbers(force) {
 
+
+
     if(force || (currentGen !== newGen)) {
-        var i=0, j;
-        
+
         upcomingPokemon = new Array();
         upcomingPokemonArrayPos = 0;
-        
-        for(j=minPokemonNumber; j<=maxPokemonNumber; j++) {
-            upcomingPokemon[i] = j;
-            i++;
+        var i = 0;
+
+        for (var j=0; j < newGen.length; j++) {
+            if (newGen[j] == 1) {
+                for(var k=1; k<=151; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 2) {
+                for(var k=152; k<=251; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 3) {
+                for(var k=252; k<=386; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 4) {
+                for(var k=387; k<=493; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 5) {
+                for(var k=494; k<=649; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 0) {
+                for(var k=1; k<=649; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            }
         }
-        
+
+
         shuffle(upcomingPokemon);
     }
 
