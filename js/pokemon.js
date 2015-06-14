@@ -510,9 +510,11 @@ function checkPokemonLoaded() {
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
     
         if(++consecutiveLoadFails < 3) {
-            document.getElementById('nextCountdown').innerHTML = 'This is taking a while to load. Do you want to try loading another one? It won\'t affect your streak. <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>';
+            jQuery.data($('#nextCountdown')[0]).lang = "loadfail";
+            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage]['loadfail'];
         } else {
-            document.getElementById('nextCountdown').innerHTML = 'Is your connection slow or down? Maybe try a harder difficulty, they load faster. <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>';
+            jQuery.data($('#nextCountdown')[0]).lang = "slowconn";
+            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage]['slowconn'];
         }
         
         document.getElementById('nextCountdown').setAttribute('style', 'display: block');

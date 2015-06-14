@@ -28,7 +28,7 @@ lang = {
 		"average":		"Average",
 		"alsoknownas": 	"Also Known As",
 		"nextpokemon":	"Next Pok&eacute;mon in _TIME_ seconds",
-		"loadfail":		"This is taking a while to load. Do you want to try loading another one? It won't affect your streak.",
+		"loadfail":		'This is taking a while to load. Do you want to try loading another one? It won\'t affect your streak. <a href="#" onclick="newPokemon();">Load a new Pok&eacute;mon?</a>',
 		"slowconn":		"Is your connection slow or down? Maybe try a harder difficulty, they load faster.",
 		"loadnew":		"Load a new Pok&eacute;mon?",
 		"streak-info":	"Your streaks and times are separate for each difficulty",
