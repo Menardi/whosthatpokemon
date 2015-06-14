@@ -17,8 +17,8 @@ var timesSoundPlayed;
 // For generation selection
 var minPokemonNumber = -1;
 var maxPokemonNumber = -1;
-var currentGen = -1;
-var newGen = -1;
+var currentGen = [-1];
+var newGen = [-1];
 
 // To count streaks
 var correctCount = [0, 0, 0, 0];
@@ -101,23 +101,44 @@ $(document).ready(function() {
  */
  
 function setGen(genToAffect) {
-
-
-    if (newGen == -1) {
+    
+    if (newGen.indexOf(-1) > -1) {
         // first time this has been called, so make the choice active, not just selected
-        document.getElementById('gen' + newGen).className += " current";
-        currentGen = [genToAffect];
+        document.getElementById('gen1').className += " current";
+        newGen = [1];
     } else {
-        document.getElementById('gen' + genToAffect).className = document.getElementById('gen' + genToAffect).className.replace('selected','');
-        
+        Number(genToAffect);
+        console.log("gen to add or remove " + genToAffect);
+        console.log("before array editing " + newGen);
+            if (currentGen.indexOf(genToAffect) < -1) {
+                newGen.push(genToAffect);
+            } else {
+                newGen = currentGen.splice(newGen.indexOf(genToAffect), 1)
+            }
+        console.log("after array Editing " + newGen)
+
+
+        for(var i=0; i < newGen.length; i++) {
+            console.log(newGen[i]);
+            document.getElementById('gen' + newGen[i]).className = document.getElementById('gen' + newGen[i]).className.replace('selected','');
+        }
+        // only make it selected if it's not already current
+        if(genToAffect != currentGen) {
+           document.getElementById('gen' + genToAffect).className += " selected";
+        }
+           
+        document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
+
+        for(var i=0; i < newGen.length; i++) {
+            console.log(newGen[i]);
+            document.getElementById('gen' + newGen[i]).className = document.getElementById('gen' + newGen[i]).className.replace('selected','');
+        }
         // only make it selected if it's not already current
         if(genToAffect != currentGen)
            document.getElementById('gen' + genToAffect).className += " selected";
            
         document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
     }
-    
-    newGen = genToAffect;
     
     /*
      * This should only happen if the user has reached the end of a generation and then changed
@@ -337,10 +358,13 @@ function revealPokemon(correctlyGuessed, language) {
  */
 
 function generateNewNumbers(force) {
+    console.log(currentGen)
+    console.log(newGen)
 
 
+    if(force || !sortCompareArrays(currentGen, newGen)) {
 
-    if(force || (currentGen !== newGen)) {
+        console.log("generating New Pokemon")
 
         upcomingPokemon = new Array();
         upcomingPokemonArrayPos = 0;
@@ -550,14 +574,19 @@ function checkPokemonLoaded() {
  
 function updateStateAndRefreshUI() {
         
-    if(newGen != currentGen) {
+    if(!sortCompareArrays(currentGen, newGen)) {
         // The generation has been updated, so highlight the new one
-        document.getElementById('gen' + currentGen).className = document.getElementById('gen' + currentGen).className.replace('current','');
-        document.getElementById('gen' + newGen).className = document.getElementById('gen' + currentGen).className.replace('selected','');
-        document.getElementById('gen' + newGen).className += ' current';
+        for(var i=0; i < currentGen.length; i++) {
+            document.getElementById('gen' + currentGen[i]).className = document.getElementById('gen' + currentGen[i]).className.replace('current','');
+        }
+        for(var i=0; i < newGen.length; i++) {
+            document.getElementById('gen' + newGen[i]).className;
+            document.getElementById('gen' + newGen[i]).className += ' current';
+        }
         currentGen = newGen;
     }
     
+
     if(newDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
         document.getElementById('diff' + currentDifficulty).className = document.getElementById('diff' + currentDifficulty).className.replace('current','');
@@ -1100,9 +1129,9 @@ function loadState() {
     
     c = readCookie('generation');
     
-    if( (c !== null) && (c >= 0) && (c <= 5) ) {
+    if( (c !== null) && (c >= 0) && (c <= 5) && (c !== "")) {
         setGen(c);
-    } else {
+    } else {   
         setGen(0);
     }
     
@@ -1160,4 +1189,30 @@ function loadState() {
             totalGuesses[i] = parseInt(tg);
         }
     }
+}
+
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+
+function sortCompareArrays(array1, array2) {
+    array1.sort();
+    array2.sort();
+    array1.equals(array2);
 }
