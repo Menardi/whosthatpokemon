@@ -107,7 +107,6 @@ function setGen(genToAffect) {
 
     if (newGen[0] === -1) {
         // first time this has been called, so make the choice active, not just selected
-        console.log("First Call")
         document.getElementById('gen' + genToAffect).classList.add("current");
         currentGen = [genToAffect];
         newGen = [genToAffect];
@@ -120,7 +119,7 @@ function setGen(genToAffect) {
         //If the user chooses a specific Gen while "All" is active, we unselect "All"
         if (newGen[0] === 0) {
             newGen.splice(0, 1);
-            document.getElementById('gen0').classList.remove("selected");
+            document.getElementById('gen0').classList.remove("selected", "current");
         }        
 
         //Remove all the "current" classes and replace them with "selected" classes
@@ -132,8 +131,6 @@ function setGen(genToAffect) {
         }
         
         
-        console.log("gen to add or remove " + genToAffect);
-        console.log("before array editing " + newGen);
         if (genToAffect === 0) {
             newGen = [0];
             for(var i=0; i < allGenSelectors.length; i++) {
@@ -141,15 +138,12 @@ function setGen(genToAffect) {
             }
             document.getElementById('gen0').classList.add("selected");
         } else if (newGen.indexOf(genToAffect) > -1) {
-            console.log("removing Gen " + genToAffect);
             newGen.splice(newGen.indexOf(genToAffect), 1);
             document.getElementById('gen' + genToAffect).classList.remove("selected");
         } else {
-            console.log("adding Gen " + genToAffect);
             newGen.push(genToAffect);
             document.getElementById('gen' + genToAffect).classList.add("selected");
         }
-        console.log("after array Editing " + newGen);
 
 
         //show the infoBox
@@ -469,6 +463,7 @@ function newPokemon() {
      */
     if(!pokemonPreloaded || !sortCompareArrays(preloadedGen, newGen) || preloadedDifficulty != newDifficulty) {
         if(!sortCompareArrays(preloadedGen, newGen))
+        	console.log("from new Pokemon")
             generateNewNumbers(true);
         currentPokemonNumber = getRandomPokemonNumber();
     }
@@ -623,10 +618,12 @@ function updateStateAndRefreshUI() {
     if(currentDifficulty > 2) {
         document.getElementById('canvasContainer').setAttribute('style', 'display: none');
         document.getElementById('pokemonCryPlayer').setAttribute('controls', 'controls');
+        document.getElementById('pokemonCryPlayer').removeAttribute('style');
         setSound(1); 
     } else {
         document.getElementById('canvasContainer').setAttribute('style', 'display: inherit');
         document.getElementById('pokemonCryPlayer').removeAttribute('controls');
+        document.getElementById('pokemonCryPlayer').setAttribute('style', 'display: none');
         document.getElementById('pokemonCryPlayer').removeAttribute('autoplay');
     }
 
@@ -1150,7 +1147,6 @@ function loadState() {
     
     if( (c !== null) && (c[0] != -1) ) {
         for (var i=0; i < c.length; i++) {
-            console.log(c[i])
             setGen(c[i]);
         }
     } else {   
