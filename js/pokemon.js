@@ -17,8 +17,9 @@ var timesSoundPlayed;
 // For generation selection
 var minPokemonNumber = -1;
 var maxPokemonNumber = -1;
-var currentGen = -1;
-var newGen = -1;
+var currentGen = [-1];
+var newGen = [-1];
+var allGenSelectors = document.getElementsByClassName("genSelect");
 
 // To count streaks
 var correctCount = [0, 0, 0, 0];
@@ -45,7 +46,7 @@ var imageDirectory;
 
 // Set if a Pokemon image has been preloaded
 var pokemonPreloaded = false;
-var preloadedGen = -1;
+var preloadedGen = [-1];
 var preloadedDifficulty = -1;
 
 // This will store the current image loaded
@@ -100,44 +101,62 @@ $(document).ready(function() {
  * Set the range of numbers to generate from depending on the Pokemon Generation selected
  */
  
-function setGen(selectedGen) {
+function setGen(genToAffect) {
 
-    if (selectedGen == 1) {
-        minPokemonNumber = 1;
-        maxPokemonNumber = 151;
-    } else if (selectedGen == 2) {
-        minPokemonNumber = 152;
-        maxPokemonNumber = 251;
-    } else if (selectedGen == 3) {
-        minPokemonNumber = 252;
-        maxPokemonNumber = 386;
-    } else if (selectedGen == 4) {
-        minPokemonNumber = 387;
-        maxPokemonNumber = 493;
-    } else if (selectedGen == 5) {
-        minPokemonNumber = 494;
-        maxPokemonNumber = 649;
-    } else {
-        minPokemonNumber = 1;
-        maxPokemonNumber = 649;
-    }
+    genToAffect = Number(genToAffect);
 
-    if (newGen == -1) {
+    if (newGen[0] === -1) {
         // first time this has been called, so make the choice active, not just selected
-        document.getElementById('gen' + selectedGen).className += " current";
-        currentGen = selectedGen;
-    } else {
-        document.getElementById('gen' + newGen).className = document.getElementById('gen' + newGen).className.replace('selected','');
-        
-        // only make it selected if it's not already current
-        if(selectedGen != currentGen)
-           document.getElementById('gen' + selectedGen).className += " selected";
-           
-        document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
+        console.log("First Call")
+        document.getElementById('gen' + genToAffect).classList.add("current");
+        currentGen = [genToAffect];
+        newGen = [genToAffect];
+        return 0;
     }
+
+    //Before editing gen selection, we ensure that the user is not about to remove their last gen
+    if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
+
+        //If the user chooses a specific Gen while "All" is active, we unselect "All"
+        if (newGen[0] === 0) {
+            newGen.splice(0, 1);
+            document.getElementById('gen0').classList.remove("selected");
+        }        
+
+        //Remove all the "current" classes and replace them with "selected" classes
+        if (sortCompareArrays(currentGen, newGen)) {
+            for(var i=0; i < currentGen.length; i++) {
+                document.getElementById('gen' + currentGen[i]).classList.remove("current");
+                document.getElementById('gen' + currentGen[i]).classList.add("selected");
+            }
+        }
+        
+        
+        console.log("gen to add or remove " + genToAffect);
+        console.log("before array editing " + newGen);
+        if (genToAffect === 0) {
+            newGen = [0];
+            for(var i=0; i < allGenSelectors.length; i++) {
+                document.getElementById('gen' + i).classList.remove("selected");
+            }
+            document.getElementById('gen0').classList.add("selected");
+        } else if (newGen.indexOf(genToAffect) > -1) {
+            console.log("removing Gen " + genToAffect);
+            newGen.splice(newGen.indexOf(genToAffect), 1);
+            document.getElementById('gen' + genToAffect).classList.remove("selected");
+        } else {
+            console.log("adding Gen " + genToAffect);
+            newGen.push(genToAffect);
+            document.getElementById('gen' + genToAffect).classList.add("selected");
+        }
+        console.log("after array Editing " + newGen);
+
+
+        //show the infoBox
+        document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
+        
     
-    newGen = selectedGen;
-    
+    }
     /*
      * This should only happen if the user has reached the end of a generation and then changed
      * the generation. It instantly puts up a new Pokemon.
@@ -357,17 +376,49 @@ function revealPokemon(correctlyGuessed, language) {
 
 function generateNewNumbers(force) {
 
-    if(force || (currentGen !== newGen)) {
-        var i=0, j;
-        
+    if(force || !sortCompareArrays(currentGen, newGen)) {
+
+        console.log("generating New Pokemon array")
+
         upcomingPokemon = new Array();
         upcomingPokemonArrayPos = 0;
-        
-        for(j=minPokemonNumber; j<=maxPokemonNumber; j++) {
-            upcomingPokemon[i] = j;
-            i++;
+        var i = 0;
+
+        for (var j=0; j < newGen.length; j++) {
+            if (newGen[j] == 1) {
+                for(var k=1; k<=151; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 2) {
+                for(var k=152; k<=251; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 3) {
+                for(var k=252; k<=386; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 4) {
+                for(var k=387; k<=493; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 5) {
+                for(var k=494; k<=649; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            } else if (newGen[j] == 0) {
+                for(var k=1; k<=649; k++) {
+                    upcomingPokemon[i] = k;
+                    i++;
+                }
+            }
         }
-        
+
+
         shuffle(upcomingPokemon);
     }
 
@@ -416,8 +467,8 @@ function newPokemon() {
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
      */
-    if(!pokemonPreloaded || preloadedGen != newGen || preloadedDifficulty != newDifficulty) {
-        if(preloadedGen != newGen)
+    if(!pokemonPreloaded || !sortCompareArrays(preloadedGen, newGen) || preloadedDifficulty != newDifficulty) {
+        if(!sortCompareArrays(preloadedGen, newGen))
             generateNewNumbers(true);
         currentPokemonNumber = getRandomPokemonNumber();
     }
@@ -536,15 +587,24 @@ function checkPokemonLoaded() {
  */
  
 function updateStateAndRefreshUI() {
+    //checks to see if the generation selection has changed
+    if(!sortCompareArrays(currentGen, newGen)) {
         
-    if(newGen != currentGen) {
-        // The generation has been updated, so highlight the new one
-        document.getElementById('gen' + currentGen).className = document.getElementById('gen' + currentGen).className.replace('current','');
-        document.getElementById('gen' + newGen).className = document.getElementById('gen' + currentGen).className.replace('selected','');
-        document.getElementById('gen' + newGen).className += ' current';
-        currentGen = newGen;
+        //first we remove selected and current from all the gens
+        for(var i=0; i < allGenSelectors.length; i++) {
+            document.getElementById('gen' + i).classList.remove('selected', 'unselected', 'current');
+        }
+        //We destroy the old currentGen so we can fill this empty array with all the elements of newGen
+        currentGen = [];
+
+        //Add current to all of our selected generations and push them into current Gen
+        for(var i=0; i < newGen.length; i++) {
+            document.getElementById('gen' + newGen[i]).classList.add("current");
+            currentGen.push(newGen[i])
+        }
     }
     
+
     if(newDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
         document.getElementById('diff' + currentDifficulty).className = document.getElementById('diff' + currentDifficulty).className.replace('current','');
@@ -730,7 +790,7 @@ function clearTimes() {
  
 function getRandomPokemonNumber() {
     var number;
-    if(upcomingPokemonArrayPos > (maxPokemonNumber-minPokemonNumber+1)) {
+    if(upcomingPokemonArrayPos > upcomingPokemon.length) {
         number = -1;
     } else {
         number = upcomingPokemon[upcomingPokemonArrayPos++];
@@ -1053,7 +1113,7 @@ function eraseCookie(name) {
  */
  
 function saveState() {
-    createCookie('generation', currentGen, 365);
+    createCookie('generation', JSON.stringify(currentGen), 365);
     createCookie('difficulty', currentDifficulty, 365);
     createCookie('spelling', spellingLevel, 365);
     createCookie('sound', soundLevel, 365);
@@ -1085,11 +1145,15 @@ function saveState() {
 function loadState() {
     var c;
     
-    c = readCookie('generation');
+    c = JSON.parse(readCookie('generation'));
     
-    if( (c !== null) && (c >= 0) && (c <= 5) ) {
-        setGen(c);
-    } else {
+    
+    if( (c !== null) && (c[0] != -1) ) {
+        for (var i=0; i < c.length; i++) {
+            console.log(c[i])
+            setGen(c[i]);
+        }
+    } else {   
         setGen(0);
     }
     
@@ -1147,4 +1211,31 @@ function loadState() {
             totalGuesses[i] = parseInt(tg);
         }
     }
+}
+
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array) {
+        return false;
+    }
+    
+    if (this.length > array.length) {
+        var l=this.length;
+    } else {
+        var l=array.length;
+    }
+
+    for (var i = 0; i < l; i++) {
+        if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+
+function sortCompareArrays(array1, array2) {
+    array1.sort();
+    array2.sort();
+    return array1.equals(array2);
 }
