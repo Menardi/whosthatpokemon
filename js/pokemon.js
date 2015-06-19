@@ -40,7 +40,7 @@ var allGenerations = {
        start: 494,
        end: 649
     }
-}
+};
 
 // To count streaks
 var correctCount = [0, 0, 0, 0];
@@ -256,7 +256,7 @@ function setLanguage(l) {
     //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
     if (l !== 'en') {
         document.getElementById('spell1').setAttribute('style', 'visibility: hidden');
-        setSpelling(0)
+        setSpelling(0);
     } else {
         document.getElementById('spell1').setAttribute('style', 'visibility: inherit');
     }
@@ -349,7 +349,7 @@ function revealPokemon(correctlyGuessed, language) {
 
     // Before we preload the new pokemon, we display this pokemon's other names
     document.getElementById('alsoKnownAs').setAttribute('style', 'display: block');
-    for (l in lang) {
+    for (var l in lang) {
         if (l !== selectedLanguage && l !== undefined) {
              document.getElementById("alsoKnownAs" + l).innerHTML = currentPokemonNames[l];
              document.getElementById("alsoKnownAs" + l).parentElement.setAttribute('style', 'display: block');
@@ -377,9 +377,7 @@ function generateNewNumbers(force) {
 
     if(force || !_.isEqual(currentGen, newGen)) {
 
-        console.log("genning new numbers")
-
-        upcomingPokemon = new Array();
+        upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
         var i = 0;
         //we iterate through each newGen number and put it through _.range to get the
@@ -388,7 +386,7 @@ function generateNewNumbers(force) {
             (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
                 upcomingPokemon.push(pokemonNumber);
             });
-        })
+        });
 
         upcomingPokemon = _.shuffle(upcomingPokemon);
         
@@ -441,7 +439,6 @@ function newPokemon() {
      */
     if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != newDifficulty) {
         if(!_.isEqual(currentGen, newGen))
-            console.log("Genning from newPokemon")
             generateNewNumbers(true);
         currentPokemonNumber = getRandomPokemonNumber();
     }
@@ -501,7 +498,7 @@ function newPokemon() {
  */
 
 function generationFinished() {
-    var message = '<p>Well done, you got through the whole generation! Why not try a different setting?</p>';;
+    var message = '<p>Well done, you got through the whole generation! Why not try a different setting?</p>';
     messageDiv = document.getElementById('infoMessage');
     messageDiv.innerHTML = message;
     messageDiv.setAttribute('style', 'display: inherit');
@@ -535,10 +532,10 @@ function checkPokemonLoaded() {
     
         if(++consecutiveLoadFails < 3) {
             jQuery.data($('#nextCountdown')[0]).lang = "loadfail";
-            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage]['loadfail'];
+            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
         } else {
             jQuery.data($('#nextCountdown')[0]).lang = "slowconn";
-            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage]['slowconn'];
+            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
         }
         
         document.getElementById('nextCountdown').setAttribute('style', 'display: block');
@@ -707,7 +704,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
         }
         centrePokemon();
         startTime = new Date().getTime();
-    }
+    };
 }
 
 
@@ -718,7 +715,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-		var countdownMessage = lang[selectedLanguage]['nextpokemon'];
+		var countdownMessage = lang[selectedLanguage].nextpokemon;
 		countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
         $('#nextCountdown').html(countdownMessage);
         nextTimer--;
@@ -836,21 +833,21 @@ function checkPokemonAnswer(g) {
     var guess = g.toLowerCase();
     
     if (selectedLanguage === 'en') {
-		if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames['en']) ) ) {
+		if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames.en) ) ) {
 			revealPokemon(true, 'en');
-		} else if (guess == currentPokemonNames['en']) {
+		} else if (guess == currentPokemonNames.en) {
 			revealPokemon(true, 'en');
 		}
 	} else if (selectedLanguage === 'fr') {
-		if (guess == removeAccents(currentPokemonNames['fr'])) {
+		if (guess == removeAccents(currentPokemonNames.fr)) {
 			revealPokemon(true, 'fr');
 		}
 	} else if (selectedLanguage === 'de') {
-		if (guess == removeAccents(currentPokemonNames['de'])) {
+		if (guess == removeAccents(currentPokemonNames.de)) {
 			revealPokemon(true, 'de');
 		}
 	} else if (selectedLanguage === 'jp') {
-        if (guess == removeAccents(currentPokemonNames['jp'])) {
+        if (guess == removeAccents(currentPokemonNames.jp)) {
             revealPokemon(true, 'jp');
         }
     }
@@ -868,7 +865,7 @@ function soundAlike(s1, s2, lang) {
     if(lang === 'fr' || lang === 'de') {
         l = ( levenshtein(s1, s2) < 3 );
     } else {
-        l = ( ( soundex(s1) === soundex(s2) ) && ( levenshtein(s1, s2) < 3 ) )
+        l = ( ( soundex(s1) === soundex(s2) ) && ( levenshtein(s1, s2) < 3 ) );
     }
     return l;
 }
@@ -898,7 +895,7 @@ function soundex (str) {
     c, p;
 
   while ((c = str.charAt(i++)) && s < 4) {
-    if (j = m[c]) {
+    if (j === m[c]) {
       if (j !== p) {
         sdx[s++] = p = j;
       }
@@ -999,10 +996,10 @@ function trackCurrentPokemon(correct) {
 
     if (untrackedPokemon === 0) {
         // Initialise the stats object
-        stats = new Array();
+        stats = [];
     }
     
-    stats[untrackedPokemon] = new Object();
+    stats[untrackedPokemon] = {};
     stats[untrackedPokemon].pokemonId = currentPokemonNumber;
     stats[untrackedPokemon].correct = correct;
     stats[untrackedPokemon].difficulty = currentDifficulty;
@@ -1037,12 +1034,15 @@ function hideInfobox(d) {
  */
  
 function createCookie(name,value,days) {
+    var expires;
+
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
+		expires = "; expires="+date.toGMTString();
+	} else {
+        expires = "";
+    }
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 
@@ -1105,8 +1105,8 @@ function loadState() {
     	c = [1, 2, 3, 4, 5];
     } 
     
-    for (var i=0; i < c.length; i++) {
-        setGen(c[i]);
+    for (var genToSet=0; genToSet < c.length; genToSet++) {
+        setGen(c[genToSet]);
     }
      
         
