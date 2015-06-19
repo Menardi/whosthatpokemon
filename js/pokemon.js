@@ -17,9 +17,30 @@ var timesSoundPlayed;
 // For generation selection
 var minPokemonNumber = -1;
 var maxPokemonNumber = -1;
-var currentGen = [-1];
-var newGen = [-1];
-var allGenSelectors = document.getElementsByClassName("genSelect");
+var currentGen = [1, 2, 3, 4, 5];
+var newGen = [];
+var allGenerations = {
+    1: {
+       start: 1,
+       end: 151
+    },
+    2: {
+       start: 152,
+       end: 251
+    },
+    3: {
+       start: 252,
+       end: 386
+    },
+    4: {
+       start: 387,
+       end: 493
+    },
+    5: {
+       start: 494,
+       end: 649
+    }
+}
 
 // To count streaks
 var correctCount = [0, 0, 0, 0];
@@ -84,8 +105,12 @@ $(document).ready(function() {
 
     loadState();
     
-    generateNewNumbers(true);
     newPokemon();
+
+    for(var i=0; i < newGen.length; i++) {
+        $("#gen" + newGen[i]).addClass("current");
+        $("#gen" + newGen[i]).removeClass("selected");
+    }
     
     var c = readCookie('lastInfobox');
     
@@ -103,46 +128,26 @@ $(document).ready(function() {
  
 function setGen(genToAffect) {
 
-    genToAffect = Number(genToAffect);
 
-    if (newGen[0] === -1) {
-        // first time this has been called, so make the choice active, not just selected
-        document.getElementById('gen' + genToAffect).classList.add("current");
-        currentGen = [genToAffect];
-        newGen = [genToAffect];
-        return 0;
-    }
+    genToAffect = parseInt(genToAffect);
 
     //Before editing gen selection, we ensure that the user is not about to remove their last gen
     if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
 
-        //If the user chooses a specific Gen while "All" is active, we unselect "All"
-        if (newGen[0] === 0) {
-            newGen.splice(0, 1);
-            document.getElementById('gen0').classList.remove("selected", "current");
-        }        
+        //Remove all the "current" classes and replace them with "selected" classes if it's the user's first time clicking a gen this round
+        if ($('.genSelect').hasClass('current')) {
+             $('.current.genSelect').addClass('selected');
+             $('.current.genSelect').removeClass('current');
 
-        //Remove all the "current" classes and replace them with "selected" classes
-        if (sortCompareArrays(currentGen, newGen)) {
-            for(var i=0; i < currentGen.length; i++) {
-                document.getElementById('gen' + currentGen[i]).classList.remove("current");
-                document.getElementById('gen' + currentGen[i]).classList.add("selected");
-            }
         }
         
         
-        if (genToAffect === 0) {
-            newGen = [0];
-            for(var i=0; i < allGenSelectors.length; i++) {
-                document.getElementById('gen' + i).classList.remove("selected");
-            }
-            document.getElementById('gen0').classList.add("selected");
-        } else if (newGen.indexOf(genToAffect) > -1) {
+        if (newGen.indexOf(genToAffect) > -1) {
             newGen.splice(newGen.indexOf(genToAffect), 1);
-            document.getElementById('gen' + genToAffect).classList.remove("selected");
+            $("#gen" + genToAffect).removeClass("selected");
         } else {
             newGen.push(genToAffect);
-            document.getElementById('gen' + genToAffect).classList.add("selected");
+            $("#gen" + genToAffect).addClass("selected");
         }
 
 
@@ -370,50 +375,23 @@ function revealPokemon(correctlyGuessed, language) {
 
 function generateNewNumbers(force) {
 
-    if(force || !sortCompareArrays(currentGen, newGen)) {
+    if(force || !_.isEqual(currentGen, newGen)) {
 
-        console.log("generating New Pokemon array")
+        console.log("genning new numbers")
 
         upcomingPokemon = new Array();
         upcomingPokemonArrayPos = 0;
         var i = 0;
+        //we iterate through each newGen number and put it through _.range to get the
+        //pokemon numbers which is then pushed to upcomingPokemon and finally shuffled
+        newGen.forEach(function(genToInc) {
+            (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
+                upcomingPokemon.push(pokemonNumber);
+            });
+        })
 
-        for (var j=0; j < newGen.length; j++) {
-            if (newGen[j] == 1) {
-                for(var k=1; k<=151; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            } else if (newGen[j] == 2) {
-                for(var k=152; k<=251; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            } else if (newGen[j] == 3) {
-                for(var k=252; k<=386; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            } else if (newGen[j] == 4) {
-                for(var k=387; k<=493; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            } else if (newGen[j] == 5) {
-                for(var k=494; k<=649; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            } else if (newGen[j] == 0) {
-                for(var k=1; k<=649; k++) {
-                    upcomingPokemon[i] = k;
-                    i++;
-                }
-            }
-        }
-
-
-        shuffle(upcomingPokemon);
+        upcomingPokemon = _.shuffle(upcomingPokemon);
+        
     }
 
 }
@@ -461,9 +439,9 @@ function newPokemon() {
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
      */
-    if(!pokemonPreloaded || !sortCompareArrays(preloadedGen, newGen) || preloadedDifficulty != newDifficulty) {
-        if(!sortCompareArrays(preloadedGen, newGen))
-        	console.log("from new Pokemon")
+    if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != newDifficulty) {
+        if(!_.isEqual(currentGen, newGen))
+            console.log("Genning from newPokemon")
             generateNewNumbers(true);
         currentPokemonNumber = getRandomPokemonNumber();
     }
@@ -582,49 +560,52 @@ function checkPokemonLoaded() {
  */
  
 function updateStateAndRefreshUI() {
-    //checks to see if the generation selection has changed
-    if(!sortCompareArrays(currentGen, newGen)) {
+
+    //Checks to see if the generation selection has changed
+    if(!_.isEqual(currentGen, newGen)) {
         
-        //first we remove selected and current from all the gens
-        for(var i=0; i < allGenSelectors.length; i++) {
-            document.getElementById('gen' + i).classList.remove('selected', 'unselected', 'current');
-        }
+        //First we remove selected and current from all the gens
+        $('.genSelect').removeClass('selected current');
         //We destroy the old currentGen so we can fill this empty array with all the elements of newGen
         currentGen = [];
 
         //Add current to all of our selected generations and push them into current Gen
         for(var i=0; i < newGen.length; i++) {
-            document.getElementById('gen' + newGen[i]).classList.add("current");
-            currentGen.push(newGen[i])
+            $("#gen" + newGen[i]).addClass("current");
+            currentGen.push(newGen[i]);
         }
+    } else if ($(".genSelect").hasClass('selected')) {
+        //In the case that the user began to change the generation and then changed their mind, 
+        //we switch the generations back to current
+        $('.genSelect.selected').toggleClass('selected current');
+
     }
     
 
     if(newDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
-        document.getElementById('diff' + currentDifficulty).className = document.getElementById('diff' + currentDifficulty).className.replace('current','');
-        document.getElementById('diff' + newDifficulty).className = document.getElementById('diff' + currentDifficulty).className.replace('selected','');
-        document.getElementById('diff' + newDifficulty).className += ' current';
+
+        $(".diffSelect").removeClass("current selected");
+        $("#diff" + newDifficulty).addClass("current");
         
         // Show the info box explaining that the change means different streaks and times
-        document.getElementById('infoBoxRight').setAttribute('style', 'display: inherit');
-        
-        currentDifficulty = newDifficulty;      
+        $("#infoBoxRight").show();
+        currentDifficulty = newDifficulty;
+
     } else {
-        document.getElementById('infoBoxRight').setAttribute('style', 'display: none');
+        $("#infoBoxRight").hide();
     }
         
     // We're into a sound-based difficulty
     if(currentDifficulty > 2) {
-        document.getElementById('canvasContainer').setAttribute('style', 'display: none');
-        document.getElementById('pokemonCryPlayer').setAttribute('controls', 'controls');
-        document.getElementById('pokemonCryPlayer').removeAttribute('style');
+        $("#pokemonCryPlayer").show();
+        $("#canvasContainer").hide();
+        $("#pokemonCryPlayer").attr('autoplay', 'autoplay');
         setSound(1); 
     } else {
-        document.getElementById('canvasContainer').setAttribute('style', 'display: inherit');
-        document.getElementById('pokemonCryPlayer').removeAttribute('controls');
-        document.getElementById('pokemonCryPlayer').setAttribute('style', 'display: none');
-        document.getElementById('pokemonCryPlayer').removeAttribute('autoplay');
+        $("#canvasContainer").show();
+        $("#pokemonCryPlayer").hide();
+        $("#pokemonCryPlayer").removeAttr('autoplay');
     }
 
     document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
@@ -841,7 +822,6 @@ function getPokemonSoundUrl(number) {
  
 function soundPlayed() {
     if(currentDifficulty > 2) {
-        document.getElementById('pokemonCryPlayer').setAttribute('autoplay', 'autoplay');
         timesSoundPlayed++;
     }
 }
@@ -1043,30 +1023,6 @@ function trackCurrentPokemon(correct) {
 }
 
 
-
-/*
- * Fisher-Yates array shuffle from http://bost.ocks.org/mike/shuffle/
- */
- 
-function shuffle(array) {
-    var m = array.length, t, i;
-
-    // While there remain elements to shuffle…
-    while (m) {
-        // Pick a remaining element…
-        i = Math.floor(Math.random() * m--);
-
-        // And swap it with the current element.
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
-    }
-
-    return array;
-}
-
-
-
 /*
  * Hide the infobox that shows updates
  */
@@ -1143,15 +1099,17 @@ function loadState() {
     var c;
     
     c = JSON.parse(readCookie('generation'));
+        
+    //we catch bad and old format cookies
+    if( (c === null) || (typeof c !== "object") ) {
+    	c = [1, 2, 3, 4, 5];
+    } 
     
-    
-    if( (c !== null) && (c[0] != -1) ) {
-        for (var i=0; i < c.length; i++) {
-            setGen(c[i]);
-        }
-    } else {   
-        setGen(0);
+    for (var i=0; i < c.length; i++) {
+        setGen(c[i]);
     }
+     
+        
     
     c = readCookie('difficulty');
     
@@ -1207,31 +1165,4 @@ function loadState() {
             totalGuesses[i] = parseInt(tg);
         }
     }
-}
-
-Array.prototype.equals = function (array) {
-    // if the other array is a falsy value, return
-    if (!array) {
-        return false;
-    }
-    
-    if (this.length > array.length) {
-        var l=this.length;
-    } else {
-        var l=array.length;
-    }
-
-    for (var i = 0; i < l; i++) {
-        if (this[i] != array[i]) { 
-            // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;   
-        }           
-    }       
-    return true;
-}
-
-function sortCompareArrays(array1, array2) {
-    array1.sort();
-    array2.sort();
-    return array1.equals(array2);
 }

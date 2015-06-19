@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
     <script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
+    <script src="js/lodash.js" type="application/javascript"></script>
     <script src="js/lang.js" type="application/javascript"></script>
     <script src="js/names.js" type="application/javascript"></script>
     <script src="js/pokemon.js" type="application/javascript"></script>
@@ -44,7 +45,6 @@
         <div id="left">
             <h2 id="genHeader" class="sectionHead translatable" data-lang="generation">Generation</h2>
             <div id="genSelect" class="sidebox userChoice">
-                <a id="gen0" href="#" onclick="setGen(0);" title="All Pok&eacute;mon" class="genSelect translatable" data-lang="generation-all">All</a>
                 <a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="genSelect translatable" data-lang="generation-1">Gen 1</a>
                 <a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="genSelect translatable" data-lang="generation-2">Gen 2</a>
                 <a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="genSelect translatable" data-lang="generation-3">Gen 3</a>
@@ -54,10 +54,10 @@
             
             <h2 id="difficultyHeader" class="sectionHead translatable" data-lang="difficulty">Difficulty</h2>
             <div id="difficultySelect" class="sidebox userChoice">
-                <a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="translatable" data-lang="difficulty-0">Normal</a>
-                <a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="translatable" data-lang="difficulty-1">Ultra</a>
-                <a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="translatable" data-lang="difficulty-2">Master</a>
-                <a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="translatable" data-lang="difficulty-3">Elite</a>
+                <a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="diffSelect translatable" data-lang="difficulty-0">Normal</a>
+                <a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="diffSelect translatable" data-lang="difficulty-1">Ultra</a>
+                <a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="diffSelect translatable" data-lang="difficulty-2">Master</a>
+                <a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="diffSelect translatable" data-lang="difficulty-3">Elite</a>
             </div>
             
             <h2 id="spellingHeader" class="sectionHead translatable" data-lang="spelling">Spelling</h2>
@@ -84,7 +84,7 @@
                         </canvas>
                     </div>
                     
-                    <audio id="pokemonCryPlayer">
+                    <audio id="pokemonCryPlayer" controls>
                         Your browser doesn't support the audio element.
                     </audio>
 
