@@ -39,16 +39,16 @@ div.warning {
     background-color: #A30006;
 }
 
-div#infobox {
+div#infoBox {
     background-color: #3498db;
 }
 
-div#infobox a {
+div#infoBox a {
     color: #FFF;
     text-shadow: 1px 1px #34495e;
 }
 
-div#infobox a#hideInfobox {
+div#infoBox a#hideInfoBox {
     color: #333;
     text-shadow: 1px 1px #FFF;
 }
