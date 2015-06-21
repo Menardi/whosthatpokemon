@@ -348,7 +348,7 @@ function revealPokemon(correctlyGuessed, language) {
 
     // Before we preload the new pokemon, we display this pokemon's other names
     $("#alsoKnownAs").show();
-    
+
     for (var l in lang) {
         if (l !== selectedLanguage && l !== undefined) {
              document.getElementById("alsoKnownAs" + l).innerHTML = currentPokemonNames[l];
@@ -376,7 +376,6 @@ function revealPokemon(correctlyGuessed, language) {
 function generateNewNumbers(force) {
 
     if(force || !_.isEqual(currentGen, newGen)) {
-        console.log(currentGen, newGen)
 
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
