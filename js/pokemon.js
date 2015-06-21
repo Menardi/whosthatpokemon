@@ -58,7 +58,7 @@ var totalTimeTaken = [0, 0, 0, 0];
 var totalGuesses = [0, 0, 0, 0]; // average time will be totalTimeTaken / totalGuesses
 
 // Store the name of the Pokemon that was guessed in the fastest time
-var bestPokemonNumber = [-1, -1, -1, -1]; 
+var bestPokemonNumber = [-1, -1, -1, -1];
 
 // Used for difficulty setting
 var currentDifficulty = -1;
@@ -99,9 +99,17 @@ var soundLevel = -1;
 
 $(document).ready(function() {
 	// Event listeners first
-	$('.languageSelector').click(function() {
+	$('.languageSelector').on('click', function() {
 		setLanguage($(this).data('language'));
 	});
+
+    $('.show-menu').on('click', function(ev) {
+        $('#' + $(ev.currentTarget).data('menu')).addClass('shown');
+    });
+
+    $('.close-button').on('click', function(ev) {
+        $(ev.currentTarget).parent().removeClass('shown');
+    });
 
     loadState();
 
@@ -119,7 +127,7 @@ $(document).ready(function() {
     if ( (c!==null) && (c <= 20130826) ) {
         $("#infoBox").hide();
     }
-    
+
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
 });
 
@@ -155,6 +163,7 @@ function setGen(genToAffect) {
         
     
     }
+
     /*
      * This should only happen if the user has reached the end of a generation and then changed
      * the generation. It instantly puts up a new Pokemon.
@@ -181,21 +190,21 @@ function setDifficulty(selectedDifficulty) {
     } else {
         imageDirectory = null;
     }
-    
+
     if (newDifficulty == -1) {
-        document.getElementById('diff' + selectedDifficulty).className += " current";
+        document.getElementById('diff' + selectedDifficulty).className += " selected";
         currentDifficulty = selectedDifficulty;
     } else {
-        document.getElementById('diff' + newDifficulty).className = document.getElementById('diff' + newDifficulty).className.replace('selected','');
-        
+        document.getElementById('diff' + newDifficulty).className = document.getElementById('diff' + newDifficulty).className.replace('pending','');
+
         if(selectedDifficulty != currentDifficulty)
-            document.getElementById('diff' + selectedDifficulty).className += " selected";
-            
+            document.getElementById('diff' + selectedDifficulty).className += " pending";
+
         document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
     }
-    
-    newDifficulty = selectedDifficulty; 
-    
+
+    newDifficulty = selectedDifficulty;
+
 }
 
 
@@ -206,11 +215,11 @@ function setDifficulty(selectedDifficulty) {
  */
 
 function setSpelling(level) {
-    document.getElementById('spell' + level).className += " current";
-    
+    document.getElementById('spell' + level).className += " selected";
+
     if(spellingLevel !== -1 )
-        document.getElementById('spell' + spellingLevel).className = document.getElementById('spell' + spellingLevel).className.replace('current','');
-    
+        document.getElementById('spell' + spellingLevel).className = document.getElementById('spell' + spellingLevel).className.replace('selected','');
+
     spellingLevel = level;
 }
 
@@ -221,11 +230,11 @@ function setSpelling(level) {
  */
 
 function setSound(level) {
-    document.getElementById('sound' + level).className += " current";
-    
+    document.getElementById('sound' + level).className += " selected";
+
     if(soundLevel !== -1 )
-        document.getElementById('sound' + soundLevel).className = document.getElementById('sound' + soundLevel).className.replace('current','');
-    
+        document.getElementById('sound' + soundLevel).className = document.getElementById('sound' + soundLevel).className.replace('selected','');
+
     soundLevel = level;
 }
 
@@ -234,7 +243,7 @@ function setSound(level) {
 /*
  * Sets the language
  */
- 
+
 function setLanguage(l) {
 	// Set the language variable
 	if (l === 'en' || l === 'fr' || l === 'de' || l === 'es' || l === 'jp') {
@@ -242,15 +251,15 @@ function setLanguage(l) {
 	} else {
 		return false;
 	}
-	
+
 	// Change all the languages on the page
 	$('.translatable').each(function() {
 		$(this).html(lang[selectedLanguage][$(this).data('lang')]);
 	});
-	
+
 	// Highlight the flag of the selected language
 	$('.languageSelector.selected').removeClass('selected');
-	$('#' + selectedLanguage + 'LanguageSelector').addClass('selected');
+	$('.' + selectedLanguage + 'LanguageSelector').addClass('selected');
 
     //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
     if (l !== 'en') {
@@ -267,103 +276,103 @@ function setLanguage(l) {
  * Remove the silhouette of the Pokemon, and show the user that they are right, if they
  * managed to guess themselves.
  */
- 
+
 function revealPokemon(correctlyGuessed, language) {
 
     timeTaken = new Date().getTime() - startTime;
     clearTimeout(imageTimeoutId);
 
     silhouette(currentPokemonImageUrl, 'shadowImage', false);
-    
+
     if(soundLevel == 1)
         document.getElementById('pokemonCryPlayer').play();
 
     inputField = document.getElementById('pokemonGuess');
-    
+
     if(correctlyGuessed) {
         /*
          * Chrome appears to have a bug where the field continues to take input after
          * the input field is disabled, so we need to check here before increasing the count.
          */
         if(!inputField.disabled) {
-        
+
             inputField.className += " correct";
             correctCount[currentDifficulty]++;
-            
+
             // Increase the best count if it has been beaten
             if(correctCount[currentDifficulty] > bestCount[currentDifficulty]) {
                 bestCount[currentDifficulty] = correctCount[currentDifficulty];
             }
-            
+
             // Check if the best time has been beaten
             if(timeTaken < bestTimes[currentDifficulty] || bestTimes[currentDifficulty] == '-') {
                 bestTimes[currentDifficulty] = timeTaken;
                 bestPokemonNumber[currentDifficulty] = currentPokemonNumber;
             }
-            
+
             totalTimeTaken[currentDifficulty] += timeTaken;
             totalGuesses[currentDifficulty] += 1;
-            
+
         }
-        
+
         trackCurrentPokemon(1);
     } else {
         trackCurrentPokemon(0);
         correctCount[currentDifficulty] = 0;
         timeTaken = '-';
     }
-    
+
     // Should only happen once, and regardless of whether the user got it right or wrong
-    if(!inputField.disabled) {   
+    if(!inputField.disabled) {
         nextCountdown();
         intervalId = setInterval(nextCountdown, 1000);
     }
-    
+
     inputField.disabled = true;
-    
+
     // Give the Pokemon name
     document.getElementById('pokemonGuess').value = currentPokemonNames[selectedLanguage];
-    
+
     document.getElementById('currentCountText').innerHTML = correctCount[currentDifficulty];
     document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
-    
+
     if(correctlyGuessed && !isNaN(timeTaken))
         document.getElementById('lastTimeText').innerHTML = timeTaken/1000;
     else
         document.getElementById('lastTimeText').innerHTML = '-';
-        
+
     if(bestTimes[currentDifficulty] != '-')
         document.getElementById('bestTimeText').innerHTML = bestTimes[currentDifficulty]/1000;
-        
+
     if(bestPokemonNumber[currentDifficulty] > 0)
         document.getElementById('bestTimePokemon').innerHTML = '(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')';
-    
+
     if(totalGuesses[currentDifficulty] > 0) {
         var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
         document.getElementById('averageTimeText').innerHTML = avgTime.toFixed(3);
     }
-    
+
     $("#giveAnswer").hide();
     $("#nextCountdown").show();
 
     // Before we preload the new pokemon, we display this pokemon's other names
     $("#alsoKnownAs").show();
-
-    for (var l in lang) {
-        if (l !== selectedLanguage && l !== undefined) {
-             document.getElementById("alsoKnownAs" + l).innerHTML = currentPokemonNames[l];
-             document.getElementById("alsoKnownAs" + l).parentElement.setAttribute('style', 'display: block');
+    for (l in lang) {
+        var $el = $('#alsoKnownAs' + l);
+        if (l !== selectedLanguage) {
+            $el.html(currentPokemonNames[l]);
+            $el.parent().show();
         } else {
-             document.getElementById("alsoKnownAs" + l).parentElement.setAttribute('style', 'display: none');
+            $el.parent().hide();
         }
     }
-    
+
     // Update to any new settings that have been selected
     generateNewNumbers();
-    
+
     // Preload the next Pokemon
     preloadPokemon();
-    
+
 }
 
 
@@ -389,7 +398,6 @@ function generateNewNumbers(force) {
         });
 
         upcomingPokemon = _.shuffle(upcomingPokemon);
-        
     }
 
 }
@@ -401,7 +409,7 @@ function generateNewNumbers(force) {
 
 function preloadPokemon() {
     currentPokemonNumber = getRandomPokemonNumber();
-    
+
     if(currentPokemonNumber > 0) {
         currentPokemonNames = getPokemonNames(currentPokemonNumber);
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
@@ -409,7 +417,7 @@ function preloadPokemon() {
         return false;
     }
 
-    
+
     if(currentPokemonImageUrl !== null) {
         img = new Image();
         img.src = currentPokemonImageUrl;
@@ -428,11 +436,11 @@ function preloadPokemon() {
 /*
  * Display a new random Pokemon
  */
- 
+
 function newPokemon() {
 
     clearCanvas('shadowImage');
-    
+
     /*
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
@@ -440,53 +448,53 @@ function newPokemon() {
     if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != newDifficulty) {
         currentPokemonNumber = getRandomPokemonNumber();
     }
-    
+
     nextTimer = 3;
     clearInterval(intervalId);
-    
+
     if(currentPokemonNumber < 0) {
         generationFinished();
     } else {
         pokemonPreloaded = false;
-        
+
         currentPokemonNames = getPokemonNames(currentPokemonNumber);
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
         currentPokemonSoundUrl = getPokemonSoundUrl(currentPokemonNumber);
-        
+
         inputField = document.getElementById('pokemonGuess');
         inputField.className = inputField.className.replace('correct','');
         inputField.disabled = false;
         inputField.value = '';
-        
+
         document.getElementById('giveAnswer').setAttribute('style', 'display: block');
         document.getElementById('nextCountdown').setAttribute('style', 'display: none');
         document.getElementById('alsoKnownAs').setAttribute('style', 'display: none');
-        
+
         document.getElementById('infoBoxMain').setAttribute('style', 'display: none');
-        
+
         timesSoundPlayed = 0;
-        
+
         // Save the settings and refresh the settings boxes
         updateStateAndRefreshUI();
         saveState();
-        
+
         // Now load the next Pokemon
         if(currentPokemonImageUrl !== null) {
             silhouette(currentPokemonImageUrl, 'shadowImage', true);
             imageTimeoutId = setTimeout(checkPokemonLoaded, 10000);
         }
-        
+
         document.getElementById('pokemonCryPlayer').setAttribute('src', currentPokemonSoundUrl);
-    
+
         /*
          * This will get set again on loading of the silhouette, but we need to specify it here
          * so we have a timer for non-image guessing
          */
         startTime = new Date().getTime();
-        
+
         showMain();
     }
-    
+
 }
 
 
@@ -503,8 +511,8 @@ function generationFinished() {
     hideMain();
 }
 
-/* 
- * Hide the playing area 
+/*
+ * Hide the playing area
  */
 function hideMain() {
     document.getElementById('playArea').setAttribute('style', 'display: none');
@@ -516,18 +524,18 @@ function hideMain() {
  */
 function showMain() {
     document.getElementById('playArea').setAttribute('style', 'display: inherit');
-    document.getElementById('infoMessage').setAttribute('style', 'display: none');    
+    document.getElementById('infoMessage').setAttribute('style', 'display: none');
 }
 
 /*
- * Checks to see if the Pokemon image has been loaded. If not, a link is offered to try to 
+ * Checks to see if the Pokemon image has been loaded. If not, a link is offered to try to
  * load another.
  */
- 
+
 function checkPokemonLoaded() {
- 
+
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
-    
+
         if(++consecutiveLoadFails < 3) {
             $('#nextCountdown').data("lang", "loadfail");
             $('#nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
@@ -535,25 +543,25 @@ function checkPokemonLoaded() {
             $('#nextCountdown').data("lang", "slowconn");
             $('#nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
         }
-        
+
         document.getElementById('nextCountdown').setAttribute('style', 'display: block');
-    
+
     } else {
-    
+
         consecutiveLoadFails = 0;
-    
+
     }
- 
+
  }
 
 
 
 /*
  * Refreshes the streak and time counters, as well as the generation and difficulty links,
- * if a new one has been selected. Also does some more advanced stuff, like showing the 
+ * if a new one has been selected. Also does some more advanced stuff, like showing the
  * sound player for higher difficulties.
  */
- 
+
 function updateStateAndRefreshUI() {
 
     //Checks to see if the generation selection has changed
@@ -586,11 +594,10 @@ function updateStateAndRefreshUI() {
         // Show the info box explaining that the change means different streaks and times
         $("#infoBoxRight").show();
         currentDifficulty = newDifficulty;
-
     } else {
         $("#infoBoxRight").hide();
     }
-        
+
     // We're into a sound-based difficulty
     if(currentDifficulty > 2) {
         $("#pokemonCryPlayer").show().attr('autoplay', 'autoplay');
@@ -603,19 +610,19 @@ function updateStateAndRefreshUI() {
 
     document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
     document.getElementById('currentCountText').innerHTML = correctCount[currentDifficulty];
-    
+
     if (bestPokemonNumber[currentDifficulty] > 0) {
         document.getElementById('bestTimePokemon').innerHTML = '(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')';
     } else {
         document.getElementById('bestTimePokemon').innerHTML = '';
     }
-    
+
     if (bestTimes[currentDifficulty] == '-') {
         document.getElementById('bestTimeText').innerHTML = '-';
     } else {
         document.getElementById('bestTimeText').innerHTML = bestTimes[currentDifficulty]/1000;
     }
-        
+
     if (totalGuesses[currentDifficulty] > 0) {
         var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
         document.getElementById('averageTimeText').innerHTML = avgTime.toFixed(3);
@@ -624,7 +631,7 @@ function updateStateAndRefreshUI() {
     }
 
     if (timeTaken == '-') {
-        document.getElementById('lastTimeText').innerHTML = '-';     
+        document.getElementById('lastTimeText').innerHTML = '-';
     } else {
         document.getElementById('lastTimeText').innerHTML = timeTaken/1000;
     }
@@ -641,7 +648,7 @@ function updateStateAndRefreshUI() {
 function clearCanvas(canvasId) {
     var canvas = document.getElementById(canvasId),
         ctx = canvas.getContext('2d');
-        
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -657,7 +664,7 @@ function clearCanvas(canvasId) {
  *                            is useful if you want to do some sort of click-to-reveal functionality.
  * Returns: None
  */
- 
+
 function silhouette(imageUrl, canvasId, doSilhouette) {
 
     if(imageUrl === null)
@@ -665,12 +672,12 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
     var canvas = document.getElementById(canvasId),
         ctx = canvas.getContext('2d');
-        
+
     loadedImage = new Image();
-        
+
     loadedImage.src = imageUrl;
 
-    loadedImage.onload = function() {   
+    loadedImage.onload = function() {
         // On higher difficulties, the images are smaller. This makes them bigger.
         if(loadedImage.width <= 100) {
             canvas.width = loadedImage.width * 4;
@@ -679,12 +686,12 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
             canvas.width = loadedImage.width;
             canvas.height = loadedImage.height;
         }
-        
+
         ctx.drawImage(loadedImage, 0, 0, canvas.width, canvas.height);
-  
+
         if(doSilhouette) {
             var rawImage = ctx.getImageData(0,0,canvas.width,canvas.height);
-            
+
             for (var i=0; i<rawImage.data.length;i+=4) {
                 if(rawImage.data[i+3] >= 100) {
                     rawImage.data[i] = 30;
@@ -695,7 +702,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
                     rawImage.data[i+3] = 0;
                 }
             }
-            
+
             ctx.putImageData(rawImage,0,0);
         }
         centrePokemon();
@@ -725,7 +732,7 @@ function nextCountdown() {
 /*
  * Give the answer if the user has given up.
  */
- 
+
 function giveAnswer() {
     revealPokemon(false);
 }
@@ -758,7 +765,7 @@ function clearTimes() {
  * Sort of a relic from when the number was randomly generated on demand. Still useful to
  * have to return a number from the randomised array.
  */
- 
+
 function getRandomPokemonNumber() {
     var number;
     if(upcomingPokemonArrayPos > upcomingPokemon.length) {
@@ -775,7 +782,7 @@ function getRandomPokemonNumber() {
  * Get the names of a Pokemon, given the number. The array of names starts at 0, so we need to
  * subtract 1 from the given number to get the right name.
  */
- 
+
 function getPokemonNames(number) {
     var names = { 'en' : englishPokemon[number-1], 'fr' : frenchPokemon[number-1], 'de' : germanPokemon[number-1], 'jp' : japanesePokemon[number-1] };
     return names;
@@ -789,7 +796,7 @@ function getLocalPokemonName(number) {
 /*
  * Get the URL of the Pokemon image. The format is 123.png. On failure, it returns false.
  */
- 
+
 function getPokemonImageUrl(number) {
     if(imageDirectory !== null)
         return imageDirectory + number + '.png';
@@ -812,7 +819,7 @@ function getPokemonSoundUrl(number) {
 /*
  * Called when a cry has been played. Should only apply when we are doing sound-only guessing.
  */
- 
+
 function soundPlayed() {
     if(currentDifficulty > 2) {
         timesSoundPlayed++;
@@ -824,10 +831,10 @@ function soundPlayed() {
 /*
  * Check to see if the guess equals the answer in any language. If it does, reveal the Pokemon, else return false.
  */
- 
+
 function checkPokemonAnswer(g) {
     var guess = g.toLowerCase();
-    
+
     if (selectedLanguage === 'en') {
 		if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames.en) ) ) {
 			revealPokemon(true, 'en');
@@ -1002,7 +1009,7 @@ function trackCurrentPokemon(correct) {
     stats[untrackedPokemon].generation = currentGen;
     stats[untrackedPokemon].timeTaken = timeTaken;
     untrackedPokemon++;
-    
+
     // Send stats to the server every 5 guesses
     if (untrackedPokemon >= 5) {
         var jsonStats = JSON.stringify(stats),
@@ -1012,7 +1019,7 @@ function trackCurrentPokemon(correct) {
         req.send(jsonStats);
         untrackedPokemon = 0;
     }
-        
+
 }
 
 
@@ -1028,7 +1035,7 @@ function hideInfobox(d) {
 /*
  * Cookie stuff from http://www.quirksmode.org/js/cookies.html
  */
- 
+
 function createCookie(name,value,days) {
     var expires;
 
@@ -1060,31 +1067,31 @@ function eraseCookie(name) {
 /*
  * Functions to save settings to cookies, and to load them back
  */
- 
+
 function saveState() {
     createCookie('generation', JSON.stringify(currentGen), 365);
     createCookie('difficulty', currentDifficulty, 365);
     createCookie('spelling', spellingLevel, 365);
     createCookie('sound', soundLevel, 365);
 	createCookie('language', selectedLanguage, 365);
-    
+
     for(var i=0; i<bestCount.length; i++) {
         if (bestCount[i] > 0) {
             createCookie('bestCount'+i, bestCount[i], 365);
         }
-    
+
         if (bestTimes[i] != '-') {
             createCookie('bestTime'+i, bestTimes[i], 365);
         }
-    
+
         if (bestPokemonNumber[i] > 0) {
             createCookie('bestPokemon'+i, bestPokemonNumber[i], 365);
         }
-        
+
         if (totalTimeTaken[i] > 0) {
             createCookie('totalTimeTaken'+i, totalTimeTaken[i], 365);
         }
-        
+
         if (totalGuesses[i] > 0) {
             createCookie('totalGuesses'+i, totalGuesses[i], 365);
         }
@@ -1105,58 +1112,56 @@ function loadState() {
         setGen(c[genToSet]);
     }
      
-        
-    
     c = readCookie('difficulty');
-    
+
     if( (c !== null) && (c >= 0) && (c <= 3) ) {
         setDifficulty(c);
     } else {
         setDifficulty(0);
     }
-    
+
     c = readCookie('spelling');
-    
+
     if( (c !== null) && (c >= 0) && (c <= 1) ) {
         setSpelling(c);
     } else {
         setSpelling(0);
     }
-    
+
     c = readCookie('sound');
-    
+
     if( (c !== null) && (c >= 0) && (c <= 1) ) {
-        setSound(c);       
+        setSound(c);
     } else {
         setSound(0);
     }
-    
+
     c = readCookie('language') || 'en';
     setLanguage(c);
-    
+
     for(var i=0; i<bestCount.length; i++) {
         var bc = readCookie('bestCount' + i);
         var bt = readCookie('bestTime' + i);
         var bp = readCookie('bestPokemon' + i);
         var tt = readCookie('totalTimeTaken' + i);
         var tg = readCookie('totalGuesses' + i);
-        
+
         if (bc > 0) {
             bestCount[i] = parseInt(bc);
         }
-    
+
         if (bt > 0) {
             bestTimes[i] = parseInt(bt);
         }
-        
+
         if (bp > 0) {
             bestPokemonNumber[i] = parseInt(bp);
         }
-        
+
         if (tt > 0) {
             totalTimeTaken[i] = parseInt(tt);
         }
-        
+
         if (tg > 0) {
             totalGuesses[i] = parseInt(tg);
         }
