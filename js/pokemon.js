@@ -118,8 +118,7 @@ $(document).ready(function() {
     newPokemon();
 
     for(var i=0; i < newGen.length; i++) {
-        $("#gen" + newGen[i]).addClass("current");
-        $("#gen" + newGen[i]).removeClass("selected");
+        $("#gen" + newGen[i]).removeClass("pending").addClass("selected");
     }
     
     var c = readCookie('lastInfobox');
@@ -145,16 +144,16 @@ function setGen(genToAffect) {
     //Before editing gen selection, we ensure that the user is not about to remove their last gen
     if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
 
-        //Remove all the "current" classes and replace them with "selected" classes if it's the user's first time clicking a gen this round
-        $('.current.genSelect').addClass('selected').removeClass('current');
+        //Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
+        $('.selected.genSelect').removeClass('selected').addClass('pending');
         
         
         if (newGen.indexOf(genToAffect) > -1) {
             newGen.splice(newGen.indexOf(genToAffect), 1);
-            $("#gen" + genToAffect).removeClass("selected");
+            $("#gen" + genToAffect).removeClass("pending");
         } else {
             newGen.push(genToAffect);
-            $("#gen" + genToAffect).addClass("selected");
+            $("#gen" + genToAffect).addClass("pending");
         }
 
 
@@ -568,28 +567,27 @@ function updateStateAndRefreshUI() {
     if(!_.isEqual(currentGen, newGen)) {
         
         //First we remove selected and current from all the gens
-        $('.genSelect').removeClass('selected current');
+        $('.genSelect').removeClass('pending selected');
         //We destroy the old currentGen so we can fill this empty array with all the elements of newGen
         currentGen = [];
 
         //Add current to all of our selected generations and push them into current Gen
         for(var i=0; i < newGen.length; i++) {
-            $("#gen" + newGen[i]).addClass("current");
+            $("#gen" + newGen[i]).addClass("selected");
             currentGen.push(newGen[i]);
         }
-    } else if ($(".genSelect").hasClass('selected')) {
+    } else if ($(".genSelect").hasClass('pending')) {
         //In the case that the user began to change the generation and then changed their mind, 
         //we switch the generations back to current
-        $('.genSelect.selected').toggleClass('selected current');
+        $('.genSelect.selected').toggleClass('pending selected');
 
     }
     
 
     if(newDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
-
-        $(".diffSelect").removeClass("current selected");
-        $("#diff" + newDifficulty).addClass("current");
+        $(".diffSelect").removeClass("pending selected");
+        $("#diff" + newDifficulty).addClass("selected");
         
         // Show the info box explaining that the change means different streaks and times
         $("#infoBoxRight").show();
