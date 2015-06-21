@@ -104,6 +104,8 @@ $(document).ready(function() {
 	});
 
     loadState();
+
+    generateNewNumbers(true);
     
     newPokemon();
 
@@ -114,8 +116,9 @@ $(document).ready(function() {
     
     var c = readCookie('lastInfobox');
     
-    if( (c!==null) && (c <= 20130826) )
-        document.getElementById('infobox').setAttribute('style', 'display: none;');
+    if ( (c!==null) && (c <= 20130826) ) {
+        $("#infoBox").hide();
+    }
     
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
 });
@@ -135,11 +138,7 @@ function setGen(genToAffect) {
     if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
 
         //Remove all the "current" classes and replace them with "selected" classes if it's the user's first time clicking a gen this round
-        if ($('.genSelect').hasClass('current')) {
-             $('.current.genSelect').addClass('selected');
-             $('.current.genSelect').removeClass('current');
-
-        }
+        $('.current.genSelect').addClass('selected').removeClass('current');
         
         
         if (newGen.indexOf(genToAffect) > -1) {
@@ -344,11 +343,12 @@ function revealPokemon(correctlyGuessed, language) {
         document.getElementById('averageTimeText').innerHTML = avgTime.toFixed(3);
     }
     
-    document.getElementById('giveAnswer').setAttribute('style', 'display: none');
-    document.getElementById('nextCountdown').setAttribute('style', 'display: block');
+    $("#giveAnswer").hide();
+    $("#nextCountdown").show();
 
     // Before we preload the new pokemon, we display this pokemon's other names
-    document.getElementById('alsoKnownAs').setAttribute('style', 'display: block');
+    $("#alsoKnownAs").show();
+    
     for (var l in lang) {
         if (l !== selectedLanguage && l !== undefined) {
              document.getElementById("alsoKnownAs" + l).innerHTML = currentPokemonNames[l];
@@ -376,6 +376,7 @@ function revealPokemon(correctlyGuessed, language) {
 function generateNewNumbers(force) {
 
     if(force || !_.isEqual(currentGen, newGen)) {
+        console.log(currentGen, newGen)
 
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
@@ -438,8 +439,6 @@ function newPokemon() {
      * changed since the Pokemon was revealed.
      */
     if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != newDifficulty) {
-        if(!_.isEqual(currentGen, newGen))
-            generateNewNumbers(true);
         currentPokemonNumber = getRandomPokemonNumber();
     }
     
@@ -531,11 +530,11 @@ function checkPokemonLoaded() {
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
     
         if(++consecutiveLoadFails < 3) {
-            jQuery.data($('#nextCountdown')[0]).lang = "loadfail";
-            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
+            $('#nextCountdown').data("lang", "loadfail");
+            $('#nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
         } else {
-            jQuery.data($('#nextCountdown')[0]).lang = "slowconn";
-            document.getElementById('nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
+            $('#nextCountdown').data("lang", "slowconn");
+            $('#nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
         }
         
         document.getElementById('nextCountdown').setAttribute('style', 'display: block');
@@ -595,14 +594,12 @@ function updateStateAndRefreshUI() {
         
     // We're into a sound-based difficulty
     if(currentDifficulty > 2) {
-        $("#pokemonCryPlayer").show();
+        $("#pokemonCryPlayer").show().attr('autoplay', 'autoplay');
         $("#canvasContainer").hide();
-        $("#pokemonCryPlayer").attr('autoplay', 'autoplay');
         setSound(1); 
     } else {
         $("#canvasContainer").show();
-        $("#pokemonCryPlayer").hide();
-        $("#pokemonCryPlayer").removeAttr('autoplay');
+        $("#pokemonCryPlayer").hide().removeAttr('autoplay');
     }
 
     document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
@@ -1025,7 +1022,7 @@ function trackCurrentPokemon(correct) {
  */
 
 function hideInfobox(d) {
-    document.getElementById('infobox').setAttribute('style', 'display: none');
+    $("#infoBox").hide();
     createCookie('lastInfobox', d, 365);
 }
 
