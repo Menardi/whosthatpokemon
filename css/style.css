@@ -95,7 +95,7 @@ div#infoBox a#hideInfoBox {
 .userChoice a {
     display: block;
     padding: 5px;
-    color: #FFF;
+    color: rgba(255, 255, 255, 0.54);
 }
 
 .userChoice a.selected {
@@ -106,6 +106,7 @@ div#infoBox a#hideInfoBox {
 .userChoice a.pending {
     background-color: #67798c;
     text-shadow: 1px 1px #333;
+    color: #FFFFFF;
 }
 
 /*
@@ -218,9 +219,9 @@ input.correct {
     text-shadow: 1px 1px #FFF;
 }
 
-#infoBoxMain {
-    padding: 5px;
-    width: 490px;
+#infoBoxMain{
+    padding: 5px; 
+    margin: 20px 10%;
     margin-top: 20px;
     text-shadow: 1px 1px #333;
     background-color: #8e44ad;
@@ -277,7 +278,11 @@ input.correct {
     }
 
     .menu#settings { left: -50%; }
-    .menu#settings.shown { left: 0; }
+    .menu#settings.shown { 
+        left: 0;
+        width: 100%;
+        padding: 10px 25%;
+    }
 
     .menu#stats { right: -50%; }
     .menu#stats.shown { right: 0; }
