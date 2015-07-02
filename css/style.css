@@ -158,7 +158,6 @@ span#bestTimePokemon {
 }
 
 #shadowImage {
-    height: 350px;
 }
 
 #main a#giveAnswer, span#nextCountdown a {
@@ -250,6 +249,9 @@ input.correct {
 
 /* Need better mobile detection */
 @media (max-width: 768px) {
+    .desktop {
+        display: none;
+    }
     html, body, #container, #main {
         margin: 0;
         height: 100%;
@@ -323,7 +325,7 @@ input.correct {
         height: 100%;
     }
 
-    .title {
+    .title, .ticker {
         margin-top: 0;
         font-size: 150%;
     }

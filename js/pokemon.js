@@ -42,6 +42,9 @@ var allGenerations = {
     }
 };
 
+// Keep track of which element of the ticker should be shown next
+var tickersToChange = 0;
+
 // To count streaks
 var correctCount = [0, 0, 0, 0];
 var bestCount = [0, 0, 0, 0]; // separate count for each difficulty
@@ -128,6 +131,23 @@ $(document).ready(function() {
     }
 
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
+
+    tickerMessages = $('.ticker');
+    tickerMessages.next().hide();
+
+    if ($(window).width() < 768) {
+        setInterval(function(){
+            $(tickerMessages[tickersToChange]).hide();
+            if(tickersToChange !== tickerMessages.length - 1) {
+                tickersToChange++;
+            } else {
+                tickersToChange = 1;
+            }
+            $(tickerMessages[tickersToChange]).show();
+        }, 5000);
+    }
+
+
 });
 
 
@@ -332,23 +352,23 @@ function revealPokemon(correctlyGuessed, language) {
     // Give the Pokemon name
     document.getElementById('pokemonGuess').value = currentPokemonNames[selectedLanguage];
 
-    document.getElementById('currentCountText').innerHTML = correctCount[currentDifficulty];
-    document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
+    $('.currentCountText').html(correctCount[currentDifficulty]);
+    $('.bestCountText').html(bestCount[currentDifficulty]);
 
     if(correctlyGuessed && !isNaN(timeTaken))
-        document.getElementById('lastTimeText').innerHTML = timeTaken/1000;
+        $('.lastTimeText').html(timeTaken/1000);
     else
-        document.getElementById('lastTimeText').innerHTML = '-';
+        $('.lastTimeText').html('-');
 
     if(bestTimes[currentDifficulty] != '-')
-        document.getElementById('bestTimeText').innerHTML = bestTimes[currentDifficulty]/1000;
+        $('.bestTimeText').html(bestTimes[currentDifficulty]/1000);
 
     if(bestPokemonNumber[currentDifficulty] > 0)
-        document.getElementById('bestTimePokemon').innerHTML = '(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')';
+        $('.bestTimePokemon').html('(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')');
 
     if(totalGuesses[currentDifficulty] > 0) {
         var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
-        document.getElementById('averageTimeText').innerHTML = avgTime.toFixed(3);
+        $('.averageTimeText').html(avgTime.toFixed(3));
     }
 
     $("#giveAnswer").hide();
@@ -356,7 +376,7 @@ function revealPokemon(correctlyGuessed, language) {
 
     // Before we preload the new pokemon, we display this pokemon's other names
     $("#alsoKnownAs").show();
-    for (l in lang) {
+    for (var l in lang) {
         var $el = $('#alsoKnownAs' + l);
         if (l !== selectedLanguage) {
             $el.html(currentPokemonNames[l]);
@@ -606,32 +626,32 @@ function updateStateAndRefreshUI() {
         $("#pokemonCryPlayer").hide().removeAttr('autoplay');
     }
 
-    document.getElementById('bestCountText').innerHTML = bestCount[currentDifficulty];
-    document.getElementById('currentCountText').innerHTML = correctCount[currentDifficulty];
+    $('.bestCountText').html(bestCount[currentDifficulty]);
+    $('.currentCountText').html(correctCount[currentDifficulty]);
 
     if (bestPokemonNumber[currentDifficulty] > 0) {
-        document.getElementById('bestTimePokemon').innerHTML = '(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')';
+        $('.bestTimePokemon').html('(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')');
     } else {
-        document.getElementById('bestTimePokemon').innerHTML = '';
+        $('.bestTimePokemon').html('');
     }
 
     if (bestTimes[currentDifficulty] == '-') {
-        document.getElementById('bestTimeText').innerHTML = '-';
+        $('.bestTimeText').html('-');
     } else {
-        document.getElementById('bestTimeText').innerHTML = bestTimes[currentDifficulty]/1000;
+        $('.bestTimeText').html(bestTimes[currentDifficulty]/1000);
     }
 
     if (totalGuesses[currentDifficulty] > 0) {
         var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
-        document.getElementById('averageTimeText').innerHTML = avgTime.toFixed(3);
+        $('.averageTimeText').html(avgTime.toFixed(3));
     } else {
-        document.getElementById('averageTimeText').innerHTML = '-';
+        $('.averageTimeText').html('-');
     }
 
     if (timeTaken == '-') {
-        document.getElementById('lastTimeText').innerHTML = '-';
+        $('.lastTimeText').html('-');
     } else {
-        document.getElementById('lastTimeText').innerHTML = timeTaken/1000;
+        $('.lastTimeText').html(timeTaken/1000);
     }
 
 }
