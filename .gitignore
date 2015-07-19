@@ -1,4 +1,5 @@
 images/*
 !images/flags/
+!images/icons/
 sounds/*
 *.zip
