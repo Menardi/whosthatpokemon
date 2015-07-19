@@ -325,8 +325,22 @@ input.correct {
         height: 100%;
     }
 
-    .title, .ticker {
-        margin-top: 0;
+    .title {
+        margin: 0 0 1% 0;
         font-size: 150%;
+    }
+
+
+    #mobileStats {
+        margin-bottom: 3%;
+        font-size: 150%;
+        color: #FFF;
+        text-shadow: 1px 1px #333;
+    }
+    #mobileStats img {
+        vertical-align: bottom;
+    }
+    .stat-ent {
+        margin: 0 2%;
     }
 }

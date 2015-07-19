@@ -42,8 +42,6 @@ var allGenerations = {
     }
 };
 
-// Keep track of which element of the ticker should be shown next
-var tickersToChange = 0;
 
 // To count streaks
 var correctCount = [0, 0, 0, 0];
@@ -131,21 +129,6 @@ $(document).ready(function() {
     }
 
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
-
-    tickerMessages = $('.ticker');
-    tickerMessages.next().hide();
-
-    if ($(window).width() < 768) {
-        setInterval(function(){
-            $(tickerMessages[tickersToChange]).hide();
-            if(tickersToChange !== tickerMessages.length - 1) {
-                tickersToChange++;
-            } else {
-                tickersToChange = 1;
-            }
-            $(tickerMessages[tickersToChange]).show();
-        }, 5000);
-    }
 
 
 });
