@@ -219,7 +219,7 @@ input.correct {
 }
 
 #infoBoxMain{
-    padding: 5px; 
+    padding: 5px;
     margin: 20px 10%;
     margin-top: 20px;
     text-shadow: 1px 1px #333;
@@ -262,6 +262,14 @@ input.correct {
         margin: 0;
     }
 
+    body {
+        background-color: #3498DB;
+    }
+
+    #main, #canvasContainer {
+        min-height: 0;
+    }
+
     #languageSelection, #footer {
         display: none;
     }
@@ -280,7 +288,7 @@ input.correct {
     }
 
     .menu#settings { left: -50%; }
-    .menu#settings.shown { 
+    .menu#settings.shown {
         left: 0;
         width: 100%;
         padding: 10px 25%;
@@ -302,7 +310,7 @@ input.correct {
     .close-button {
         position: absolute;
         top: 0;
-        padding: 5px;
+        padding: 10px;
         color: #FFF;
     }
 
