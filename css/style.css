@@ -6,6 +6,7 @@ body {
     background: #bdc3c7;
     text-align: center;
     font-family: 'Cantora One', sans-serif;
+    max-height: 100%;
 }
 
 a {
@@ -252,8 +253,10 @@ input.correct {
     .desktop {
         display: none;
     }
+
     html, body, #container, #main {
         margin: 0;
+        padding: 0;
         height: 100%;
     }
 
@@ -266,8 +269,56 @@ input.correct {
         background-color: #3498DB;
     }
 
+    /*.keyboard-open header,*/
+    .keyboard-open #mobileStats
+    {
+        display: none;
+    }
+
+    #infoBox {
+        display: none;
+    }
+
     #main, #canvasContainer {
         min-height: 0;
+    }
+
+    canvas {
+        margin-top: 0 !important;
+    }
+
+    #whosthatpokemon {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+    }
+
+    #playArea {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    #canvasContainer {
+        flex-grow: 1;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #answerArea {
+        z-index: 10;
+        width: 100%;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    #answerArea input {
+        margin: 0 0 5px 0;
+        background-color: rgba(255, 255, 255, 0.8);
+        width: 100%;
     }
 
     #languageSelection, #footer {
@@ -304,7 +355,7 @@ input.correct {
     #shadowImage {
         height: auto;
         max-height: 70%;
-        max-width: 100%;
+        max-width: 90%;
     }
 
     .close-button {
@@ -317,27 +368,32 @@ input.correct {
     .menu#settings .close-button { right: 0; }
     .menu#stats .close-button { left: 0; }
 
-    .show-menu {
-        position: fixed;
-        top: 0;
-        width: 40px;
-        height: 40px;
-        padding: 5px;
+    header {
+        display: flex;
+        height: 48px;
+        line-height: 48px;
     }
 
-    .show-menu.show-settings { left: 0; }
-    .show-menu.show-stats { right: 0; }
+    header .title {
+        flex-grow: 1;
+    }
 
-    .show-menu img {
+    header .show-menu {
+        height: 48px;
+        width: 48px;
+        padding: 12px;
+    }
+
+    header .show-menu img {
         width: 100%;
         height: 100%;
+        vertical-align: top;
     }
 
     .title {
-        margin: 0 0 1% 0;
-        font-size: 150%;
+        margin: 0;
+        font-size: 125%;
     }
-
 
     #mobileStats {
         margin-bottom: 3%;
@@ -345,9 +401,11 @@ input.correct {
         color: #FFF;
         text-shadow: 1px 1px #333;
     }
+
     #mobileStats img {
         vertical-align: bottom;
     }
+
     .stat-ent {
         margin: 0 2%;
     }

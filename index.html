@@ -6,6 +6,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
     <script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
     <script src="js/lodash.js" type="application/javascript"></script>
@@ -87,11 +89,13 @@
 		</div>
 
 		<div id="main">
-			<a href="#" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
-			<a href="#" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
 
 			<div id="whosthatpokemon">
-				<h1 class="translatable title" data-lang="title">Who's That Pok&eacute;mon?</h1>
+				<header>
+					<a href="#" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
+					<h1 class="translatable title" data-lang="title">Who's That Pok&eacute;mon?</h1>
+					<a href="#" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
+				</header>
 				<div id="mobileStats" class="mobile">
 					<span class="stat-ent"><img src="images/icons/streak.png"/>  <span class="currentCountText">1</span></span>
 					<span class="stat-ent"><img src="images/icons/time.png"/> <span class="lastTimeText">1</span></span>
@@ -105,26 +109,27 @@
 						</canvas>
 					</div>
 
-					<audio id="pokemonCryPlayer" controls>
-                        Your browser doesn't support the audio element.
-                    </audio>
+					<div id="answerArea">
+						<audio id="pokemonCryPlayer" controls>
+	                        Your browser doesn't support the audio element.
+	                    </audio>
 
-					<input type="text" id="pokemonGuess" name="pokemonGuess" oninput="checkPokemonAnswer(this.value);" tabindex="1" />
+						<input type="text" id="pokemonGuess" name="pokemonGuess" oninput="checkPokemonAnswer(this.value);" tabindex="1" autocomplete="off" autocorrect="off" spellcheck="false" />
 
-					<a href="#" id="giveAnswer" onclick="giveAnswer();" class="translatable" data-lang="dontknow">I don't know!</a>
+						<a href="#" id="giveAnswer" onclick="giveAnswer();" class="translatable" data-lang="dontknow">I don't know!</a>
 
-					<div id="alsoKnownAs">
-						<h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
-						<ul>
-							<li><img src="images/flags/gb.png" title="English"/> <span id="alsoKnownAsen"></span></li>
-							<li><img src="images/flags/fr.png" title="French"/> <span id="alsoKnownAsfr"></span></li>
-							<li><img src="images/flags/de.png" title="German"/> <span id="alsoKnownAsde"></span></li>
-							<li><img src="images/flags/jp.png" title="Japanese"/> <span id="alsoKnownAsjp"></span></li>
-						</ul>
+						<div id="alsoKnownAs">
+							<h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
+							<ul>
+								<li><img src="images/flags/gb.png" title="English"/> <span id="alsoKnownAsen"></span></li>
+								<li><img src="images/flags/fr.png" title="French"/> <span id="alsoKnownAsfr"></span></li>
+								<li><img src="images/flags/de.png" title="German"/> <span id="alsoKnownAsde"></span></li>
+								<li><img src="images/flags/jp.png" title="Japanese"/> <span id="alsoKnownAsjp"></span></li>
+							</ul>
+						</div>
+
+						<span id="nextCountdown"></span>
 					</div>
-
-					<span id="nextCountdown"></span>
-
 				</div>
 			</div>
 

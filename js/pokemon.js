@@ -94,11 +94,28 @@ var upcomingPokemonArrayPos;
 // Sound setting
 var soundLevel = -1;
 
+var firstRender = true;
+
+var $els;
+
+var IOS_KEYBOARD_HEIGHT = 216;
+// Taken from https://stackoverflow.com/a/9039885
+var isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
 /*
  * Initiates the page on first load
  */
 
 $(document).ready(function() {
+    // Cache all the DOM elements we use here
+    // TODO: Use these cached elements everywhere instead of selectors
+    $els = {
+        body: $(document.body),
+        canvas: $('canvas'),
+        canvasContainer: $('#canvasContainer'),
+        input: $('#pokemonGuess')
+    };
+
 	// Event listeners first
 	$('.languageSelector').on('click', function() {
 		setLanguage($(this).data('language'));
@@ -115,30 +132,86 @@ $(document).ready(function() {
     loadState();
 
     generateNewNumbers(true);
-    
+
     newPokemon();
 
     for(var i=0; i < newGen.length; i++) {
         $("#gen" + newGen[i]).removeClass("pending").addClass("selected");
     }
-    
+
     var c = readCookie('lastInfobox');
-    
+
     if ( (c!==null) && (c <= 20130826) ) {
         $("#infoBox").hide();
     }
 
     document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
 
+    var previousWindowHeight = window.innerHeight;
+    var $canvasContainer = $('#canvasContainer');
+    var $canvas = $('canvas');
 
+    window.onresize = function() {
+        var newWindowHeight = window.innerHeight;
+        var heightChange = newWindowHeight - previousWindowHeight;
+
+        if(heightChange < -100) {
+            _onKeyboardOpen();
+        } else if(heightChange > 100) {
+            _onKeyboardClose();
+        }
+
+        previousWindowHeight = newWindowHeight;
+    }
+
+    if(isIos) {
+        // Safari and Chrome on iOS shift the webview up rather than resizing
+        // it when the virtual keyboard is opened. We have no way of knowing
+        // for sure when they keyboard is open or what height it is. So instead
+        // we assume the input being focused will bring up the keyboard, and we
+        // resize the view by what is the most likely height of the keyboard.
+        // It won't be perfectly aligned but it's better than nothing.
+
+        $els.input.on('focus', function() {
+            $els.body.css('height', 'calc(100% - ' + IOS_KEYBOARD_HEIGHT + 'px)');
+            $els.body.scrollTop(0);
+
+            _onKeyboardOpen();
+        });
+
+        $els.input.on('blur', _onKeyboardClose);
+    }
 });
 
+function _onKeyboardOpen() {
+    $els.body.addClass('keyboard-open');
+
+    var isMobile = window.innerWidth < 768;
+    if(!isMobile) return;
+
+    // On Firefox, the canvas container expands to whatever
+    // the canvas is. On Webkit it doesn't, so this works.
+    // Additionally, on Firefox canvas's max-height works. It
+    // doesn't on Chrome because the parent's height isn't specified.
+    // Need to figure out how all this resizing is going to work.
+    var currentHeight = $els.canvas.height();
+    var newHeight = $els.canvasContainer.height() - 20;
+    if(newHeight < currentHeight) {
+        $els.canvas.height(newHeight);
+    }
+}
+
+function _onKeyboardClose() {
+    $els.body.removeClass('keyboard-open')
+    $els.body.css('height', '');
+    $els.canvas.css('height', '');
+}
 
 
 /*
  * Set the range of numbers to generate from depending on the Pokemon Generation selected
  */
- 
+
 function setGen(genToAffect) {
 
 
@@ -149,8 +222,8 @@ function setGen(genToAffect) {
 
         //Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
         $('.selected.genSelect').removeClass('selected').addClass('pending');
-        
-        
+
+
         if (newGen.indexOf(genToAffect) > -1) {
             newGen.splice(newGen.indexOf(genToAffect), 1);
             $("#gen" + genToAffect).removeClass("pending");
@@ -162,8 +235,8 @@ function setGen(genToAffect) {
 
         //show the infoBox
         document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
-        
-    
+
+
     }
 
     /*
@@ -518,15 +591,21 @@ function generationFinished() {
  */
 function hideMain() {
     document.getElementById('playArea').setAttribute('style', 'display: none');
-    document.getElementById('infoMessage').setAttribute('style', 'display: inherit');
+    document.getElementById('infoMessage').setAttribute('style', '');
 }
 
 /*
  * Show the playing area
  */
 function showMain() {
-    document.getElementById('playArea').setAttribute('style', 'display: inherit');
+    document.getElementById('playArea').setAttribute('style', '');
     document.getElementById('infoMessage').setAttribute('style', 'display: none');
+
+    if(!firstRender) {
+        $('#pokemonGuess').focus();
+    } else {
+        firstRender = false;
+    }
 }
 
 /*
@@ -568,7 +647,7 @@ function updateStateAndRefreshUI() {
 
     //Checks to see if the generation selection has changed
     if(!_.isEqual(currentGen, newGen)) {
-        
+
         //First we remove selected and current from all the gens
         $('.genSelect').removeClass('pending selected');
         //We destroy the old currentGen so we can fill this empty array with all the elements of newGen
@@ -580,18 +659,18 @@ function updateStateAndRefreshUI() {
             currentGen.push(newGen[i]);
         }
     } else if ($(".genSelect").hasClass('pending')) {
-        //In the case that the user began to change the generation and then changed their mind, 
+        //In the case that the user began to change the generation and then changed their mind,
         //we switch the generations back to current
         $('.genSelect.selected').toggleClass('pending selected');
 
     }
-    
+
 
     if(newDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
         $(".diffSelect").removeClass("pending selected");
         $("#diff" + newDifficulty).addClass("selected");
-        
+
         // Show the info box explaining that the change means different streaks and times
         $("#infoBoxRight").show();
         currentDifficulty = newDifficulty;
@@ -603,7 +682,7 @@ function updateStateAndRefreshUI() {
     if(currentDifficulty > 2) {
         $("#pokemonCryPlayer").show().attr('autoplay', 'autoplay');
         $("#canvasContainer").hide();
-        setSound(1); 
+        setSound(1);
     } else {
         $("#canvasContainer").show();
         $("#pokemonCryPlayer").hide().removeAttr('autoplay');
@@ -1002,7 +1081,7 @@ function trackCurrentPokemon(correct) {
         // Initialise the stats object
         stats = [];
     }
-    
+
     stats[untrackedPokemon] = {};
     stats[untrackedPokemon].pokemonId = currentPokemonNumber;
     stats[untrackedPokemon].correct = correct;
@@ -1101,18 +1180,18 @@ function saveState() {
 
 function loadState() {
     var c;
-    
+
     c = JSON.parse(readCookie('generation'));
-        
+
     //we catch bad and old format cookies
     if( (c === null) || (typeof c !== "object") ) {
     	c = [1, 2, 3, 4, 5];
-    } 
-    
+    }
+
     for (var genToSet=0; genToSet < c.length; genToSet++) {
         setGen(c[genToSet]);
     }
-     
+
     c = readCookie('difficulty');
 
     if( (c !== null) && (c >= 0) && (c <= 3) ) {
