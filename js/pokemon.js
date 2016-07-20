@@ -1,3 +1,6 @@
+// TODO
+// - Test other modes
+
 /*
  * pokemon.js
  *
@@ -98,9 +101,9 @@ var firstRender = true;
 
 var $els;
 
-var IOS_KEYBOARD_HEIGHT = 216;
-// Taken from https://stackoverflow.com/a/9039885
-var isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+var IPHONE_KEYBOARD_HEIGHT = 216;
+
+var isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
 /*
  * Initiates the page on first load
@@ -110,10 +113,11 @@ $(document).ready(function() {
     // Cache all the DOM elements we use here
     // TODO: Use these cached elements everywhere instead of selectors
     $els = {
+        window: $(window),
         body: $(document.body),
         canvas: $('canvas'),
         canvasContainer: $('#canvasContainer'),
-        input: $('#pokemonGuess')
+        input: $('#pokemonGuess'),
     };
 
 	// Event listeners first
@@ -151,7 +155,7 @@ $(document).ready(function() {
     var $canvasContainer = $('#canvasContainer');
     var $canvas = $('canvas');
 
-    window.onresize = function() {
+    $els.window.on('resize', function() {
         var newWindowHeight = window.innerHeight;
         var heightChange = newWindowHeight - previousWindowHeight;
 
@@ -162,9 +166,22 @@ $(document).ready(function() {
         }
 
         previousWindowHeight = newWindowHeight;
-    }
+    });
 
-    if(isIos) {
+    $els.input.on('input', function(ev) {
+        checkPokemonAnswer(ev.target.value);
+    });
+
+    // If we actually disable the input field, the keyboard goes down on
+    // mobile, so instead we use a disabled class. Preventing the event on
+    // keydown will essentially have the same effect as it being disabled.
+    $els.input.on('keydown', function(ev) {
+        if(ev.target.classList.contains('disabled')) {
+            ev.preventDefault();
+        }
+    });
+
+    if(isIphone) {
         // Safari and Chrome on iOS shift the webview up rather than resizing
         // it when the virtual keyboard is opened. We have no way of knowing
         // for sure when they keyboard is open or what height it is. So instead
@@ -173,7 +190,7 @@ $(document).ready(function() {
         // It won't be perfectly aligned but it's better than nothing.
 
         $els.input.on('focus', function() {
-            $els.body.css('height', 'calc(100% - ' + IOS_KEYBOARD_HEIGHT + 'px)');
+            $els.body.css('height', 'calc(100% - ' + IPHONE_KEYBOARD_HEIGHT + 'px)');
             $els.body.scrollTop(0);
 
             _onKeyboardOpen();
@@ -186,19 +203,14 @@ $(document).ready(function() {
 function _onKeyboardOpen() {
     $els.body.addClass('keyboard-open');
 
-    var isMobile = window.innerWidth < 768;
-    if(!isMobile) return;
+    // var isMobile = window.innerWidth < 768;
+    // if(!isMobile) return;
 
-    // On Firefox, the canvas container expands to whatever
-    // the canvas is. On Webkit it doesn't, so this works.
-    // Additionally, on Firefox canvas's max-height works. It
-    // doesn't on Chrome because the parent's height isn't specified.
-    // Need to figure out how all this resizing is going to work.
-    var currentHeight = $els.canvas.height();
-    var newHeight = $els.canvasContainer.height() - 20;
-    if(newHeight < currentHeight) {
-        $els.canvas.height(newHeight);
-    }
+    // var currentHeight = $els.canvas.height();
+    // var newHeight = $els.canvasContainer.height() - 20;
+    // if(newHeight < currentHeight) {
+    //     $els.canvas.height(newHeight);
+    // }
 }
 
 function _onKeyboardClose() {
@@ -362,16 +374,14 @@ function revealPokemon(correctlyGuessed, language) {
     if(soundLevel == 1)
         document.getElementById('pokemonCryPlayer').play();
 
-    inputField = document.getElementById('pokemonGuess');
-
     if(correctlyGuessed) {
         /*
          * Chrome appears to have a bug where the field continues to take input after
          * the input field is disabled, so we need to check here before increasing the count.
          */
-        if(!inputField.disabled) {
+        if(!$els.input.hasClass('correct')) {
 
-            inputField.className += " correct";
+            $els.input.addClass('correct');
             correctCount[currentDifficulty]++;
 
             // Increase the best count if it has been beaten
@@ -398,15 +408,14 @@ function revealPokemon(correctlyGuessed, language) {
     }
 
     // Should only happen once, and regardless of whether the user got it right or wrong
-    if(!inputField.disabled) {
+    if(!$els.input.hasClass('disabled')) {
         nextCountdown();
         intervalId = setInterval(nextCountdown, 1000);
     }
-
-    inputField.disabled = true;
+    $els.input.addClass('disabled');
 
     // Give the Pokemon name
-    document.getElementById('pokemonGuess').value = currentPokemonNames[selectedLanguage];
+    $els.input.val(currentPokemonNames[selectedLanguage]);
 
     $('.currentCountText').html(correctCount[currentDifficulty]);
     $('.bestCountText').html(bestCount[currentDifficulty]);
@@ -536,10 +545,7 @@ function newPokemon() {
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
         currentPokemonSoundUrl = getPokemonSoundUrl(currentPokemonNumber);
 
-        inputField = document.getElementById('pokemonGuess');
-        inputField.className = inputField.className.replace('correct','');
-        inputField.disabled = false;
-        inputField.value = '';
+        $els.input.removeClass('correct disabled').val('');
 
         document.getElementById('giveAnswer').setAttribute('style', 'display: block');
         document.getElementById('nextCountdown').setAttribute('style', 'display: none');
@@ -568,6 +574,10 @@ function newPokemon() {
         startTime = new Date().getTime();
 
         showMain();
+
+        if($els.body.hasClass('keyboard-open')) {
+            _onKeyboardOpen();
+        }
     }
 
 }
