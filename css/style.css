@@ -110,6 +110,13 @@ div#infoBox a#hideInfoBox {
     color: #FFFFFF;
 }
 
+#genSelectContainer.userChoice a.selected, #genSelectContainer.userChoice a.pending {
+    background-image: url(../images/icons/tick.svg);
+    background-repeat: no-repeat;
+    background-position: 100% 50%;
+    background-size: 18px;
+}
+
 /*
  * Right-hand side
  */
@@ -155,6 +162,10 @@ span#bestTimePokemon {
 }
 
 #canvasContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 350px;
 }
 
@@ -299,12 +310,8 @@ input.correct {
     }
 
     #canvasContainer {
-        display: flex;
-        flex-direction: column;
         flex-grow: 1;
         padding: 10px;
-        justify-content: center;
-        align-items: center;
     }
 
     #answerArea {

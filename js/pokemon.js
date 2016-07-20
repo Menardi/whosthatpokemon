@@ -145,7 +145,7 @@ $(document).ready(function() {
 
     var c = readCookie('lastInfobox');
 
-    if ( (c!==null) && (c <= 20130826) ) {
+    if ( (c!==null) && (c <= 20160720) ) {
         $("#infoBox").hide();
     }
 
@@ -795,7 +795,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
             ctx.putImageData(rawImage,0,0);
         }
-        centrePokemon();
+
         startTime = new Date().getTime();
     };
 }
@@ -826,18 +826,6 @@ function nextCountdown() {
 function giveAnswer() {
     revealPokemon(false);
 }
-
-
-
-/*
- * Centres the canvas with the Pokemon in it
- */
-
-function centrePokemon() {
-    c = document.getElementById('shadowImage');
-    c.setAttribute('style', 'margin-top:' + Math.floor((350 - c.height) / 2) + 'px');
-}
-
 
 /*
  * Deletes cookies relating to time records
