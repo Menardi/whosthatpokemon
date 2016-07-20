@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Who's That Pok&eacute;mon?</title>
-    <meta description="HTML5 game where you guess the Pokémon from the silhouette!" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link href='http://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
-    <script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
-    <script src="js/lodash.js" type="application/javascript"></script>
-    <script src="js/lang.js" type="application/javascript"></script>
-    <script src="js/names.js" type="application/javascript"></script>
-    <script src="js/pokemon.js" type="application/javascript"></script>
+	<title>Who's That Pok&eacute;mon?</title>
+	<meta description="HTML5 game where you guess the Pokémon from the silhouette!" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link href='//fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
+	<script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
+	<script src="js/lodash.js" type="application/javascript"></script>
+	<script src="js/lang.js" type="application/javascript"></script>
+	<script src="js/names.js" type="application/javascript"></script>
+	<script src="js/pokemon.js" type="application/javascript"></script>
 	<script type="text/javascript">
 
 		var _gaq = _gaq || [];
@@ -29,123 +32,151 @@
 
 <body>
 
-    <div id="container">
+	<div id="container">
 
-        <noscript><div id="noJavascript" class="upperBox warning">Hey there! You need Javascript enabled for this game to work. It's used to make the Pokemon silhouettes and to check your answers. Turn it on if you want to play!</div></noscript>
+		<noscript><div id="noJavascript" class="upperBox warning">Hey there! You need Javascript enabled for this game to work. It's used to make the Pokemon silhouettes and to check your answers. Turn it on if you want to play!</div></noscript>
 
 		<div id="languageSelection">
-			<img id="enLanguageSelector" src="images/flags/gb.png" title="English" class="languageSelector" data-language="en"/>
-			<img id="frLanguageSelector" src="images/flags/fr.png" title="French" class="languageSelector" data-language="fr"/>
-			<img id="deLanguageSelector" src="images/flags/de.png" title="German" class="languageSelector" data-language="de"/>
-            <img id="jpLanguageSelector" src="images/flags/jp.png" title="Japanese" class="languageSelector" data-language="jp"/>
+			<img class="languageSelector enLanguageSelector" src="images/flags/gb.png" title="English" data-language="en"/>
+			<img class="languageSelector frLanguageSelector" src="images/flags/fr.png" title="Français" data-language="fr"/>
+			<img class="languageSelector deLanguageSelector" src="images/flags/de.png" title="Deutsch" data-language="de"/>
+			<img class="languageSelector jpLanguageSelector" src="images/flags/jp.png" title="日本語" data-language="jp"/>
 		</div>
 
-        <div id="infoBox" class="upperBox" style="display: none"><span class="translatable" data-lang="infobox">Who's That Pokémon has been translated to French and German! This has been mostly automated, so if you can help make it better, please <a href="mailto:hello@gearoid.me">email me</a> or contribute on <a href="https://github.com/Menardi/whosthatpokemon">GitHub</a>. New languages welcome!</span> <a id="hideInfoBox" href="#" onclick="hideInfobox(20130826)" title="Hide this message and don't show it again">(X)</a></div>
+		<div id="infoBox" class="upperBox">
+			<span class="translatable" data-lang="infobox"></span>
+			<a id="hideInfobox" href="#" onclick="hideInfobox(20160720)" title="Hide this message and don't show it again">(X)</a>
+		</div>
 
-        <div id="left">
-            <h2 id="genHeader" class="sectionHead translatable" data-lang="generation">Generation</h2>
-            <div id="genSelect" class="sidebox userChoice">
-                <a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="genSelect translatable" data-lang="generation-1">Gen 1</a>
-                <a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="genSelect translatable" data-lang="generation-2">Gen 2</a>
-                <a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="genSelect translatable" data-lang="generation-3">Gen 3</a>
-                <a id="gen4" href="#" onclick="setGen(4);" title="Diamond, Pearl &amp; Platinum" class="genSelect translatable" data-lang="generation-4">Gen 4</a>
-                <a id="gen5" href="#" onclick="setGen(5);" title="Black &amp; White" class="genSelect translatable" data-lang="generation-5">Gen 5</a>
-            </div>
+		<div id="settings" class="menu">
+			<a href="#" class="close-button mobile">x</a>
+			<h1 class="mobile translatable" data-lang="settings">Settings</h1>
+			<h2 id="genHeader" class="sectionHead translatable" data-lang="generation">Generation</h2>
+			<div id="genSelectContainer" class="sidebox userChoice">
+				<a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="genSelect translatable" data-lang="generation-1">Gen 1</a>
+				<a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="genSelect translatable" data-lang="generation-2">Gen 2</a>
+				<a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="genSelect translatable" data-lang="generation-3">Gen 3</a>
+				<a id="gen4" href="#" onclick="setGen(4);" title="Diamond, Pearl &amp; Platinum" class="genSelect translatable" data-lang="generation-4">Gen 4</a>
+				<a id="gen5" href="#" onclick="setGen(5);" title="Black &amp; White" class=" genSelect translatable" data-lang="generation-5">Gen 5</a>
+			</div>
 
-            <h2 id="difficultyHeader" class="sectionHead translatable" data-lang="difficulty">Difficulty</h2>
-            <div id="difficultySelect" class="sidebox userChoice">
-                <a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="diffSelect translatable" data-lang="difficulty-0">Normal</a>
-                <a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="diffSelect translatable" data-lang="difficulty-1">Ultra</a>
-                <a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="diffSelect translatable" data-lang="difficulty-2">Master</a>
-                <a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="diffSelect translatable" data-lang="difficulty-3">Elite</a>
-            </div>
+			<h2 id="difficultyHeader" class="sectionHead translatable" data-lang="difficulty">Difficulty</h2>
+			<div id="difficultySelect" class="sidebox userChoice">
+				<a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="diffSelect translatable" data-lang="difficulty-0">Normal</a>
+				<a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="diffSelect translatable" data-lang="difficulty-1">Ultra</a>
+				<a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="diffSelect translatable" data-lang="difficulty-2">Master</a>
+				<a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="diffSelect translatable" data-lang="difficulty-3">Elite</a>
+			</div>
 
-            <h2 id="spellingHeader" class="sectionHead translatable" data-lang="spelling">Spelling</h2>
-            <div id="spellingSelect" class="sidebox userChoice">
-                <a id="spell0" href="#" onclick="setSpelling(0)" title="Only exact spelling will match" class="translatable" data-lang="spelling-exact">Exact</a>
-                <a id="spell1" href="#" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted" class="translatable" data-lang="spelling-forgiving">Forgiving</a>
-            </div>
+			<h2 id="spellingHeader" class="sectionHead translatable" data-lang="spelling">Spelling</h2>
+			<div id="spellingSelect" class="sidebox userChoice">
+				<a id="spell0" href="#" onclick="setSpelling(0)" title="Only exact spelling will match" class="translatable" data-lang="spelling-exact">Exact</a>
+				<a id="spell1" href="#" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted" class="translatable" data-lang="spelling-forgiving">Forgiving</a>
+			</div>
 
-            <h2 id="soundHeader" class="sectionHead translatable" data-lang="sound">Sound</h2>
-            <div id="soundSelect" class="sidebox userChoice">
-                <a id="sound0" href="#" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
-                <a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed. Will not work on Internet Explorer or Safari." class="translatable" data-lang="on">On</a>
-            </div>
-        </div>
+			<h2 id="soundHeader" class="sectionHead translatable" data-lang="sound">Sound</h2>
+			<div id="soundSelect" class="sidebox userChoice">
+				<a id="sound0" href="#" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
+				<a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed. Will not work on Internet Explorer or Safari." class="translatable" data-lang="on">On</a>
+			</div>
 
-        <div id="main">
-            <div id="whosthatpokemon">
-                <h1 class="translatable" data-lang="title">Who's That Pok&eacute;mon?</h1>
+			<div class="mobile">
+				<h2 id="languageHeader" class="sectionHead translatable" data-lang="language">Language</h2>
+				<div id="languageSelect" class="sidebox userChoice">
+					<a href="#" class="languageSelector enLanguageSelector" data-language="en">English</a>
+					<a href="#" class="languageSelector frLanguageSelector" data-language="fr">Français</a>
+					<a href="#" class="languageSelector deLanguageSelector" data-language="de">Deutsch</a>
+					<a href="#" class="languageSelector jpLanguageSelector" data-language="jp">日本語</a>
+				</div>
+			</div>
+		</div>
 
-                <div id="playArea">
-                    <div id="canvasContainer">
-                        <canvas id="shadowImage" onload="centerPokemon();">
-                            You need a new-ish browser to play this, and you need Javascript enabled too.
-                        </canvas>
-                    </div>
+		<div id="main">
 
-                    <audio id="pokemonCryPlayer" controls>
-                        Your browser doesn't support the audio element.
-                    </audio>
+			<div id="whosthatpokemon">
+				<header>
+					<a href="#" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
+					<h1 class="translatable title" data-lang="title">Who's That Pok&eacute;mon?</h1>
+					<a href="#" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
+				</header>
+				<div id="mobileStats" class="mobile">
+					<span class="stat-ent"><img src="images/icons/streak.png"/><span class="currentCountText">1</span></span>
+					<span class="stat-ent"><img src="images/icons/time.png"/><span class="lastTimeText">1</span></span>
+				</div>
 
-                    <input type="text" id="pokemonGuess" name="pokemonGuess" oninput="checkPokemonAnswer(this.value);" tabindex="1" />
 
-                    <a href="#" id="giveAnswer" onclick="giveAnswer();" class="translatable" data-lang="dontknow">I don't know!</a>
+				<div id="playArea">
+					<div id="canvasContainer">
+						<canvas id="shadowImage" onload="centerPokemon();">
+							You need a new-ish browser to play this, and you need Javascript enabled too.
+						</canvas>
+						<audio id="pokemonCryPlayer" controls>
+							Your browser doesn't support the audio element.
+						</audio>
+					</div>
 
-                    <div id="alsoKnownAs">
-                        <h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
-                        <ul>
-                            <li><img src="images/flags/gb.png" title="English"/> <span id="alsoKnownAsen"></span></li>
-                            <li><img src="images/flags/fr.png" title="French"/> <span id="alsoKnownAsfr"></span></li>
-                            <li><img src="images/flags/de.png" title="German"/> <span id="alsoKnownAsde"></span></li>
-                            <li><img src="images/flags/jp.png" title="Japanese"/> <span id="alsoKnownAsjp"></span></li>
-                        </ul>
-                    </div>
+					<div id="answerArea">
+						<input type="text" id="pokemonGuess" name="pokemonGuess" tabindex="1" autocomplete="off" autocorrect="off" spellcheck="false" />
 
-                    <span id="nextCountdown" class="translatable" data-lang="loadfail"></span>
+						<a href="#" id="giveAnswer"  class="translatable" data-lang="dontknow">I don't know!</a>
 
-                </div>
-            </div>
+						<div id="alsoKnownAs" class="desktop">
+							<h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
+							<ul>
+								<li><img src="images/flags/gb.png" title="English"/> <span id="alsoKnownAsen"></span></li>
+								<li><img src="images/flags/fr.png" title="French"/> <span id="alsoKnownAsfr"></span></li>
+								<li><img src="images/flags/de.png" title="German"/> <span id="alsoKnownAsde"></span></li>
+								<li><img src="images/flags/jp.png" title="Japanese"/> <span id="alsoKnownAsjp"></span></li>
+							</ul>
+						</div>
 
-            <div id="infoMessage" style="display:none">
+						<span id="nextCountdown"></span>
+					</div>
+				</div>
+			</div>
 
-            </div>
+			<div id="infoMessage" style="display:none">
 
-            <div id="infoBoxMain" style="display: none;" class="translatable" data-lang="settings-effect">
-                Your new settings will take effect for the next Pok&eacute;mon
-            </div>
-        </div>
+			</div>
 
-        <div id="right">
-            <h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
-            <div id="count" class="sidebox">
-                <span class="translatable" data-lang="best">Best</span>
-                <h1 id="bestCountText">0</h1>
-                <span class="translatable" data-lang="current">Current</span>
-                <h1 id="currentCountText">0</h1>
-            </div>
+			<div id="infoBoxMain" class="translatable" data-lang="settings-effect">
+				<!--populated by JS-->
+			</div>
+		</div>
 
-            <h2 id="timeHeader" class="sectionHead translatable" data-lang="time">Time</h2>
-            <div id="timer" class="sidebox">
-                <span class="translatable" data-lang="best">Best</span>
-                <span id="bestTimePokemon"></span>
-                <h1 id="bestTimeText">-</h1>
-                <span class="translatable" data-lang="previous">Previous</span>
-                <h1 id="lastTimeText">-</h1>
-                <span class="translatable" data-lang="average">Average</span>
-                <h1 id="averageTimeText">-</h1>
-            </div>
+		<div id="stats" class="menu">
+			<a href="#" class="close-button mobile">x</a>
+			<h1 class="mobile translatable" data-lang="stats">Stats</h1>
+			<h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
+			<div id="count" class="sidebox">
+				<span class="translatable" data-lang="best">Best</span>
+				<h1 class="mobile bestCountHeading">Best Streak:</h1>
+				<h1 class="bestCountText">0</h1>
+				<span class="translatable" data-lang="current">Current</span>
+				<h1 class="currentCountText">0</h1>
+			</div>
 
-            <div id="infoBoxRight" style="display: none;" class="sidebox translatable" data-lang="streak-info">
-                Your streaks and times are separate for each difficulty
-            </div>
-        </div>
+			<h2 id="timeHeader" class="sectionHead translatable" data-lang="time">Time</h2>
+			<div id="timer" class="sidebox">
+				<span class="translatable" data-lang="best">Best</span>
+				<span id="bestTimePokemon"></span>
+				<h1 class="bestTimeText">-</h1>
+				<span class="translatable" data-lang="previous">Previous</span>
+				<h1 class="lastTimeText">-</h1>
+				<span class="translatable" data-lang="average">Average</span>
+				<h1 class="averageTimeText">-</h1>
+			</div>
 
-        <div id="footer" class="translatable" data-lang="footer">
-            All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney</a>
-        </div>
+			<div id="infoBoxRight" style="display: none;" class="sidebox translatable" data-lang="streak-info">
+				Your streaks and times are separate for each difficulty
+			</div>
+		</div>
 
-    </div>
+		<div id="footer" class="translatable" data-lang="footer">
+			All images &copy; Nintendo. Artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney</a>
+		</div>
+
+	</div>
 
 </body>
 </html>
