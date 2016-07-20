@@ -1,6 +1,3 @@
-// TODO
-// - Test other modes
-
 /*
  * pokemon.js
  *
@@ -15,7 +12,6 @@ var selectedLanguage = 'en';
 
 // For Pokemon cries
 var currentPokemonSoundUrl;
-var timesSoundPlayed;
 
 // For generation selection
 var minPokemonNumber = -1;
@@ -115,9 +111,13 @@ $(document).ready(function() {
     $els = {
         window: $(window),
         body: $(document.body),
-        canvas: $('canvas'),
+        playArea: $('#playArea'),
+        infoMessage: $('#infoMessage'),
         canvasContainer: $('#canvasContainer'),
+        canvas: $('canvas'),
+        audioPlayer: $('#pokemonCryPlayer'),
         input: $('#pokemonGuess'),
+        dontKnowButton: $('#giveAnswer')
     };
 
 	// Event listeners first
@@ -132,6 +132,8 @@ $(document).ready(function() {
     $('.close-button').on('click', function(ev) {
         $(ev.currentTarget).parent().removeClass('shown');
     });
+
+    $els.dontKnowButton.on('click', giveAnswer);
 
     loadState();
 
@@ -148,8 +150,6 @@ $(document).ready(function() {
     if ( (c!==null) && (c <= 20160720) ) {
         $("#infoBox").hide();
     }
-
-    document.getElementById('pokemonCryPlayer').addEventListener('ended', soundPlayed);
 
     var previousWindowHeight = window.innerHeight;
     var $canvasContainer = $('#canvasContainer');
@@ -202,15 +202,6 @@ $(document).ready(function() {
 
 function _onKeyboardOpen() {
     $els.body.addClass('keyboard-open');
-
-    // var isMobile = window.innerWidth < 768;
-    // if(!isMobile) return;
-
-    // var currentHeight = $els.canvas.height();
-    // var newHeight = $els.canvasContainer.height() - 20;
-    // if(newHeight < currentHeight) {
-    //     $els.canvas.height(newHeight);
-    // }
 }
 
 function _onKeyboardClose() {
@@ -371,8 +362,9 @@ function revealPokemon(correctlyGuessed, language) {
 
     silhouette(currentPokemonImageUrl, 'shadowImage', false);
 
-    if(soundLevel == 1)
-        document.getElementById('pokemonCryPlayer').play();
+    if(soundLevel == 1) {
+        $els.audioPlayer.get(0).play().catch(_.noop);
+    }
 
     if(correctlyGuessed) {
         /*
@@ -553,8 +545,6 @@ function newPokemon() {
 
         document.getElementById('infoBoxMain').setAttribute('style', 'display: none');
 
-        timesSoundPlayed = 0;
-
         // Save the settings and refresh the settings boxes
         updateStateAndRefreshUI();
         saveState();
@@ -565,7 +555,10 @@ function newPokemon() {
             imageTimeoutId = setTimeout(checkPokemonLoaded, 10000);
         }
 
-        document.getElementById('pokemonCryPlayer').setAttribute('src', currentPokemonSoundUrl);
+        $els.audioPlayer.attr('src', currentPokemonSoundUrl);
+        if(currentDifficulty > 2) {
+            $els.audioPlayer.get(0).play().catch(_.noop);
+        }
 
         /*
          * This will get set again on loading of the silhouette, but we need to specify it here
@@ -600,16 +593,16 @@ function generationFinished() {
  * Hide the playing area
  */
 function hideMain() {
-    document.getElementById('playArea').setAttribute('style', 'display: none');
-    document.getElementById('infoMessage').setAttribute('style', '');
+    $els.playArea.hide();
+    $els.infoMessage.show();
 }
 
 /*
  * Show the playing area
  */
 function showMain() {
-    document.getElementById('playArea').setAttribute('style', '');
-    document.getElementById('infoMessage').setAttribute('style', 'display: none');
+    $els.playArea.show();
+    $els.infoMessage.hide();
 
     if(!firstRender) {
         $('#pokemonGuess').focus();
@@ -690,12 +683,12 @@ function updateStateAndRefreshUI() {
 
     // We're into a sound-based difficulty
     if(currentDifficulty > 2) {
-        $("#pokemonCryPlayer").show().attr('autoplay', 'autoplay');
-        $("#canvasContainer").hide();
+        $els.audioPlayer.show();
+        $els.canvas.hide();
         setSound(1);
     } else {
-        $("#canvasContainer").show();
-        $("#pokemonCryPlayer").hide().removeAttr('autoplay');
+        $els.canvas.show();
+        $els.audioPlayer.hide();
     }
 
     $('.bestCountText').html(bestCount[currentDifficulty]);
@@ -824,6 +817,11 @@ function nextCountdown() {
  */
 
 function giveAnswer() {
+    if($els.input.get(0) === document.activeElement) {
+        window.requestAnimationFrame(function() {
+            $els.input.focus();
+        });
+    }
     revealPokemon(false);
 }
 
@@ -891,19 +889,6 @@ function getPokemonImageUrl(number) {
 function getPokemonSoundUrl(number) {
     return 'sounds/cries/' + number + '.ogg';
 }
-
-
-
-/*
- * Called when a cry has been played. Should only apply when we are doing sound-only guessing.
- */
-
-function soundPlayed() {
-    if(currentDifficulty > 2) {
-        timesSoundPlayed++;
-    }
-}
-
 
 
 /*

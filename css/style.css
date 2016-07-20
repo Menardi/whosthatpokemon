@@ -235,12 +235,6 @@ input.correct {
     background-color: #8e44ad;
 }
 
-/* Audio player */
-
-#pokemonCryPlayer {
-    margin: 170px 0;
-}
-
 #footer {
     float: left;
     width: 520px;
