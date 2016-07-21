@@ -1065,19 +1065,22 @@ function trackCurrentPokemon(correct) {
         stats = [];
     }
 
-    stats[untrackedPokemon] = {};
-    stats[untrackedPokemon].pokemonId = currentPokemonNumber;
-    stats[untrackedPokemon].correct = correct;
-    stats[untrackedPokemon].difficulty = currentDifficulty;
-    stats[untrackedPokemon].generation = currentGen;
-    stats[untrackedPokemon].timeTaken = timeTaken;
+    stats[untrackedPokemon] = {
+        "pokemonId": currentPokemonNumber,
+        "correct": correct,
+        "difficulty": currentDifficulty,
+        "generation": currentGen,
+        "timeTaken": timeTaken
+    };
+
     untrackedPokemon++;
 
     // Send stats to the server every 5 guesses
     if (untrackedPokemon >= 5) {
-        var jsonStats = JSON.stringify(stats),
-            req = new XMLHttpRequest();
-        req.open('POST', 'jsonstats.php');
+        var jsonStats = JSON.stringify(stats)
+        var req = new XMLHttpRequest();
+
+        req.open('POST', 'https://fullmeter.com:3000/stats');
         req.setRequestHeader('Content-type', 'application/json', true);
         req.send(jsonStats);
         untrackedPokemon = 0;
