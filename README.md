@@ -21,7 +21,7 @@ Once these are in place, open _index.html_ in your browser. Alternatively, run `
 ###Stat Tracking
 To track statistics on the backend, you will need to set up a Mongo database and run a nodejs service on your server.
 
-1. Install MongoDB using [these instructions]("https://docs.mongodb.com/manual/administration/install-on-linux/"). Don't install via apt-get, as this isn't kept up to date as regularly. Make sure it's running
+1. Install MongoDB using [these instructions](https://docs.mongodb.com/manual/administration/install-on-linux/). Don't install via apt-get, as this isn't kept up to date as regularly. Make sure MongoDB service is running
 2. Run `npm install --only=production` inside the directory
 3. You can run the node server by going to the statServer directory and typing `nodejs server.js`
 4. To set up the statServer as a daemon, you can use the very cool ["PM2"](https://github.com/Unitech/pm2). Once installed, simply run `pm2 start server.js` to get the process going.
@@ -32,7 +32,7 @@ You do not need to set this up for the rest of the game to work, but you will ge
 If you're using nodejs you might get the following error when trying to run pm2: `/usr/bin/env: node: No such file or directory`. Run `sudo ln -s /usr/bin/nodejs /usr/local/bin/node` to fix this.
 
 ## Licence
-This code is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported Licence]("http://creativecommons.org/licenses/by-nc-sa/3.0/").
+This code is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported Licence](http://creativecommons.org/licenses/by-nc-sa/3.0/).
 
 All the Pokémon names, images and sounds are copyrighted by Nintendo.
 
