@@ -1080,7 +1080,7 @@ function trackCurrentPokemon(correct) {
         var jsonStats = JSON.stringify(stats)
         var req = new XMLHttpRequest();
 
-        req.open('POST', 'https://fullmeter.com:3000/stats');
+        req.open('POST', jsVariables.statServerUrl);
         req.setRequestHeader('Content-type', 'application/json', true);
         req.send(jsonStats);
         untrackedPokemon = 0;

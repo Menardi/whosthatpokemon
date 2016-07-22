@@ -3,18 +3,19 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var config = require('./config');
+
 // These variables allow us to set up the https server
 var fs = require('fs');
 var https = require('https');
-var privateKey  = fs.readFileSync('/etc/letsencrypt/live/fullmeter.com/privkey.pem', 'utf8');
-var certificate = fs.readFileSync('/etc/letsencrypt/live/fullmeter.com/cert.pem', 'utf8');
+var privateKey  = fs.readFileSync(config.privateKey, 'utf8');
+var certificate = fs.readFileSync(config.certificate, 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 
 
 //connection url
-var url = 'mongodb://localhost:27017/pokemon'
-mongoose.connect(url);
+mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -30,7 +31,7 @@ var app = express();
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'https://fullmeter.com');
+    res.setHeader('Access-Control-Allow-Origin', config.homeUrl);
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
