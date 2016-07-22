@@ -1,6 +1,6 @@
 #Who's That Pokémon?
 
-A browser-based game in which Pokémon silhouettes are shown to the user and they guess which Pokémon it is. 
+A browser-based game in which Pokémon silhouettes are shown to the user and they guess which Pokémon it is.
 
 ##Live Demo
 See http://gearoid.me/pokemon/ for a live demo.
@@ -21,10 +21,11 @@ Once these are in place, open _index.html_ in your browser. Alternatively, run `
 ###Stat Tracking
 To track statistics on the backend, you will need to set up a Mongo database and run a nodejs service on your server.
 
-1. Install MongoDB using [these instructions](https://docs.mongodb.com/manual/administration/install-on-linux/). Don't install via apt-get, as this isn't kept up to date as regularly. Make sure MongoDB service is running
+1. Run `sudo apt-get install mongodb && sudo service mongodb start`. Alternatively, follow the [official instructions](https://docs.mongodb.com/manual/administration/install-on-linux/) to get the latest version.
 2. Run `npm install --only=production` inside the directory
 3. You can run the node server by going to the statServer directory and typing `nodejs server.js`
 4. To set up the statServer as a daemon, you can use the very cool ["PM2"](https://github.com/Unitech/pm2). Once installed, simply run `pm2 start server.js` to get the process going.
+5. Point STATS_URL in `pokemon.js` to the url the script is listening on.
 
 You do not need to set this up for the rest of the game to work, but you will get console errors every 5 guesses. Comment out the two `trackCurrentPokemon()` calls in _pokemon.js_ to stop the XHR happening.
 

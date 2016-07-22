@@ -1057,7 +1057,7 @@ function levenshtein (s1, s2) {
 /*
  * Tracks stats to be sent to the backend database
  */
-
+var STATS_URL = 'https://gearoid.me/pokemon/stats';
 function trackCurrentPokemon(correct) {
 
     if (untrackedPokemon === 0) {
@@ -1076,15 +1076,15 @@ function trackCurrentPokemon(correct) {
     untrackedPokemon++;
 
     // Send stats to the server every 5 guesses
-    if (untrackedPokemon >= 5) {
+    // if (untrackedPokemon >= 5) {
         var jsonStats = JSON.stringify(stats)
         var req = new XMLHttpRequest();
 
-        req.open('POST', jsVariables.statServerUrl);
+        req.open('POST', STATS_URL);
         req.setRequestHeader('Content-type', 'application/json', true);
         req.send(jsonStats);
         untrackedPokemon = 0;
-    }
+    // }
 
 }
 

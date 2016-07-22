@@ -31,9 +31,6 @@ var statSchema = mongoose.Schema({
 	timestamps: true
 })
 
-//the schema is useless so far
-// we need to create a model using it
-
-var Stats = mongoose.model('Stat', statSchema);
+var Stats = mongoose.model('Pokestat', statSchema);
 
 module.exports = Stats;
