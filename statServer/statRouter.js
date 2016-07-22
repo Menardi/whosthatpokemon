@@ -16,7 +16,6 @@ statRouter.route('/')
 		 */
 		var userIp = req.headers['x-real-ip'] || req.connection.remoteAddress;
 		var userHash = crypto.createHash('md5').update(userIp + "uibqu9q0- 7n4vnw5evb4w68aw ae (w'").digest('hex');
-		console.log(req.body)
 		for (obj in req.body) {
 			req.body[obj].userId = userHash;
 		}
