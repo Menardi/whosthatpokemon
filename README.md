@@ -33,7 +33,7 @@ You do not need to set this up for the rest of the game to work, but you will ge
 If you're using nodejs you might get the following error when trying to run pm2: `/usr/bin/env: node: No such file or directory`. Run `sudo ln -s /usr/bin/nodejs /usr/local/bin/node` to fix this.
 
 ## Licence
-This code is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported Licence](http://creativecommons.org/licenses/by-nc-sa/3.0/).
+This code is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
 
 All the Pokémon names, images and sounds are copyrighted by Nintendo.
 

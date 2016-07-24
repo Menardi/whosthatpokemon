@@ -1,7 +1,7 @@
 {
   "name": "whosthatpokemon",
   "version": "1.0.0",
-  "description": "'mon guessing",
+  "description": "Pokémon guessing game",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,7 @@
     "pokemon"
   ],
   "author": "Gearoid M",
-  "license": "ISC",
+  "license": "CC BY-SA 4.0",
   "bugs": {
     "url": "https://github.com/Menardi/whosthatpokemon/issues"
   },
