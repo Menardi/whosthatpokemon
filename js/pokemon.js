@@ -16,28 +16,36 @@ var currentPokemonSoundUrl;
 // For generation selection
 var minPokemonNumber = -1;
 var maxPokemonNumber = -1;
-var currentGen = [1, 2, 3, 4, 5];
+var currentGen = [];
 var newGen = [];
 var allGenerations = {
     1: {
-       start: 1,
-       end: 151
+        start: 1,
+        end: 151
     },
     2: {
-       start: 152,
-       end: 251
+        start: 152,
+        end: 251
     },
     3: {
-       start: 252,
-       end: 386
+        start: 252,
+        end: 386
     },
     4: {
-       start: 387,
-       end: 493
+        start: 387,
+        end: 493
     },
     5: {
-       start: 494,
-       end: 649
+        start: 494,
+        end: 649
+    },
+    6: {
+        start: 650,
+        end: 721
+    },
+    7: {
+        start: 722,
+        end: 802
     }
 };
 
@@ -120,10 +128,10 @@ $(document).ready(function() {
         dontKnowButton: $('#giveAnswer')
     };
 
-	// Event listeners first
-	$('.languageSelector').on('click', function() {
-		setLanguage($(this).data('language'));
-	});
+    // Event listeners first
+    $('.languageSelector').on('click', function() {
+        setLanguage($(this).data('language'));
+    });
 
     $('.show-menu').on('click', function(ev) {
         $('#' + $(ev.currentTarget).data('menu')).addClass('shown');
@@ -323,21 +331,21 @@ function setSound(level) {
  */
 
 function setLanguage(l) {
-	// Set the language variable
-	if (l === 'en' || l === 'fr' || l === 'de' || l === 'es' || l === 'jp') {
-		selectedLanguage = l;
-	} else {
-		return false;
-	}
+    // Set the language variable
+    if (lang[l]) {
+        selectedLanguage = l;
+    } else {
+        return false;
+    }
 
-	// Change all the languages on the page
-	$('.translatable').each(function() {
-		$(this).html(lang[selectedLanguage][$(this).data('lang')]);
-	});
+    // Change all the languages on the page
+    $('.translatable').each(function() {
+        $(this).html(lang[selectedLanguage][$(this).data('lang')]);
+    });
 
-	// Highlight the flag of the selected language
-	$('.languageSelector.selected').removeClass('selected');
-	$('.' + selectedLanguage + 'LanguageSelector').addClass('selected');
+    // Highlight the flag of the selected language
+    $('.languageSelector.selected').removeClass('selected');
+    $('.' + selectedLanguage + 'LanguageSelector').addClass('selected');
 
     //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
     if (l !== 'en') {
@@ -355,7 +363,7 @@ function setLanguage(l) {
  * managed to guess themselves.
  */
 
-function revealPokemon(correctlyGuessed, language) {
+function revealPokemon(correctlyGuessed) {
 
     timeTaken = new Date().getTime() - startTime;
     clearTimeout(imageTimeoutId);
@@ -459,9 +467,7 @@ function revealPokemon(correctlyGuessed, language) {
  */
 
 function generateNewNumbers(force) {
-
     if(force || !_.isEqual(currentGen, newGen)) {
-
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
         var i = 0;
@@ -801,8 +807,8 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-		var countdownMessage = lang[selectedLanguage].nextpokemon;
-		countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
+        var countdownMessage = lang[selectedLanguage].nextpokemon;
+        countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
         $('#nextCountdown').html(countdownMessage);
         nextTimer--;
     } else {
@@ -860,8 +866,7 @@ function getRandomPokemonNumber() {
  */
 
 function getPokemonNames(number) {
-    var names = { 'en' : englishPokemon[number-1], 'fr' : frenchPokemon[number-1], 'de' : germanPokemon[number-1], 'jp' : japanesePokemon[number-1] };
-    return names;
+    return pokemonNames[number-1].names;
 }
 
 function getLocalPokemonName(number) {
@@ -883,11 +888,11 @@ function getPokemonImageUrl(number) {
 
 
 /*
- * Get the URL of the Pokemon cry. The format is 123.ogg.
+ * Get the URL of the Pokemon cry. The format is 123.mp3.
  */
 
 function getPokemonSoundUrl(number) {
-    return 'sounds/cries/' + number + '.ogg';
+    return 'sounds/cries/' + number + '.mp3';
 }
 
 
@@ -899,22 +904,14 @@ function checkPokemonAnswer(g) {
     var guess = g.toLowerCase();
 
     if (selectedLanguage === 'en') {
-		if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames.en) ) ) {
-			revealPokemon(true, 'en');
-		} else if (guess == currentPokemonNames.en) {
-			revealPokemon(true, 'en');
-		}
-	} else if (selectedLanguage === 'fr') {
-		if (guess == removeAccents(currentPokemonNames.fr)) {
-			revealPokemon(true, 'fr');
-		}
-	} else if (selectedLanguage === 'de') {
-		if (guess == removeAccents(currentPokemonNames.de)) {
-			revealPokemon(true, 'de');
-		}
-	} else if (selectedLanguage === 'jp') {
-        if (guess == removeAccents(currentPokemonNames.jp)) {
-            revealPokemon(true, 'jp');
+        if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames.en) ) ) {
+            revealPokemon(true);
+        } else if (guess == currentPokemonNames.en) {
+            revealPokemon(true);
+        }
+    } else {
+        if(guess == removeAccents(currentPokemonNames[selectedLanguage])) {
+            revealPokemon(true);
         }
     }
 }
@@ -1105,29 +1102,29 @@ function hideInfobox(d) {
 function createCookie(name,value,days) {
     var expires;
 
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		expires = "; expires="+date.toGMTString();
-	} else {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        expires = "; expires="+date.toGMTString();
+    } else {
         expires = "";
     }
-	document.cookie = name+"="+value+expires+"; path=/";
+    document.cookie = name+"="+value+expires+"; path=/";
 }
 
 function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
 }
 
 function eraseCookie(name) {
-	createCookie(name,"",-1);
+    createCookie(name,"",-1);
 }
 
 /*
@@ -1139,7 +1136,7 @@ function saveState() {
     createCookie('difficulty', currentDifficulty, 365);
     createCookie('spelling', spellingLevel, 365);
     createCookie('sound', soundLevel, 365);
-	createCookie('language', selectedLanguage, 365);
+    createCookie('language', selectedLanguage, 365);
 
     for(var i=0; i<bestCount.length; i++) {
         if (bestCount[i] > 0) {
@@ -1171,7 +1168,7 @@ function loadState() {
 
     //we catch bad and old format cookies
     if( (c === null) || (typeof c !== "object") ) {
-    	c = [1, 2, 3, 4, 5];
+        c = [1, 2, 3, 4, 5, 6, 7];
     }
 
     for (var genToSet=0; genToSet < c.length; genToSet++) {
