@@ -9,7 +9,7 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<link href='//fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
-	<script src="js/jquery-2.0.3.min.js" type="application/javascript"></script>
+	<script src="js/zepto.min.js" type="application/javascript"></script>
 	<script src="js/lodash.js" type="application/javascript"></script>
 	<script src="js/lang.js" type="application/javascript"></script>
 	<script src="js/names.js" type="application/javascript"></script>
@@ -37,52 +37,52 @@
 
 	<div id="infoBox" class="upperBox">
 		<span class="translatable" data-lang="infobox"></span>
-		<a id="hideInfobox" href="#" onclick="hideInfobox(20160720)" title="Hide this message and don't show it again">(X)</a>
+		<a id="hideInfobox" href="javascript:void(0)" onclick="hideInfobox(20160720)" title="Hide this message and don't show it again">(X)</a>
 	</div>
 
 	<div id="container">
 
 		<div id="settings" class="menu">
-			<a href="#" class="close-button mobile">x</a>
+			<a href="javascript:void(0)" class="close-button mobile">x</a>
 			<h1 class="mobile translatable" data-lang="settings">Settings</h1>
 			<h2 id="genHeader" class="sectionHead translatable" data-lang="generation">Generation</h2>
 			<div id="genSelectContainer" class="sidebox userChoice">
-				<a id="gen1" href="#" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="genSelect translatable" data-lang="generation-1">Gen 1</a>
-				<a id="gen2" href="#" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="genSelect translatable" data-lang="generation-2">Gen 2</a>
-				<a id="gen3" href="#" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="genSelect translatable" data-lang="generation-3">Gen 3</a>
-				<a id="gen4" href="#" onclick="setGen(4);" title="Diamond, Pearl &amp; Platinum" class="genSelect translatable" data-lang="generation-4">Gen 4</a>
-				<a id="gen5" href="#" onclick="setGen(5);" title="Black &amp; White" class=" genSelect translatable" data-lang="generation-5">Gen 5</a>
-				<a id="gen6" href="#" onclick="setGen(6);" title="X &amp; Y" class=" genSelect translatable" data-lang="generation-6">Gen 6</a>
-				<a id="gen7" href="#" onclick="setGen(7);" title="Sun &amp; Moon" class=" genSelect translatable" data-lang="generation-7">Gen 7</a>
+				<a id="gen1" href="javascript:void(0)" onclick="setGen(1);" title="Red, Blue &amp; Yellow" class="genSelect translatable" data-lang="generation-1">Gen 1</a>
+				<a id="gen2" href="javascript:void(0)" onclick="setGen(2);" title="Gold, Silver &amp; Crystal" class="genSelect translatable" data-lang="generation-2">Gen 2</a>
+				<a id="gen3" href="javascript:void(0)" onclick="setGen(3);" title="Ruby, Sapphire &amp; Emerald" class="genSelect translatable" data-lang="generation-3">Gen 3</a>
+				<a id="gen4" href="javascript:void(0)" onclick="setGen(4);" title="Diamond, Pearl &amp; Platinum" class="genSelect translatable" data-lang="generation-4">Gen 4</a>
+				<a id="gen5" href="javascript:void(0)" onclick="setGen(5);" title="Black &amp; White" class=" genSelect translatable" data-lang="generation-5">Gen 5</a>
+				<a id="gen6" href="javascript:void(0)" onclick="setGen(6);" title="X &amp; Y" class=" genSelect translatable" data-lang="generation-6">Gen 6</a>
+				<a id="gen7" href="javascript:void(0)" onclick="setGen(7);" title="Sun &amp; Moon" class=" genSelect translatable" data-lang="generation-7">Gen 7</a>
 			</div>
 
 			<h2 id="difficultyHeader" class="sectionHead translatable" data-lang="difficulty">Difficulty</h2>
 			<div id="difficultySelect" class="sidebox userChoice">
-				<a id="diff0" href="#" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="diffSelect translatable" data-lang="difficulty-0">Normal</a>
-				<a id="diff1" href="#" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="diffSelect translatable" data-lang="difficulty-1">Ultra</a>
-				<a id="diff2" href="#" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="diffSelect translatable" data-lang="difficulty-2">Master</a>
-				<a id="diff3" href="#" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="diffSelect translatable" data-lang="difficulty-3">Elite</a>
+				<a id="diff0" href="javascript:void(0)" onclick="setDifficulty(0)" title="Guess from high quality artwork" class="diffSelect translatable" data-lang="difficulty-0">Normal</a>
+				<a id="diff1" href="javascript:void(0)" onclick="setDifficulty(1)" title="Guess based on the in-game images" class="diffSelect translatable" data-lang="difficulty-1">Ultra</a>
+				<a id="diff2" href="javascript:void(0)" onclick="setDifficulty(2)" title="Guess based on the back of the in-game Pok&eacute;mon!" class="diffSelect translatable" data-lang="difficulty-2">Master</a>
+				<a id="diff3" href="javascript:void(0)" onclick="setDifficulty(3)" title="Guess based only on the cries of Pok&eacute;mon" class="diffSelect translatable" data-lang="difficulty-3">Elite</a>
 			</div>
 
 			<h2 id="spellingHeader" class="sectionHead translatable" data-lang="spelling">Spelling</h2>
 			<div id="spellingSelect" class="sidebox userChoice">
-				<a id="spell0" href="#" onclick="setSpelling(0)" title="Only exact spelling will match" class="translatable" data-lang="spelling-exact">Exact</a>
-				<a id="spell1" href="#" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted" class="translatable" data-lang="spelling-forgiving">Forgiving</a>
+				<a id="spell0" href="javascript:void(0)" onclick="setSpelling(0)" title="Only exact spelling will match" class="translatable" data-lang="spelling-exact">Exact</a>
+				<a id="spell1" href="javascript:void(0)" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted" class="translatable" data-lang="spelling-forgiving">Forgiving</a>
 			</div>
 
 			<h2 id="soundHeader" class="sectionHead translatable" data-lang="sound">Sound</h2>
 			<div id="soundSelect" class="sidebox userChoice toggleChoice">
-				<a id="sound0" href="#" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
-				<a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed." class="translatable" data-lang="on">On</a>
+				<a id="sound0" href="javascript:void(0)" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
+				<a id="sound1" href="javascript:void(0)" onclick="setSound(1)" title="Pokemon cries will play when revealed." class="translatable" data-lang="on">On</a>
 			</div>
 
 			<div class="mobile">
 				<h2 id="languageHeader" class="sectionHead translatable" data-lang="language">Language</h2>
 				<div id="languageSelect" class="sidebox userChoice">
-					<a href="#" class="languageSelector enLanguageSelector" data-language="en">English</a>
-					<a href="#" class="languageSelector frLanguageSelector" data-language="fr">Français</a>
-					<a href="#" class="languageSelector deLanguageSelector" data-language="de">Deutsch</a>
-					<a href="#" class="languageSelector jaLanguageSelector" data-language="ja">日本語</a>
+					<a href="javascript:void(0)" class="languageSelector enLanguageSelector" data-language="en">English</a>
+					<a href="javascript:void(0)" class="languageSelector frLanguageSelector" data-language="fr">Français</a>
+					<a href="javascript:void(0)" class="languageSelector deLanguageSelector" data-language="de">Deutsch</a>
+					<a href="javascript:void(0)" class="languageSelector jaLanguageSelector" data-language="ja">日本語</a>
 				</div>
 			</div>
 		</div>
@@ -98,9 +98,9 @@
 
 			<div id="whosthatpokemon">
 				<header>
-					<a href="#" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
+					<a href="javascript:void(0)" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
 					<h1 class="translatable title" data-lang="title">Who's That Pok&eacute;mon?</h1>
-					<a href="#" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
+					<a href="javascript:void(0)" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
 				</header>
 				<div id="mobileStats" class="mobile">
 					<span class="stat-ent"><img src="images/icons/streak.png"/><span class="currentCountText">1</span></span>
@@ -113,7 +113,7 @@
 						<canvas id="shadowImage" onload="centerPokemon();">
 							You need a new-ish browser to play this, and you need Javascript enabled too.
 						</canvas>
-						<audio id="pokemonCryPlayer" controls>
+						<audio id="pokemonCryPlayer" controls controlsList="nodownload">
 							Your browser doesn't support the audio element.
 						</audio>
 					</div>
@@ -121,7 +121,7 @@
 					<div id="answerArea">
 						<input type="text" id="pokemonGuess" name="pokemonGuess" tabindex="1" autocomplete="off" autocorrect="off" spellcheck="false" />
 
-						<a href="#" id="giveAnswer"  class="translatable" data-lang="dontknow">I don't know!</a>
+						<a href="javascript:void(0)" id="giveAnswer"  class="translatable" data-lang="dontknow">I don't know!</a>
 
 						<div id="alsoKnownAs" class="desktop">
 							<h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
@@ -152,7 +152,7 @@
 		</div>
 
 		<div id="stats" class="menu">
-			<a href="#" class="close-button mobile">x</a>
+			<a href="javascript:void(0)" class="close-button mobile">x</a>
 			<h1 class="mobile translatable" data-lang="stats">Stats</h1>
 			<h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
 			<div id="count" class="sidebox">
