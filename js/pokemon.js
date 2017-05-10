@@ -109,6 +109,8 @@ var IPHONE_KEYBOARD_HEIGHT = 216;
 
 var isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
+var LATEST_INFOBOX = 20170510;
+
 /*
  * Initiates the page on first load
  */
@@ -126,7 +128,8 @@ $(document).ready(function() {
         audioPlayer: $('#pokemonCryPlayer'),
         input: $('#pokemonGuess'),
         dontKnowButton: $('#giveAnswer'),
-        openMenuOverlay: $('.open-menu-overlay')
+        openMenuOverlay: $('.open-menu-overlay'),
+        hideInfoboxButton: $('#hideInfobox')
     };
 
     // Event listeners first
@@ -151,6 +154,8 @@ $(document).ready(function() {
 
     $els.dontKnowButton.on('click', giveAnswer);
 
+    $els.hideInfoboxButton.on('click', hideInfobox);
+
     loadState();
 
     generateNewNumbers(true);
@@ -163,7 +168,7 @@ $(document).ready(function() {
 
     var c = readCookie('lastInfobox');
 
-    if ( (c!==null) && (c <= 20160720) ) {
+    if ( (c!==null) && (c >= LATEST_INFOBOX) ) {
         $("#infoBox").hide();
     }
 
@@ -1103,9 +1108,9 @@ function trackCurrentPokemon(correct) {
  * Hide the infobox that shows updates
  */
 
-function hideInfobox(d) {
+function hideInfobox() {
     $("#infoBox").hide();
-    createCookie('lastInfobox', d, 365);
+    createCookie('lastInfobox', LATEST_INFOBOX, 365);
 }
 
 /*
