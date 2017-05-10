@@ -255,10 +255,10 @@ var pokemonNames = [{
   number: 28
 },{
   names: {
-    de: "nidoran♀",
-    en: "nidoran♀",
-    fr: "nidoran♀",
-    ja: "ニドラン♀"
+    de: "nidoran",
+    en: "nidoran",
+    fr: "nidoran",
+    ja: "ニドラン"
   },
   number: 29
 },{
@@ -279,10 +279,10 @@ var pokemonNames = [{
   number: 31
 },{
   names: {
-    de: "nidoran♂",
-    en: "nidoran♂",
-    fr: "nidoran♂",
-    ja: "ニドラン♂"
+    de: "nidoran",
+    en: "nidoran",
+    fr: "nidoran",
+    ja: "ニドラン"
   },
   number: 32
 },{

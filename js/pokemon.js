@@ -386,7 +386,12 @@ function revealPokemon(correctlyGuessed) {
     silhouette(currentPokemonImageUrl, 'shadowImage', false);
 
     if(soundLevel == 1) {
-        $els.audioPlayer.get(0).play().catch(_.noop);
+        var audioPlayPromise = $els.audioPlayer.get(0).play();
+
+        // Edge returns undefined here, where other browsers return a promise
+        if(audioPlayPromise) {
+            audioPlayPromise.catch(_.noop);
+        }
     }
 
     if(correctlyGuessed) {
@@ -578,7 +583,11 @@ function newPokemon() {
 
         $els.audioPlayer.attr('src', currentPokemonSoundUrl);
         if(currentDifficulty > 2) {
-            $els.audioPlayer.get(0).play().catch(_.noop);
+            var audioPlayPromise = $els.audioPlayer.get(0).play();
+
+            if(audioPlayPromise) {
+                audioPlayPromise.catch(_.noop);
+            }
         }
 
         /*
