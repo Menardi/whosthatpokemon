@@ -36,7 +36,7 @@ lang = {
 		"streak-info":	"Your streaks and times are separate for each difficulty",
 		"settings-effect": "Your new settings will take effect for the next Pokémon",
 		"infobox":		'Now with all Pokémon from generations 6 and 7! If you see any problems, please contact me on Github or at <a href="mailto:whosthatpokemon@gearoid.me">whosthatpokemon@gearoid.me</a>.',
-		"footer":  		'Site made by Gearóid Moroney. Send feedback to <a href="https://twitter.com/syncosised">@syncosised</a>.<br />All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>.',
+		"footer":  		'Site made by Gearóid Moroney. Send feedback to <a href="https://twitter.com/syncosised">@syncosised</a>.<br />All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>. Contribute on <a href="https://github.com/Menardi/whosthatpokemon" title="Who\'s That Pokémon à Github">Github</a>.',
 		"language":		'Language',
 		"settings":		'Settings',
 		"stats":		'Stats',
