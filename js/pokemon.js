@@ -131,7 +131,7 @@ $(document).ready(function() {
 
     // Event listeners first
     $('.languageSelector').on('click', function() {
-        setLanguage($(this).data('language'));
+        setLanguage($(this).data('language'), true);
     });
 
     $('.show-menu').on('click', function(ev) {
@@ -338,7 +338,7 @@ function setSound(level) {
  * Sets the language
  */
 
-function setLanguage(l) {
+function setLanguage(l, changedByUser) {
     // Set the language variable
     if (lang[l]) {
         selectedLanguage = l;
@@ -363,7 +363,9 @@ function setLanguage(l) {
         document.getElementById('spell1').setAttribute('style', 'visibility: inherit');
     }
 
-
+    if(changedByUser) {
+        window.ga('send', 'event', 'Language', l);
+    }
 }
 
 /*
@@ -1064,19 +1066,23 @@ function levenshtein (s1, s2) {
  */
 var STATS_URL = 'https://gearoid.me/pokemon/stats';
 function trackCurrentPokemon(correct) {
+    var guessData = {
+        "Pokemon ID": currentPokemonNumber,
+        "Correct": correct,
+        "Difficulty": currentDifficulty,
+        "Generation": currentGen,
+        "Time Taken": timeTaken
+    };
+
+    window.ga('send', 'event', 'Guess', correct ? 'Correct' : 'Incorrect', currentPokemonNumber, timeTaken);
+    window.mixpanel.track("Guess", guessData);
 
     if (untrackedPokemon === 0) {
         // Initialise the stats object
         stats = [];
     }
 
-    stats[untrackedPokemon] = {
-        "pokemonId": currentPokemonNumber,
-        "correct": correct,
-        "difficulty": currentDifficulty,
-        "generation": currentGen,
-        "timeTaken": timeTaken
-    };
+    stats[untrackedPokemon] = guessData;
 
     untrackedPokemon++;
 
@@ -1090,7 +1096,6 @@ function trackCurrentPokemon(correct) {
         req.send(jsonStats);
         untrackedPokemon = 0;
     }
-
 }
 
 
@@ -1208,7 +1213,7 @@ function loadState() {
     }
 
     c = readCookie('language') || 'en';
-    setLanguage(c);
+    setLanguage(c, false);
 
     for(var i=0; i<bestCount.length; i++) {
         var bc = readCookie('bestCount' + i);
