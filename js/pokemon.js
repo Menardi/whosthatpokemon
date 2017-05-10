@@ -125,7 +125,8 @@ $(document).ready(function() {
         canvas: $('canvas'),
         audioPlayer: $('#pokemonCryPlayer'),
         input: $('#pokemonGuess'),
-        dontKnowButton: $('#giveAnswer')
+        dontKnowButton: $('#giveAnswer'),
+        openMenuOverlay: $('.open-menu-overlay')
     };
 
     // Event listeners first
@@ -135,10 +136,17 @@ $(document).ready(function() {
 
     $('.show-menu').on('click', function(ev) {
         $('#' + $(ev.currentTarget).data('menu')).addClass('shown');
+        $els.openMenuOverlay.show();
     });
 
     $('.close-button').on('click', function(ev) {
         $(ev.currentTarget).parent().removeClass('shown');
+        $els.openMenuOverlay.hide();
+    });
+
+    $els.openMenuOverlay.on('click', function(ev) {
+        $('.menu.shown').removeClass('shown');
+        $els.openMenuOverlay.hide();
     });
 
     $els.dontKnowButton.on('click', giveAnswer);

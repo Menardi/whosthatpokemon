@@ -33,21 +33,16 @@
 
 <body>
 
+	<noscript><div id="noJavascript" class="upperBox warning">Hey there! You need Javascript enabled for this game to work. It's used to make the Pokemon silhouettes and to check your answers. Turn it on if you want to play!</div></noscript>
+
+	<div class="open-menu-overlay mobile" style="display: none"></div>
+
+	<div id="infoBox" class="upperBox">
+		<span class="translatable" data-lang="infobox"></span>
+		<a id="hideInfobox" href="#" onclick="hideInfobox(20160720)" title="Hide this message and don't show it again">(X)</a>
+	</div>
+
 	<div id="container">
-
-		<noscript><div id="noJavascript" class="upperBox warning">Hey there! You need Javascript enabled for this game to work. It's used to make the Pokemon silhouettes and to check your answers. Turn it on if you want to play!</div></noscript>
-
-		<div id="languageSelection">
-			<img class="languageSelector enLanguageSelector" src="images/flags/gb.png" title="English" data-language="en"/>
-			<img class="languageSelector frLanguageSelector" src="images/flags/fr.png" title="Français" data-language="fr"/>
-			<img class="languageSelector deLanguageSelector" src="images/flags/de.png" title="Deutsch" data-language="de"/>
-			<img class="languageSelector jaLanguageSelector" src="images/flags/jp.png" title="日本語" data-language="ja"/>
-		</div>
-
-		<div id="infoBox" class="upperBox">
-			<span class="translatable" data-lang="infobox"></span>
-			<a id="hideInfobox" href="#" onclick="hideInfobox(20160720)" title="Hide this message and don't show it again">(X)</a>
-		</div>
 
 		<div id="settings" class="menu">
 			<a href="#" class="close-button mobile">x</a>
@@ -78,9 +73,9 @@
 			</div>
 
 			<h2 id="soundHeader" class="sectionHead translatable" data-lang="sound">Sound</h2>
-			<div id="soundSelect" class="sidebox userChoice">
+			<div id="soundSelect" class="sidebox userChoice toggleChoice">
 				<a id="sound0" href="#" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
-				<a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed. Will not work on Internet Explorer or Safari." class="translatable" data-lang="on">On</a>
+				<a id="sound1" href="#" onclick="setSound(1)" title="Pokemon cries will play when revealed." class="translatable" data-lang="on">On</a>
 			</div>
 
 			<div class="mobile">
@@ -95,6 +90,13 @@
 		</div>
 
 		<div id="main">
+
+			<div id="languageSelection">
+				<img class="languageSelector enLanguageSelector" src="images/flags/gb.png" title="English" data-language="en"/>
+				<img class="languageSelector frLanguageSelector" src="images/flags/fr.png" title="Français" data-language="fr"/>
+				<img class="languageSelector deLanguageSelector" src="images/flags/de.png" title="Deutsch" data-language="de"/>
+				<img class="languageSelector jaLanguageSelector" src="images/flags/jp.png" title="日本語" data-language="ja"/>
+			</div>
 
 			<div id="whosthatpokemon">
 				<header>
@@ -136,14 +138,18 @@
 						<span id="nextCountdown"></span>
 					</div>
 				</div>
+
+				<div id="infoMessage" style="display:none">
+
+				</div>
+
+				<div id="infoBoxMain" class="translatable" data-lang="settings-effect">
+					<!--populated by JS-->
+				</div>
 			</div>
 
-			<div id="infoMessage" style="display:none">
-
-			</div>
-
-			<div id="infoBoxMain" class="translatable" data-lang="settings-effect">
-				<!--populated by JS-->
+			<div id="footer" class="translatable" data-lang="footer">
+				Site made by Gear&oacute;id Moroney. Send feedback to <a href="https://twitter.com/syncosised">@syncosised</a> .<br />All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>.
 			</div>
 		</div>
 
@@ -152,20 +158,19 @@
 			<h1 class="mobile translatable" data-lang="stats">Stats</h1>
 			<h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
 			<div id="count" class="sidebox">
-				<span class="translatable" data-lang="best">Best</span>
-				<h1 class="mobile bestCountHeading">Best Streak:</h1>
-				<h1 class="bestCountText">0</h1>
 				<span class="translatable" data-lang="current">Current</span>
 				<h1 class="currentCountText">0</h1>
+				<span class="translatable" data-lang="best">Best</span>
+				<h1 class="bestCountText">0</h1>
 			</div>
 
 			<h2 id="timeHeader" class="sectionHead translatable" data-lang="time">Time</h2>
 			<div id="timer" class="sidebox">
+				<span class="translatable" data-lang="previous">Previous</span>
+				<h1 class="lastTimeText">-</h1>
 				<span class="translatable" data-lang="best">Best</span>
 				<span id="bestTimePokemon"></span>
 				<h1 class="bestTimeText">-</h1>
-				<span class="translatable" data-lang="previous">Previous</span>
-				<h1 class="lastTimeText">-</h1>
 				<span class="translatable" data-lang="average">Average</span>
 				<h1 class="averageTimeText">-</h1>
 			</div>
@@ -173,10 +178,6 @@
 			<div id="infoBoxRight" style="display: none;" class="sidebox translatable" data-lang="streak-info">
 				Your streaks and times are separate for each difficulty
 			</div>
-		</div>
-
-		<div id="footer" class="translatable" data-lang="footer">
-			All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>. Site made by <a href="http://blog.gearoid.me">Gear&oacute;id Moroney</a>
 		</div>
 
 	</div>

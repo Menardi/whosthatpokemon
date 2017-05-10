@@ -16,7 +16,7 @@ See http://gearoid.me/pokemon/ for a live demo.
 
 The Pokémon images and sounds you need are not included in this repository. You can download them from http://gearoid.me/pokemon/downloads/pokemedia.zip. Unzip this and put _images/_ and _sounds/_ in the same directory as _index.html_.
 
-Once these are in place, open _index.html_ in your browser. Alternatively, run `static` in the root folder after doing `npm install` to host the site on a local server.
+Once these are in place, open _index.html_ in your browser. Alternatively, run `npm run serve` in the root folder after doing `npm install` to host the site on a local server.
 
 ### Stat Tracking
 To track statistics on the backend, you will need to set up a Mongo database and run a nodejs service on your server.

@@ -7,6 +7,7 @@ body {
     text-align: center;
     font-family: 'Cantora One', sans-serif;
     max-height: 100%;
+    font-size: 16px;
 }
 
 a {
@@ -28,31 +29,33 @@ h2.sectionHead {
 }
 
 #container {
+    display: flex;
     margin: auto;
     width: 760px;
 }
 
 .upperBox {
-    width: 500px;
+    width: 520px;
     padding: 10px;
-    color: #FFF;
+    border-radius: 10px;
     margin: 0 auto 1em auto;
+    color: #FFF;
 }
 
 .warning {
     background-color: #A30006;
 }
 
-div#infoBox {
+#infoBox {
     background-color: #3498db;
 }
 
-div#infoBox a {
+#infoBox a {
     color: #FFF;
     text-shadow: 1px 1px #34495e;
 }
 
-div#infoBox a#hideInfoBox {
+#infoBox a#hideInfoBox {
     color: #333;
     text-shadow: 1px 1px #FFF;
 }
@@ -81,12 +84,19 @@ div#infoBox a#hideInfoBox {
 
 .menu {
     width: 120px;
+    padding-top: 1em;
     position: relative;
 }
 
 #settings {
     float: left;
     color: #FFF;
+}
+
+#settings .sidebox {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow: hidden;
 }
 
 #settings h1, #stats h1 {
@@ -110,6 +120,14 @@ div#infoBox a#hideInfoBox {
     color: #FFFFFF;
 }
 
+.userChoice.toggleChoice {
+    display: flex;
+}
+
+.userChoice.toggleChoice a {
+    flex: 1 0 auto;
+}
+
 #genSelectContainer.userChoice a.selected, #genSelectContainer.userChoice a.pending {
     background-image: url(../images/icons/tick.svg);
     background-repeat: no-repeat;
@@ -126,7 +144,9 @@ div#infoBox a#hideInfoBox {
     color: #FFF;
 }
 
-#count, #timer {
+#stats .sidebox {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     padding: 5px 0;
 }
 
@@ -153,12 +173,16 @@ span#bestTimePokemon {
  */
 
 #main {
-    background-color: #3498db;
-    padding: 10px;
     width: 520px;
     min-height: 580px;
     float: left;
     color: #FFF;
+}
+
+#whosthatpokemon {
+    background-color: #3498db;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #canvasContainer {
@@ -169,19 +193,19 @@ span#bestTimePokemon {
     min-height: 350px;
 }
 
-#main a#giveAnswer, span#nextCountdown a {
+#whosthatpokemon a#giveAnswer, span#nextCountdown a {
     color: #FFF;
 }
 
-#main a#giveAnswer {
+#whosthatpokemon a#giveAnswer {
     display: block;
 }
 
-#main a#giveAnswer {
+#whosthatpokemon a#giveAnswer {
     text-shadow: 1px 1px #c0392b;
 }
 
-#main a#nextPokemon, span#nextCountdown {
+#whosthatpokemon a#nextPokemon, span#nextCountdown {
     text-shadow: 1px 1px #33F;
     margin: 10px 0;
 }
@@ -189,7 +213,7 @@ span#bestTimePokemon {
 input {
     margin: 1em 0 5px;
     height: 50px;
-    font-size: 28px;
+    font-size: 175%;
     border: 0;
     text-align: center;
     text-transform: capitalize;
@@ -220,28 +244,31 @@ input.correct {
 }
 
 #infoMessage {
-    font-size: 22px;
+    font-size: 140%;
 }
 
 #infoMessage a {
     text-shadow: 1px 1px #FFF;
 }
 
-#infoBoxMain{
+#infoBoxMain {
     padding: 5px;
-    margin: 20px 10%;
     margin-top: 20px;
+    border-radius: 10px;
     text-shadow: 1px 1px #333;
     background-color: #8e44ad;
 }
 
 #footer {
-    float: left;
-    width: 520px;
-    font-size: 12px;
-    margin: 1em 0 1em 120px;
+    color: #666;
+    font-size: 75%;
+    margin: 1em;
     text-align: center;
-    text-shadow: 1px 1px #FFF;
+    text-shadow: 1px 1px #e1e1e1;
+}
+
+#footer a {
+    color: #666;
 }
 
 @media (min-width: 461px) {
@@ -271,9 +298,7 @@ input.correct {
         background-color: #3498DB;
     }
 
-    /*.keyboard-open header,*/
-    .keyboard-open #mobileStats
-    {
+    .keyboard-open #mobileStats {
         display: none;
     }
 
@@ -294,6 +319,7 @@ input.correct {
         flex-direction: column;
         height: 100%;
         padding: 0;
+        border-radius: 0;
     }
 
     #playArea {
@@ -330,23 +356,21 @@ input.correct {
         position: fixed;
         top: 0;
         height: 100%;
-        width: 40%;
-        padding: 10px 0;
+        width: 50%;
+        padding: 10px;
         background-color: rgba(0,0,0,0.8);
         box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
-        transition: all 0.5s;
+        transition: all 0.2s;
         overflow-y: auto;
         z-index: 100;
     }
 
-    .menu#settings { left: -50%; }
+    .menu#settings { left: -60%; }
     .menu#settings.shown {
         left: 0;
-        width: 100%;
-        padding: 10px 25%;
     }
 
-    .menu#stats { right: -50%; }
+    .menu#stats { right: -60%; }
     .menu#stats.shown { right: 0; }
 
     .menu h1 {
@@ -370,6 +394,10 @@ input.correct {
 
     .menu#settings .close-button { right: 0; }
     .menu#stats .close-button { left: 0; }
+
+    .sidebox {
+        border-radius: 10px;
+    }
 
     header {
         display: flex;
@@ -410,6 +438,21 @@ input.correct {
     }
 
     .stat-ent {
-        margin: 0 2%;
+        margin: 0 0.5em;
+    }
+
+    .open-menu-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    #infoBoxMain {
+        margin: 0;
+        border-radius: 0
     }
 }
