@@ -6,16 +6,18 @@
  */
 
 var pokemonAccentMap = {
-    'ß':'s',
-    'Ü':'u',
-    'ü':'u',
-    'Ï':'i',
-    'ï':'i',
-    'Ê':'e',
-    'ê':'e',
-    'é':'e',
-    'È':'e',
-    'è':'e',
+  'â':'a',
+  'ä':'a',
+  'ß':'s',
+  'Ü':'u',
+  'ü':'u',
+  'Ï':'i',
+  'ï':'i',
+  'Ê':'e',
+  'ê':'e',
+  'é':'e',
+  'È':'e',
+  'è':'e',
 }
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js

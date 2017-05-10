@@ -925,18 +925,12 @@ function getPokemonSoundUrl(number) {
  */
 
 function checkPokemonAnswer(g) {
-    var guess = g.toLowerCase();
+    var guess = removeAccents(g.toLowerCase());
 
-    if (selectedLanguage === 'en') {
-        if ( ( spellingLevel > 0 ) && ( soundAlike(guess, currentPokemonNames.en) ) ) {
-            revealPokemon(true);
-        } else if (guess == currentPokemonNames.en) {
-            revealPokemon(true);
-        }
-    } else {
-        if(guess == removeAccents(currentPokemonNames[selectedLanguage])) {
-            revealPokemon(true);
-        }
+    if (selectedLanguage === 'en' && spellingLevel > 0 && soundAlike(guess, currentPokemonNames.en) ) {
+        revealPokemon(true);
+    } else if(guess == removeAccents(currentPokemonNames[selectedLanguage])) {
+        revealPokemon(true);
     }
 }
 
