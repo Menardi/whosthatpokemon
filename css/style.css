@@ -92,7 +92,7 @@ h2.sectionHead {
 
 .menu {
     width: 120px;
-    padding-top: 1em;
+    padding-top: 2em;
     position: relative;
 }
 
@@ -187,6 +187,7 @@ span#bestTimePokemon {
 
 #whosthatpokemon {
     background-color: #3498db;
+    min-height: 610px;
     padding: 10px;
     border-radius: 10px;
 }
@@ -324,6 +325,7 @@ input.correct {
         display: flex;
         flex-direction: column;
         height: 100%;
+        min-height: 0;
         padding: 0;
         border-radius: 0;
     }
