@@ -4,6 +4,12 @@
  * All in-game functionality is in this file
  */
 
+window.addEventListener('error', function(ev) {
+    if(window.ga) {
+        window.ga('send', 'exception', {exDescription: (ev.error && ev.error.stack) ? ev.error.stack : ev.message});
+    }
+});
+
 // Initialise some variables
 var currentPokemonNumber;
 var currentPokemonNames = {}; // a dictionary which stores English, French and German names of the current Pokemon
