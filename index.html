@@ -66,14 +66,14 @@
 
 			<h2 id="spellingHeader" class="sectionHead translatable" data-lang="spelling">Spelling</h2>
 			<div id="spellingSelect" class="sidebox userChoice">
-				<a id="spell0" href="javascript:void(0)" onclick="setSpelling(0)" title="Only exact spelling will match" class="translatable" data-lang="spelling-exact">Exact</a>
-				<a id="spell1" href="javascript:void(0)" onclick="setSpelling(1)" title="Spellings that mostly 'sound' right will be accepted" class="translatable" data-lang="spelling-forgiving">Forgiving</a>
+				<a id="spelling-false" href="javascript:void(0)" onclick="setForgivingSpelling(false)" title="Only exact spelling will match" class="spelling-setting translatable" data-lang="spelling-exact">Exact</a>
+				<a id="spelling-true" href="javascript:void(0)" onclick="setForgivingSpelling(true)" title="Spellings that mostly 'sound' right will be accepted" class="spelling-setting translatable" data-lang="spelling-forgiving">Forgiving</a>
 			</div>
 
 			<h2 id="soundHeader" class="sectionHead translatable" data-lang="sound">Sound</h2>
 			<div id="soundSelect" class="sidebox userChoice toggleChoice">
-				<a id="sound0" href="javascript:void(0)" onclick="setSound(0)" title="No cries will be played" class="translatable" data-lang="off">Off</a>
-				<a id="sound1" href="javascript:void(0)" onclick="setSound(1)" title="Pokemon cries will play when revealed." class="translatable" data-lang="on">On</a>
+				<a id="sound-false" href="javascript:void(0)" onclick="setSound(false)" title="No cries will be played" class="sound-setting translatable" data-lang="off">Off</a>
+				<a id="sound-true" href="javascript:void(0)" onclick="setSound(true)" title="Pokemon cries will play when revealed." class="sound-setting translatable" data-lang="on">On</a>
 			</div>
 
 			<div class="mobile">

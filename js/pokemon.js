@@ -8,15 +8,11 @@
 var currentPokemonNumber;
 var currentPokemonNames = {}; // a dictionary which stores English, French and German names of the current Pokemon
 var currentPokemonImageUrl;
-var selectedLanguage = 'en';
 
 // For Pokemon cries
 var currentPokemonSoundUrl;
 
 // For generation selection
-var minPokemonNumber = -1;
-var maxPokemonNumber = -1;
-var currentGen = [];
 var newGen = [];
 var allGenerations = {
     1: {
@@ -52,7 +48,6 @@ var allGenerations = {
 
 // To count streaks
 var correctCount = [0, 0, 0, 0, 0];
-var bestCount = [0, 0, 0, 0, 0]; // separate count for each difficulty
 
 // For countdown timer after a correct answer
 var nextTimer = 3;
@@ -60,13 +55,7 @@ var intervalId;
 
 // For timing how long an answer takes
 var startTime;
-var bestTimes = ['-', '-', '-', '-', '-'];
 var timeTaken = '-';
-var totalTimeTaken = [0, 0, 0, 0, 0];
-var totalGuesses = [0, 0, 0, 0, 0]; // average time will be totalTimeTaken / totalGuesses
-
-// Store the name of the Pokemon that was guessed in the fastest time
-var bestPokemonNumber = [-1, -1, -1, -1, -1];
 
 // Used for difficulty setting
 var DIFFICULTY = {
@@ -77,7 +66,6 @@ var DIFFICULTY = {
     ELITE: 3,
     EASY: 4
 };
-var currentDifficulty = DIFFICULTY.UNSET;
 var pendingDifficulty = DIFFICULTY.UNSET;
 var imageDirectory;
 
@@ -95,9 +83,6 @@ var consecutiveLoadFails = 0;
 // Will be used to hold the ID of the image loading timeout so it can be disabled if necessary
 var imageTimeoutId;
 
-// Spelling tolerance
-var spellingLevel = -1;
-
 // Stat tracking
 var stats;
 var untrackedPokemon = 0;
@@ -105,9 +90,6 @@ var untrackedPokemon = 0;
 // Will be used as an array to store upcoming Pokemon
 var upcomingPokemon;
 var upcomingPokemonArrayPos;
-
-// Sound setting
-var soundLevel = -1;
 
 var firstRender = true;
 
@@ -117,7 +99,20 @@ var IPHONE_KEYBOARD_HEIGHT = 216;
 
 var isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
-var LATEST_INFOBOX = 20170510;
+var LATEST_INFOBOX = 20180301;
+var INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
+
+
+var settings;
+var records;
+var DEFAULT_SETTINGS = {
+    difficulty: DIFFICULTY.NORMAL,
+    generations: [1, 2, 3, 4, 5, 6, 7],
+    sound: false,
+    forgivingSpelling: false,
+    language: 'en'
+};
+
 
 /*
  * Initiates the page on first load
@@ -173,9 +168,8 @@ $(document).ready(function() {
         $("#gen" + newGen[i]).removeClass("pending").addClass("selected");
     }
 
-    var c = readCookie('lastInfobox');
-
-    if ( (c!==null) && (c >= LATEST_INFOBOX) ) {
+    var lastSeenInfobox = localStorage.getItem(INFOBOX_LS_KEY);
+    if(lastSeenInfobox >= LATEST_INFOBOX) {
         $("#infoBox").hide();
     }
 
@@ -246,9 +240,9 @@ function _onKeyboardClose() {
 function setGen(genToAffect) {
     genToAffect = parseInt(genToAffect);
 
-    //Before editing gen selection, we ensure that the user is not about to remove their last gen
+    // Before editing gen selection, we ensure that the user is not about to remove their last gen
     if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
-        //Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
+        // Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
         $('.selected.genSelect').removeClass('selected').addClass('pending');
 
         if (newGen.indexOf(genToAffect) > -1) {
@@ -262,10 +256,8 @@ function setGen(genToAffect) {
         $('#infoBoxMain').show();
     }
 
-    /*
-     * This should only happen if the user has reached the end of a generation and then changed
-     * the generation. It instantly puts up a new Pokemon.
-     */
+    // This will only happen if the user has reached the end of a generation and then changed
+    // the generation. It immediately puts up a new Pokemon.
     if(currentPokemonNumber === -1) {
         generateNewNumbers(true);
         newPokemon();
@@ -289,11 +281,11 @@ function setDifficulty(selectedDifficulty) {
 
     if (pendingDifficulty == DIFFICULTY.UNSET) {
         $('#diff' + selectedDifficulty).addClass('selected');
-        currentDifficulty = selectedDifficulty;
+        settings.difficulty = selectedDifficulty;
     } else {
         $('#diff' + pendingDifficulty).removeClass('pending');
 
-        if(selectedDifficulty != currentDifficulty) $('#diff' + selectedDifficulty).addClass('pending');
+        if(selectedDifficulty != settings.difficulty) $('#diff' + selectedDifficulty).addClass('pending');
 
         $('#infoBoxMain').show();
     }
@@ -307,13 +299,12 @@ function setDifficulty(selectedDifficulty) {
  * forgiving.
  */
 
-function setSpelling(level) {
-    $('#spell' + level).addClass('selected');
+function setForgivingSpelling(isEnabled) {
+    $('.spelling-setting').removeClass('selected');
+    $('#spelling-' + isEnabled).addClass('selected');
 
-    if(spellingLevel !== -1 )
-        $('#spell' + spellingLevel).removeClass('selected');
-
-    spellingLevel = level;
+    settings.forgivingSpelling = isEnabled;
+    saveState();
 }
 
 
@@ -322,13 +313,12 @@ function setSpelling(level) {
  * Turns Pokemon cries on or off
  */
 
-function setSound(level) {
-    $('#sound' + level).addClass('selected');
+function setSound(isEnabled) {
+    $('.sound-setting').removeClass('selected');
+    $('#sound-' + isEnabled).addClass('selected');
 
-    if(soundLevel !== -1 )
-        $('#sound' + soundLevel).removeClass('selected');
-
-    soundLevel = level;
+    settings.sound = isEnabled;
+    saveState();
 }
 
 
@@ -340,27 +330,29 @@ function setSound(level) {
 function setLanguage(l, changedByUser) {
     // Set the language variable
     if (lang[l]) {
-        selectedLanguage = l;
+        settings.language = l;
     } else {
         return false;
     }
 
     // Change all the languages on the page
     $('.translatable').each(function() {
-        $(this).html(lang[selectedLanguage][$(this).data('lang')]);
+        $(this).html(lang[settings.language][$(this).data('lang')]);
     });
 
     // Highlight the flag of the selected language
     $('.languageSelector.selected').removeClass('selected');
-    $('.' + selectedLanguage + 'LanguageSelector').addClass('selected');
+    $('.' + settings.language + 'LanguageSelector').addClass('selected');
 
-    //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
+    // Hide forgiving spelling option if the language is not english, and set the spelling option to exact
     if (l !== 'en') {
-        $('#spell1').hide();
-        setSpelling(0);
+        $('#spelling-true').hide();
+        setForgivingSpelling(false);
     } else {
-        $('#spell1').show();
+        $('#spelling-true').show();
     }
+
+    saveState();
 
     if(changedByUser) {
         window.ga('send', 'event', 'Language', l);
@@ -378,7 +370,7 @@ function revealPokemon(correctlyGuessed) {
 
     silhouette(currentPokemonImageUrl, 'shadowImage', false);
 
-    if(soundLevel == 1) {
+    if(settings.sound == 1) {
         var audioPlayPromise = $els.audioPlayer.get(0).play();
 
         // Edge returns undefined here, where other browsers return a promise
@@ -395,28 +387,28 @@ function revealPokemon(correctlyGuessed) {
         if(!$els.input.hasClass('correct')) {
 
             $els.input.addClass('correct');
-            correctCount[currentDifficulty]++;
+            correctCount[settings.difficulty]++;
 
             // Increase the best count if it has been beaten
-            if(correctCount[currentDifficulty] > bestCount[currentDifficulty]) {
-                bestCount[currentDifficulty] = correctCount[currentDifficulty];
+            if(correctCount[settings.difficulty] > records.streaks[settings.difficulty]) {
+                records.streaks[settings.difficulty] = correctCount[settings.difficulty];
             }
 
             // Check if the best time has been beaten
-            if(timeTaken < bestTimes[currentDifficulty] || bestTimes[currentDifficulty] == '-') {
-                bestTimes[currentDifficulty] = timeTaken;
-                bestPokemonNumber[currentDifficulty] = currentPokemonNumber;
+            if(timeTaken < records.bests.time[settings.difficulty] || records.bests.time[settings.difficulty] == '-') {
+                records.bests.time[settings.difficulty] = timeTaken;
+                records.bests.pokemonId[settings.difficulty] = currentPokemonNumber;
             }
 
-            totalTimeTaken[currentDifficulty] += timeTaken;
-            totalGuesses[currentDifficulty] += 1;
+            records.totals.time[settings.difficulty] += timeTaken;
+            records.totals.guesses[settings.difficulty] += 1;
 
         }
 
         trackCurrentPokemon(1);
     } else {
         trackCurrentPokemon(0);
-        correctCount[currentDifficulty] = 0;
+        correctCount[settings.difficulty] = 0;
         timeTaken = '-';
     }
 
@@ -428,24 +420,24 @@ function revealPokemon(correctlyGuessed) {
     $els.input.addClass('disabled');
 
     // Give the Pokemon name
-    $els.input.val(currentPokemonNames[selectedLanguage]);
+    $els.input.val(currentPokemonNames[settings.language]);
 
-    $('.currentCountText').html(correctCount[currentDifficulty]);
-    $('.bestCountText').html(bestCount[currentDifficulty]);
+    $('.currentCountText').html(correctCount[settings.difficulty]);
+    $('.bestCountText').html(records.streaks[settings.difficulty]);
 
     if(correctlyGuessed && !isNaN(timeTaken))
         $('.lastTimeText').html(timeTaken/1000);
     else
         $('.lastTimeText').html('-');
 
-    if(bestTimes[currentDifficulty] != '-')
-        $('.bestTimeText').html(bestTimes[currentDifficulty]/1000);
+    if(records.bests.time[settings.difficulty] != '-')
+        $('.bestTimeText').html(records.bests.time[settings.difficulty]/1000);
 
-    if(bestPokemonNumber[currentDifficulty] > 0)
-        $('.bestTimePokemon').html('(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')');
+    if(records.bests.pokemonId[settings.difficulty] > 0)
+        $('.bestTimePokemon').html('(' + getLocalPokemonName(records.bests.pokemonId[settings.difficulty]) + ')');
 
-    if(totalGuesses[currentDifficulty] > 0) {
-        var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
+    if(records.totals.guesses[settings.difficulty] > 0) {
+        var avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
         $('.averageTimeText').html(avgTime.toFixed(3));
     }
 
@@ -456,7 +448,7 @@ function revealPokemon(correctlyGuessed) {
     $("#alsoKnownAs").show();
     for (var l in lang) {
         var $el = $('#alsoKnownAs' + l);
-        if (l !== selectedLanguage) {
+        if (l !== settings.language) {
             $el.html(currentPokemonNames[l]);
             $el.parent().show();
         } else {
@@ -480,7 +472,7 @@ function revealPokemon(correctlyGuessed) {
  */
 
 function generateNewNumbers(force) {
-    if(force || !_.isEqual(currentGen, newGen)) {
+    if(force || !_.isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
         var i = 0;
@@ -512,18 +504,16 @@ function preloadPokemon() {
         return false;
     }
 
-
     if(currentPokemonImageUrl !== null) {
         img = new Image();
         img.src = currentPokemonImageUrl;
         pokemonPreloaded = true;
-        preloadedGen = currentGen;
-        preloadedDifficulty = currentDifficulty;
+        preloadedGen = settings.generations;
+        preloadedDifficulty = settings.difficulty;
         return true;
     } else {
         return false;
     }
-
 }
 
 
@@ -540,7 +530,7 @@ function newPokemon() {
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
      */
-    if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != pendingDifficulty) {
+    if(!pokemonPreloaded || !_.isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
         currentPokemonNumber = getRandomPokemonNumber();
     }
 
@@ -569,13 +559,13 @@ function newPokemon() {
 
         // Now load the next Pokemon
         if(currentPokemonImageUrl !== null) {
-            var shouldSilhouette = currentDifficulty != DIFFICULTY.EASY;
+            var shouldSilhouette = settings.difficulty != DIFFICULTY.EASY;
             silhouette(currentPokemonImageUrl, 'shadowImage', shouldSilhouette);
-            imageTimeoutId = setTimeout(checkPokemonLoaded, 10000);
+            imageTimeoutId = setTimeout(checkPokemonLoaded, 3000);
         }
 
         $els.audioPlayer.attr('src', currentPokemonSoundUrl);
-        if(currentDifficulty > 2) {
+        if(settings.difficulty > 2) {
             var audioPlayPromise = $els.audioPlayer.get(0).play();
 
             if(audioPlayPromise) {
@@ -643,10 +633,10 @@ function checkPokemonLoaded() {
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
         if(++consecutiveLoadFails < 3) {
             $('#nextCountdown').data("lang", "loadfail");
-            $('#nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
+            $('#nextCountdown').html(lang[settings.language].loadfail);
         } else {
             $('#nextCountdown').data("lang", "slowconn");
-            $('#nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
+            $('#nextCountdown').html(lang[settings.language].slowconn);
         }
 
         $('#nextCountdown').show();
@@ -664,66 +654,62 @@ function checkPokemonLoaded() {
  */
 
 function updateStateAndRefreshUI() {
-
-    //Checks to see if the generation selection has changed
-    if(!_.isEqual(currentGen, newGen)) {
-
-        //First we remove selected and current from all the gens
+    // Checks to see if the generation selection has changed
+    if(!_.isEqual(settings.generations, newGen)) {
         $('.genSelect').removeClass('pending selected');
-        //We destroy the old currentGen so we can fill this empty array with all the elements of newGen
-        currentGen = [];
+
+        settings.generations.length = 0;
 
         //Add current to all of our selected generations and push them into current Gen
         for(var i=0; i < newGen.length; i++) {
-            $("#gen" + newGen[i]).addClass("selected");
-            currentGen.push(newGen[i]);
+            $('#gen' + newGen[i]).addClass('selected');
+            settings.generations.push(newGen[i]);
         }
-    } else if ($(".genSelect").hasClass('pending')) {
-        //In the case that the user began to change the generation and then changed their mind,
-        //we switch the generations back to current
+    } else if ($('.genSelect').hasClass('pending')) {
+        // In the case that the user began to change the generation and then changed their mind,
+        // we switch the generations back to current
         $('.genSelect.selected').toggleClass('pending selected');
-
     }
 
 
-    if(pendingDifficulty != currentDifficulty) {
+    if(pendingDifficulty != settings.difficulty) {
         // The difficulty has been updated, so highlight the new one
         $(".diffSelect").removeClass("pending selected");
         $("#diff" + pendingDifficulty).addClass("selected");
 
         // Show the info box explaining that the change means different streaks and times
         $("#infoBoxRight").show();
-        currentDifficulty = pendingDifficulty;
+        settings.difficulty = pendingDifficulty;
     } else {
         $("#infoBoxRight").hide();
     }
 
-    if(currentDifficulty == DIFFICULTY.ELITE) {
+    if(settings.difficulty == DIFFICULTY.ELITE) {
         $els.audioPlayer.show();
         $els.canvas.hide();
-        setSound(1);
+        setSound(true);
     } else {
         $els.canvas.show();
         $els.audioPlayer.hide();
     }
 
-    $('.bestCountText').html(bestCount[currentDifficulty]);
-    $('.currentCountText').html(correctCount[currentDifficulty]);
+    $('.bestCountText').html(records.streaks[settings.difficulty]);
+    $('.currentCountText').html(correctCount[settings.difficulty]);
 
-    if (bestPokemonNumber[currentDifficulty] > 0) {
-        $('.bestTimePokemon').html('(' + getLocalPokemonName(bestPokemonNumber[currentDifficulty]) + ')');
+    if (records.bests.pokemonId[settings.difficulty] > 0) {
+        $('.bestTimePokemon').html('(' + getLocalPokemonName(records.bests.pokemonId[settings.difficulty]) + ')');
     } else {
         $('.bestTimePokemon').html('');
     }
 
-    if (bestTimes[currentDifficulty] == '-') {
+    if (records.bests.time[settings.difficulty] == '-') {
         $('.bestTimeText').html('-');
     } else {
-        $('.bestTimeText').html(bestTimes[currentDifficulty]/1000);
+        $('.bestTimeText').html(records.bests.time[settings.difficulty]/1000);
     }
 
-    if (totalGuesses[currentDifficulty] > 0) {
-        var avgTime = totalTimeTaken[currentDifficulty] / totalGuesses[currentDifficulty] / 1000;
+    if (records.totals.guesses[settings.difficulty] > 0) {
+        var avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
         $('.averageTimeText').html(avgTime.toFixed(3));
     } else {
         $('.averageTimeText').html('-');
@@ -817,7 +803,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-        var countdownMessage = lang[selectedLanguage].nextpokemon;
+        var countdownMessage = lang[settings.language].nextpokemon;
         countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
         $('#nextCountdown').html(countdownMessage);
         nextTimer--;
@@ -840,17 +826,6 @@ function giveAnswer() {
     }
     revealPokemon(false);
 }
-
-/*
- * Deletes cookies relating to time records
- */
-function clearTimes() {
-    eraseCookie('bestTime');
-    bestTime = '-';
-    document.getElementById('bestTimeText').innerHTML = bestTime;
-    document.getElementById('lastTimeText').innerHTML = '-';
-}
-
 
 
 /*
@@ -880,7 +855,7 @@ function getPokemonNames(number) {
 }
 
 function getLocalPokemonName(number) {
-    return getPokemonNames(number)[selectedLanguage];
+    return getPokemonNames(number)[settings.language];
 }
 
 
@@ -913,9 +888,9 @@ function getPokemonSoundUrl(number) {
 function checkPokemonAnswer(g) {
     var guess = removeAccents(g.toLowerCase());
 
-    if (selectedLanguage === 'en' && spellingLevel > 0 && soundAlike(guess, currentPokemonNames.en) ) {
+    if (settings.language === 'en' && settings.forgivingSpelling && soundAlike(guess, currentPokemonNames.en) ) {
         revealPokemon(true);
-    } else if(guess == removeAccents(currentPokemonNames[selectedLanguage])) {
+    } else if(guess == removeAccents(currentPokemonNames[settings.language])) {
         revealPokemon(true);
     }
 }
@@ -936,6 +911,155 @@ function soundAlike(s1, s2, lang) {
     }
     return l;
 }
+
+/*
+ * Tracks stats to be sent to the backend database
+ */
+var STATS_URL = 'https://gearoid.me/pokemon/stats';
+function trackCurrentPokemon(correct) {
+    var guessData = {
+        'Pokemon ID': currentPokemonNumber,
+        'Correct': correct,
+        'Difficulty': settings.difficulty,
+        'Generation': settings.generations,
+        'Time Taken': timeTaken
+    };
+
+    window.ga('send', 'event', 'Guess', correct ? 'Correct' : 'Incorrect', currentPokemonNumber, timeTaken);
+    window.mixpanel.track("Guess", guessData);
+
+    if (untrackedPokemon === 0) {
+        // Initialise the stats object
+        stats = [];
+    }
+
+    stats[untrackedPokemon] = guessData;
+
+    untrackedPokemon++;
+
+    // Send stats to the server every 5 guesses
+    if (untrackedPokemon >= 5) {
+        var jsonStats = JSON.stringify(stats)
+        var req = new XMLHttpRequest();
+
+        req.open('POST', STATS_URL);
+        req.setRequestHeader('Content-type', 'application/json', true);
+        req.send(jsonStats);
+        untrackedPokemon = 0;
+    }
+}
+
+
+/*
+ * Hide the infobox that shows updates
+ */
+
+function hideInfobox() {
+    $("#infoBox").hide();
+    localStorage.setItem(INFOBOX_LS_KEY, LATEST_INFOBOX);
+}
+
+/*
+ * Save and load user settings and records
+ */
+
+var SETTINGS_LS_KEY = 'wtp_settings';
+var RECORDS_LS_KEY = 'wtp_records';
+function loadState() {
+    var lsSettings = localStorage.getItem(SETTINGS_LS_KEY);
+
+    if(lsSettings) {
+        settings = JSON.parse(lsSettings);
+    } else if(readCookie('generation')) { // assume that if this cookie exists, they all do
+        settings = _getSettingsObjectFromCookie();
+    } else {
+        settings = _.extend({}, DEFAULT_SETTINGS);
+    }
+
+    settings.generations.forEach(function(generation) {
+        setGen(generation);
+    });
+    setDifficulty(settings.difficulty);
+    setSound(settings.sound);
+    setForgivingSpelling(settings.forgivingSpelling);
+    setLanguage(settings.language);
+
+    var lsRecords = localStorage.getItem(RECORDS_LS_KEY);
+
+    if(lsRecords) {
+        records = JSON.parse(lsRecords)
+    } else if(document.cookie.indexOf('totalTimeTaken') > -1) { // a quick way to check if there are cookies from an old version
+        records = _getRecordsObjectFromCookie();
+    } else {
+        records = _getDefaultRecordsObj();
+    }
+}
+
+function saveState() {
+    if(settings) localStorage.setItem(SETTINGS_LS_KEY, JSON.stringify(settings));
+    if(records) localStorage.setItem(RECORDS_LS_KEY, JSON.stringify(records));
+}
+
+// In a function so that we return a new instance of the object every time. Avoids
+// accidentally sharing the arrays between the default and actual records object.
+function _getDefaultRecordsObj() {
+    return {
+        streaks: [0, 0, 0, 0, 0],
+        bests: {
+            time: [0, 0, 0, 0, 0],
+            pokemonId: [0, 0, 0, 0, 0]
+        },
+        totals: {
+            time: [0, 0, 0, 0, 0],
+            guesses: [0, 0, 0, 0, 0]
+        }
+    };
+}
+
+
+/*
+ * Convert all the old cookie-based data to the new object format
+ */
+function _getSettingsObjectFromCookie() {
+    return {
+        generations: JSON.parse(readCookie('generation')) || DEFAULT_SETTINGS.generations,
+        difficulty: parseInt(readCookie('difficulty'), 10) || DEFAULT_SETTINGS.difficulty,
+        forgivingSpelling: readCookie('spelling') == '1' || DEFAULT_SETTINGS.forgivingSpelling,
+        sound: readCookie('sound') == '1' || DEFAULT_SETTINGS.sound,
+        language: readCookie('language') || DEFAULT_SETTINGS.language
+    };
+}
+
+function _getRecordsObjectFromCookie() {
+    var cookieRecords = _getDefaultRecordsObj();
+
+    // The old cookie format supported four difficulties
+    for(var i=0; i<4; i++) {
+        cookieRecords.streaks[i] = parseInt(readCookie('bestCount' + i)) || 0;
+        cookieRecords.bests.time[i] = parseInt(readCookie('bestTime' + i)) || 0;
+        cookieRecords.bests.pokemonId[i] = parseInt(readCookie('bestPokemon' + i)) || 0;
+        cookieRecords.totals.time[i] = parseInt(readCookie('totalTimeTaken' + i)) || 0;
+        cookieRecords.totals.guesses[i] = parseInt(readCookie('totalGuesses' + i)) || 0;
+    }
+
+    return cookieRecords;
+}
+
+/*
+ * Cookie stuff from http://www.quirksmode.org/js/cookies.html
+ */
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
 
 
 /*
@@ -1050,190 +1174,4 @@ function levenshtein (s1, s2) {
     v1 = v_tmp;
   }
   return v0[s1_len];
-}
-
-
-
-
-/*
- * Tracks stats to be sent to the backend database
- */
-var STATS_URL = 'https://gearoid.me/pokemon/stats';
-function trackCurrentPokemon(correct) {
-    var guessData = {
-        "Pokemon ID": currentPokemonNumber,
-        "Correct": correct,
-        "Difficulty": currentDifficulty,
-        "Generation": currentGen,
-        "Time Taken": timeTaken
-    };
-
-    window.ga('send', 'event', 'Guess', correct ? 'Correct' : 'Incorrect', currentPokemonNumber, timeTaken);
-    window.mixpanel.track("Guess", guessData);
-
-    if (untrackedPokemon === 0) {
-        // Initialise the stats object
-        stats = [];
-    }
-
-    stats[untrackedPokemon] = guessData;
-
-    untrackedPokemon++;
-
-    // Send stats to the server every 5 guesses
-    if (untrackedPokemon >= 5) {
-        var jsonStats = JSON.stringify(stats)
-        var req = new XMLHttpRequest();
-
-        req.open('POST', STATS_URL);
-        req.setRequestHeader('Content-type', 'application/json', true);
-        req.send(jsonStats);
-        untrackedPokemon = 0;
-    }
-}
-
-
-/*
- * Hide the infobox that shows updates
- */
-
-function hideInfobox() {
-    $("#infoBox").hide();
-    createCookie('lastInfobox', LATEST_INFOBOX, 365);
-}
-
-/*
- * Cookie stuff from http://www.quirksmode.org/js/cookies.html
- */
-
-function createCookie(name,value,days) {
-    var expires;
-
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        expires = "; expires="+date.toGMTString();
-    } else {
-        expires = "";
-    }
-    document.cookie = name+"="+value+expires+"; path=/";
-}
-
-function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-function eraseCookie(name) {
-    createCookie(name,"",-1);
-}
-
-/*
- * Functions to save settings to cookies, and to load them back
- */
-
-function saveState() {
-    createCookie('generation', JSON.stringify(currentGen), 365);
-    createCookie('difficulty', currentDifficulty, 365);
-    createCookie('spelling', spellingLevel, 365);
-    createCookie('sound', soundLevel, 365);
-    createCookie('language', selectedLanguage, 365);
-
-    for(var i=0; i<bestCount.length; i++) {
-        if (bestCount[i] > 0) {
-            createCookie('bestCount'+i, bestCount[i], 365);
-        }
-
-        if (bestTimes[i] != '-') {
-            createCookie('bestTime'+i, bestTimes[i], 365);
-        }
-
-        if (bestPokemonNumber[i] > 0) {
-            createCookie('bestPokemon'+i, bestPokemonNumber[i], 365);
-        }
-
-        if (totalTimeTaken[i] > 0) {
-            createCookie('totalTimeTaken'+i, totalTimeTaken[i], 365);
-        }
-
-        if (totalGuesses[i] > 0) {
-            createCookie('totalGuesses'+i, totalGuesses[i], 365);
-        }
-    }
-}
-
-function loadState() {
-    var c;
-
-    c = JSON.parse(readCookie('generation'));
-
-    //we catch bad and old format cookies
-    if( (c === null) || (typeof c !== "object") ) {
-        c = [1, 2, 3, 4, 5, 6, 7];
-    }
-
-    for (var genToSet=0; genToSet < c.length; genToSet++) {
-        setGen(c[genToSet]);
-    }
-
-    c = readCookie('difficulty');
-
-    if( (c !== null) && (c >= 0) && (c <= 4) ) {
-        setDifficulty(c);
-    } else {
-        setDifficulty(0);
-    }
-
-    c = readCookie('spelling');
-
-    if( (c !== null) && (c >= 0) && (c <= 1) ) {
-        setSpelling(c);
-    } else {
-        setSpelling(0);
-    }
-
-    c = readCookie('sound');
-
-    if( (c !== null) && (c >= 0) && (c <= 1) ) {
-        setSound(c);
-    } else {
-        setSound(0);
-    }
-
-    c = readCookie('language') || 'en';
-    setLanguage(c, false);
-
-    for(var i=0; i<bestCount.length; i++) {
-        var bc = readCookie('bestCount' + i);
-        var bt = readCookie('bestTime' + i);
-        var bp = readCookie('bestPokemon' + i);
-        var tt = readCookie('totalTimeTaken' + i);
-        var tg = readCookie('totalGuesses' + i);
-
-        if (bc > 0) {
-            bestCount[i] = parseInt(bc);
-        }
-
-        if (bt > 0) {
-            bestTimes[i] = parseInt(bt);
-        }
-
-        if (bp > 0) {
-            bestPokemonNumber[i] = parseInt(bp);
-        }
-
-        if (tt > 0) {
-            totalTimeTaken[i] = parseInt(tt);
-        }
-
-        if (tg > 0) {
-            totalGuesses[i] = parseInt(tg);
-        }
-    }
 }
