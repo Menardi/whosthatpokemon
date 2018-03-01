@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Cantora One';
+  font-style: normal;
+  font-weight: 400;
+  /* This edited version of Cantora One fixes an issue where "Stufful" appeared as "Stuffhl" */
+  src: url(../fonts/cantora-one-fixed.woff);
+}
+
 * {
     box-sizing: border-box;
 }
