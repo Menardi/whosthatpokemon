@@ -51,8 +51,8 @@ var allGenerations = {
 
 
 // To count streaks
-var correctCount = [0, 0, 0, 0];
-var bestCount = [0, 0, 0, 0]; // separate count for each difficulty
+var correctCount = [0, 0, 0, 0, 0];
+var bestCount = [0, 0, 0, 0, 0]; // separate count for each difficulty
 
 // For countdown timer after a correct answer
 var nextTimer = 3;
@@ -60,17 +60,25 @@ var intervalId;
 
 // For timing how long an answer takes
 var startTime;
-var bestTimes = ['-', '-', '-', '-'];
+var bestTimes = ['-', '-', '-', '-', '-'];
 var timeTaken = '-';
-var totalTimeTaken = [0, 0, 0, 0];
-var totalGuesses = [0, 0, 0, 0]; // average time will be totalTimeTaken / totalGuesses
+var totalTimeTaken = [0, 0, 0, 0, 0];
+var totalGuesses = [0, 0, 0, 0, 0]; // average time will be totalTimeTaken / totalGuesses
 
 // Store the name of the Pokemon that was guessed in the fastest time
-var bestPokemonNumber = [-1, -1, -1, -1];
+var bestPokemonNumber = [-1, -1, -1, -1, -1];
 
 // Used for difficulty setting
-var currentDifficulty = -1;
-var newDifficulty = -1;
+var DIFFICULTY = {
+    UNSET: -1,
+    NORMAL: 0,
+    ULTRA: 1,
+    MASTER: 2,
+    ELITE: 3,
+    EASY: 4
+};
+var currentDifficulty = DIFFICULTY.UNSET;
+var pendingDifficulty = DIFFICULTY.UNSET;
 var imageDirectory;
 
 // Set if a Pokemon image has been preloaded
@@ -153,7 +161,6 @@ $(document).ready(function() {
     });
 
     $els.dontKnowButton.on('click', giveAnswer);
-
     $els.hideInfoboxButton.on('click', hideInfobox);
 
     loadState();
@@ -205,7 +212,7 @@ $(document).ready(function() {
     if(isIphone) {
         // Safari and Chrome on iOS shift the webview up rather than resizing
         // it when the virtual keyboard is opened. We have no way of knowing
-        // for sure when they keyboard is open or what height it is. So instead
+        // for sure when the keyboard is open or what height it is. So instead
         // we assume the input being focused will bring up the keyboard, and we
         // resize the view by what is the most likely height of the keyboard.
         // It won't be perfectly aligned but it's better than nothing.
@@ -237,16 +244,12 @@ function _onKeyboardClose() {
  */
 
 function setGen(genToAffect) {
-
-
     genToAffect = parseInt(genToAffect);
 
     //Before editing gen selection, we ensure that the user is not about to remove their last gen
     if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
-
         //Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
         $('.selected.genSelect').removeClass('selected').addClass('pending');
-
 
         if (newGen.indexOf(genToAffect) > -1) {
             newGen.splice(newGen.indexOf(genToAffect), 1);
@@ -256,11 +259,7 @@ function setGen(genToAffect) {
             $("#gen" + genToAffect).addClass("pending");
         }
 
-
-        //show the infoBox
-        document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
-
-
+        $('#infoBoxMain').show();
     }
 
     /*
@@ -271,7 +270,6 @@ function setGen(genToAffect) {
         generateNewNumbers(true);
         newPokemon();
     }
-
 }
 
 /*
@@ -279,33 +277,29 @@ function setGen(genToAffect) {
  */
 
 function setDifficulty(selectedDifficulty) {
-
-    if (selectedDifficulty == 0) {
+    if (selectedDifficulty == DIFFICULTY.EASY || selectedDifficulty == DIFFICULTY.NORMAL) {
         imageDirectory = 'images/artwork/';
-    } else if (selectedDifficulty == 1) {
+    } else if (selectedDifficulty == DIFFICULTY.ULTRA) {
         imageDirectory = 'images/sprites/front/';
-    } else if (selectedDifficulty == 2) {
+    } else if (selectedDifficulty == DIFFICULTY.MASTER) {
         imageDirectory = 'images/sprites/back/';
-    } else {
+    } else if (selectedDifficulty == DIFFICULTY.ULTRA) {
         imageDirectory = null;
     }
 
-    if (newDifficulty == -1) {
-        document.getElementById('diff' + selectedDifficulty).className += " selected";
+    if (pendingDifficulty == DIFFICULTY.UNSET) {
+        $('#diff' + selectedDifficulty).addClass('selected');
         currentDifficulty = selectedDifficulty;
     } else {
-        document.getElementById('diff' + newDifficulty).className = document.getElementById('diff' + newDifficulty).className.replace('pending','');
+        $('#diff' + pendingDifficulty).removeClass('pending');
 
-        if(selectedDifficulty != currentDifficulty)
-            document.getElementById('diff' + selectedDifficulty).className += " pending";
+        if(selectedDifficulty != currentDifficulty) $('#diff' + selectedDifficulty).addClass('pending');
 
-        document.getElementById('infoBoxMain').setAttribute('style', 'display: inherit');
+        $('#infoBoxMain').show();
     }
 
-    newDifficulty = selectedDifficulty;
-
+    pendingDifficulty = selectedDifficulty;
 }
-
 
 
 /*
@@ -314,10 +308,10 @@ function setDifficulty(selectedDifficulty) {
  */
 
 function setSpelling(level) {
-    document.getElementById('spell' + level).className += " selected";
+    $('#spell' + level).addClass('selected');
 
     if(spellingLevel !== -1 )
-        document.getElementById('spell' + spellingLevel).className = document.getElementById('spell' + spellingLevel).className.replace('selected','');
+        $('#spell' + spellingLevel).removeClass('selected');
 
     spellingLevel = level;
 }
@@ -329,10 +323,10 @@ function setSpelling(level) {
  */
 
 function setSound(level) {
-    document.getElementById('sound' + level).className += " selected";
+    $('#sound' + level).addClass('selected');
 
     if(soundLevel !== -1 )
-        document.getElementById('sound' + soundLevel).className = document.getElementById('sound' + soundLevel).className.replace('selected','');
+        $('#sound' + soundLevel).removeClass('selected');
 
     soundLevel = level;
 }
@@ -362,10 +356,10 @@ function setLanguage(l, changedByUser) {
 
     //Hide forgiving spelling option if the language is not english, and set the spelling option to exact
     if (l !== 'en') {
-        document.getElementById('spell1').setAttribute('style', 'visibility: hidden');
+        $('#spell1').hide();
         setSpelling(0);
     } else {
-        document.getElementById('spell1').setAttribute('style', 'visibility: inherit');
+        $('#spell1').show();
     }
 
     if(changedByUser) {
@@ -379,7 +373,6 @@ function setLanguage(l, changedByUser) {
  */
 
 function revealPokemon(correctlyGuessed) {
-
     timeTaken = new Date().getTime() - startTime;
     clearTimeout(imageTimeoutId);
 
@@ -456,7 +449,7 @@ function revealPokemon(correctlyGuessed) {
         $('.averageTimeText').html(avgTime.toFixed(3));
     }
 
-    $("#giveAnswer").hide();
+    $els.dontKnowButton.hide();
     $("#nextCountdown").show();
 
     // Before we preload the new pokemon, we display this pokemon's other names
@@ -547,7 +540,7 @@ function newPokemon() {
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
      */
-    if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != newDifficulty) {
+    if(!pokemonPreloaded || !_.isEqual(currentGen, newGen) || preloadedDifficulty != pendingDifficulty) {
         currentPokemonNumber = getRandomPokemonNumber();
     }
 
@@ -565,11 +558,10 @@ function newPokemon() {
 
         $els.input.removeClass('correct disabled').val('');
 
-        document.getElementById('giveAnswer').setAttribute('style', 'display: block');
-        document.getElementById('nextCountdown').setAttribute('style', 'display: none');
-        document.getElementById('alsoKnownAs').setAttribute('style', 'display: none');
-
-        document.getElementById('infoBoxMain').setAttribute('style', 'display: none');
+        $els.dontKnowButton.show();
+        $('#nextCountdown').hide();
+        $('#alsoKnownAs').hide();
+        $('#infoBoxMain').hide();
 
         // Save the settings and refresh the settings boxes
         updateStateAndRefreshUI();
@@ -577,7 +569,8 @@ function newPokemon() {
 
         // Now load the next Pokemon
         if(currentPokemonImageUrl !== null) {
-            silhouette(currentPokemonImageUrl, 'shadowImage', true);
+            var shouldSilhouette = currentDifficulty != DIFFICULTY.EASY;
+            silhouette(currentPokemonImageUrl, 'shadowImage', shouldSilhouette);
             imageTimeoutId = setTimeout(checkPokemonLoaded, 10000);
         }
 
@@ -647,9 +640,7 @@ function showMain() {
  */
 
 function checkPokemonLoaded() {
-
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
-
         if(++consecutiveLoadFails < 3) {
             $('#nextCountdown').data("lang", "loadfail");
             $('#nextCountdown').innerHTML = lang[selectedLanguage].loadfail;
@@ -658,14 +649,10 @@ function checkPokemonLoaded() {
             $('#nextCountdown').innerHTML = lang[selectedLanguage].slowconn;
         }
 
-        document.getElementById('nextCountdown').setAttribute('style', 'display: block');
-
+        $('#nextCountdown').show();
     } else {
-
         consecutiveLoadFails = 0;
-
     }
-
  }
 
 
@@ -699,20 +686,19 @@ function updateStateAndRefreshUI() {
     }
 
 
-    if(newDifficulty != currentDifficulty) {
+    if(pendingDifficulty != currentDifficulty) {
         // The difficulty has been updated, so highlight the new one
         $(".diffSelect").removeClass("pending selected");
-        $("#diff" + newDifficulty).addClass("selected");
+        $("#diff" + pendingDifficulty).addClass("selected");
 
         // Show the info box explaining that the change means different streaks and times
         $("#infoBoxRight").show();
-        currentDifficulty = newDifficulty;
+        currentDifficulty = pendingDifficulty;
     } else {
         $("#infoBoxRight").hide();
     }
 
-    // We're into a sound-based difficulty
-    if(currentDifficulty > 2) {
+    if(currentDifficulty == DIFFICULTY.ELITE) {
         $els.audioPlayer.show();
         $els.canvas.hide();
         setSound(1);
@@ -1198,7 +1184,7 @@ function loadState() {
 
     c = readCookie('difficulty');
 
-    if( (c !== null) && (c >= 0) && (c <= 3) ) {
+    if( (c !== null) && (c >= 0) && (c <= 4) ) {
         setDifficulty(c);
     } else {
         setDifficulty(0);
