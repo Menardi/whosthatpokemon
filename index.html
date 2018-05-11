@@ -100,11 +100,11 @@
 				<header>
 					<a href="javascript:void(0)" class="show-menu show-settings mobile" data-menu="settings"><img src="images/icons/gear.svg" title="Settings" class="menu-icon" /></a>
 					<h1 class="translatable title" data-lang="title">Who's That Pok&eacute;mon?</h1>
-					<a href="javascript:void(0)" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/trophy.svg" title="Stats" class="menu-icon" /></a>
+					<a href="javascript:void(0)" class="show-menu show-stats mobile" data-menu="stats"><img src="images/icons/stats.svg" title="Stats" class="menu-icon" /></a>
 				</header>
 				<div id="mobileStats" class="mobile">
-					<span class="stat-ent"><img src="images/icons/streak.png"/><span class="currentCountText">1</span></span>
-					<span class="stat-ent"><img src="images/icons/time.png"/><span class="lastTimeText">1</span></span>
+					<span class="stat-ent"><img src="images/icons/trophy.svg"/><span class="currentCountText">1</span></span>
+					<span class="stat-ent"><img src="images/icons/time.svg"/><span class="lastTimeText">1</span></span>
 				</div>
 
 
@@ -153,21 +153,27 @@
 			<a href="javascript:void(0)" class="close-button mobile">x</a>
 			<h1 class="mobile translatable" data-lang="stats">Stats</h1>
 			<h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
-			<div id="count" class="sidebox">
-				<span class="translatable" data-lang="current">Current</span>
+			<div class="sidebox">
+				<h3 class="translatable" data-lang="current">Current</h3>
 				<h1 class="currentCountText">0</h1>
-				<span class="translatable" data-lang="best">Best</span>
+			</div>
+			<div class="sidebox">
+				<h3 class="translatable" data-lang="best">Best</h3>
 				<h1 class="bestCountText">0</h1>
 			</div>
 
 			<h2 id="timeHeader" class="sectionHead translatable" data-lang="time">Time</h2>
-			<div id="timer" class="sidebox">
-				<span class="translatable" data-lang="previous">Previous</span>
+			<div class="sidebox">
+				<h3 class="translatable" data-lang="previous">Previous</h3>
 				<h1 class="lastTimeText">-</h1>
-				<span class="translatable" data-lang="best">Best</span>
+			</div>
+			<div class="sidebox">
+				<h3 class="translatable" data-lang="best">Best</h3>
 				<span id="bestTimePokemon"></span>
 				<h1 class="bestTimeText">-</h1>
-				<span class="translatable" data-lang="average">Average</span>
+			</div>
+			<div class="sidebox">
+				<h3 class="translatable" data-lang="average">Average</h3>
 				<h1 class="averageTimeText">-</h1>
 			</div>
 

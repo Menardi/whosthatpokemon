@@ -26,14 +26,13 @@ a {
 
 h1, h2, h3 {
     color: #FFF;
-    text-shadow: 1px 1px #333;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
 }
 
 h2.sectionHead {
     margin: 10px 0 0 0;
     font-size: 20px;
     color: #FFF;
-    text-shadow: 1px 1px #34495e;
 }
 
 #container {
@@ -96,6 +95,17 @@ h2.sectionHead {
     position: relative;
 }
 
+.menu h3 {
+    margin: 10px 0 0 0;
+    padding-bottom: 5px;
+    text-shadow: none;
+    font-size: 100%;
+}
+
+.menu h3:first-of-type {
+    margin: 0;
+}
+
 #settings {
     float: left;
     color: #FFF;
@@ -124,7 +134,7 @@ h2.sectionHead {
 
 .userChoice a.pending {
     background-color: #67798c;
-    text-shadow: 1px 1px #333;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
     color: #FFFFFF;
 }
 
@@ -156,15 +166,12 @@ h2.sectionHead {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     padding: 5px;
-}
-
-#count h1:last-of-type {
-    margin: 0;
+    margin-bottom: 5px;
 }
 
 #infoBoxRight {
     margin-top: 20px;
-    text-shadow: 1px 1px #333;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
     background-color: #8e44ad;
 }
 
@@ -222,9 +229,11 @@ input {
     height: 50px;
     font-size: 175%;
     border: 0;
+    border-radius: 10px;
     text-align: center;
     text-transform: capitalize;
     font-family: 'Cantora One', sans-serif;
+    outline: none;
 }
 
 input.correct {
@@ -262,7 +271,7 @@ input.correct {
     padding: 5px;
     margin-top: 20px;
     border-radius: 10px;
-    text-shadow: 1px 1px #333;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
     background-color: #8e44ad;
 }
 
@@ -352,7 +361,6 @@ input.correct {
 
     input {
         margin: 0 0 5px 0;
-        background-color: rgba(255, 255, 255, 0.8);
         width: 100%;
     }
 
@@ -418,9 +426,12 @@ input.correct {
     }
 
     header .show-menu {
-        height: 48px;
-        width: 48px;
-        padding: 12px;
+        height: 36px;
+        width: 36px;
+        padding: 6px;
+        margin: 6px 0;
+        background-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
     }
 
     header .show-menu img {
@@ -429,24 +440,48 @@ input.correct {
         vertical-align: top;
     }
 
+    header .show-settings {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    header .show-stats {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        padding: 8px; /* the stats icon is quite big, so needs more padding */
+    }
+
     .title {
         margin: 0;
         font-size: 125%;
     }
 
     #mobileStats {
-        margin-bottom: 3%;
-        font-size: 150%;
-        color: #FFF;
-        text-shadow: 1px 1px #333;
-    }
-
-    #mobileStats img {
-        vertical-align: bottom;
+        position: absolute;
+        right: 0;
+        top: 48px;
+        display: flex;
+        flex-direction: column;
+        font-size: 100%;
+        color: #fff;
     }
 
     .stat-ent {
-        margin: 0 0.5em;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        border-bottom: 2px solid #fff;
+    }
+
+    .stat-ent img {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+    }
+
+    .stat-ent span {
+        flex: 1;
     }
 
     .open-menu-overlay {
@@ -456,7 +491,7 @@ input.correct {
         bottom: 0;
         left: 0;
         z-index: 100;
-        background-color: rgba(0,0,0,0.1);
+        background-color: rgba(0,0,0,0.5);
     }
 
     #infoBoxMain {
