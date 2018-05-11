@@ -3,7 +3,7 @@
 A browser-based game in which Pokémon silhouettes are shown to the user and they guess which Pokémon it is.
 
 ## Live Demo
-See http://gearoid.me/pokemon/ for a live demo.
+See https://gearoid.me/pokemon/ for a live demo.
 
 ## Features
 
@@ -13,9 +13,9 @@ See http://gearoid.me/pokemon/ for a live demo.
 
 ## Setup
 
-The Pokémon images and sounds you need are not included in this repository. You can download them from http://gearoid.me/pokemon/downloads/pokemedia.zip. Unzip this and put _images/_ and _sounds/_ in the same directory as _index.html_.
+The Pokémon images and sounds you need are not included in this repository. You can download them from https://gearoid.me/pokemon/downloads/pokemedia.zip. Unzip this and put `images/` and `sounds/` in the same directory as `index.html`.
 
-Once these are in place, open _index.html_ in your browser.
+Once these are in place, open `index.html` in your browser.
 
 ## Licence
 This code is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).

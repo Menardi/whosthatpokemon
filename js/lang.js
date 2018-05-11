@@ -37,7 +37,7 @@ lang = {
 		"streak-info":	"Your streaks and times are separate for each difficulty",
 		"settings-effect": "Your new settings will take effect for the next Pokémon",
 		"infobox":		'New: No more silhouettes with easy mode! Try it out and let me know if you have any problems.',
-		"footer":  		'Site made by Gearóid Moroney. Send feedback or contribute at <a href="https://github.com/menardi/whosthatpokemon" title="Who\'s That Pokémon on Github">GitHub</a>.<br />All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>..',
+		"footer":  		'Site made by Gearóid Moroney. Send feedback or contribute at <a href="https://github.com/menardi/whosthatpokemon" title="Who\'s That Pokémon on Github">GitHub</a>.<br />All images &copy; Nintendo. Gen 1-5 artwork, sprites and data from <a href="http://veekun.com/dex/downloads" title="Veekun Downloads Page">Veekun</a>. Others from <a href="http://bulbapedia.bulbagarden.net">Bulbapedia</a>. Sounds from <a href="https://www.sounds-resource.com/3ds/pokemonsunmoon/">The Sounds Resouce</a>.',
 		"language":		'Language',
 		"settings":		'Settings',
 		"stats":		'Stats',
