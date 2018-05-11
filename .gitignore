@@ -1,4 +1,3 @@
-node_modules/*
 images/*
 !images/flags/
 !images/icons/

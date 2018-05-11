@@ -89,10 +89,6 @@ var consecutiveLoadFails = 0;
 // Will be used to hold the ID of the image loading timeout so it can be disabled if necessary
 var imageTimeoutId;
 
-// Stat tracking
-var stats;
-var untrackedPokemon = 0;
-
 // Will be used as an array to store upcoming Pokemon
 var upcomingPokemon;
 var upcomingPokemonArrayPos;
@@ -919,9 +915,8 @@ function soundAlike(s1, s2, lang) {
 }
 
 /*
- * Tracks stats to be sent to the backend database
+ * Send correct / incorrect answers to GA and Mixpanel
  */
-var STATS_URL = 'https://gearoid.me/pokemon/stats';
 function trackCurrentPokemon(correct) {
     var guessData = {
         'Pokemon ID': currentPokemonNumber,
@@ -933,26 +928,6 @@ function trackCurrentPokemon(correct) {
 
     window.ga('send', 'event', 'Guess', correct ? 'Correct' : 'Incorrect', currentPokemonNumber, timeTaken);
     window.mixpanel.track("Guess", guessData);
-
-    if (untrackedPokemon === 0) {
-        // Initialise the stats object
-        stats = [];
-    }
-
-    stats[untrackedPokemon] = guessData;
-
-    untrackedPokemon++;
-
-    // Send stats to the server every 5 guesses
-    if (untrackedPokemon >= 5) {
-        var jsonStats = JSON.stringify(stats)
-        var req = new XMLHttpRequest();
-
-        req.open('POST', STATS_URL);
-        req.setRequestHeader('Content-type', 'application/json', true);
-        req.send(jsonStats);
-        untrackedPokemon = 0;
-    }
 }
 
 
