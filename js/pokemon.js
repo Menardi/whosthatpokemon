@@ -561,7 +561,7 @@ function newPokemon() {
         }
 
         $els.audioPlayer.attr('src', currentPokemonSoundUrl);
-        if(settings.difficulty > 2) {
+        if(settings.difficulty == DIFFICULTY.ELITE) {
             var audioPlayPromise = $els.audioPlayer.get(0).play();
 
             if(audioPlayPromise) {
