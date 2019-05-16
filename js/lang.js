@@ -1,4 +1,4 @@
-lang = {
+window.lang = {
 	"en": {
 		"title": 		"Who's That Pokemon?",
 		"dontknow": 	"I don't know!",

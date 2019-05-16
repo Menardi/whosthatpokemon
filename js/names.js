@@ -29,9 +29,9 @@ function removeAccents (s) {
         ret += pokemonAccentMap[s.charAt(i)] || s.charAt(i);
     }
     return ret;
-};
+}
 
-var pokemonNames = [{
+window.pokemonNames = [{
   names: {
     de: "bisasam",
     en: "bulbasaur",

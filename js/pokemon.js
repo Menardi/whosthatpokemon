@@ -71,7 +71,6 @@ var imageDirectory;
 
 // Set if a Pokemon image has been preloaded
 var pokemonPreloaded = false;
-var preloadedGen = [-1];
 var preloadedDifficulty = -1;
 
 // This will store the current image loaded
@@ -146,7 +145,7 @@ $(document).ready(function() {
         $els.openMenuOverlay.hide();
     });
 
-    $els.openMenuOverlay.on('click', function(ev) {
+    $els.openMenuOverlay.on('click', function() {
         $('.menu.shown').removeClass('shown');
         $els.openMenuOverlay.hide();
     });
@@ -170,8 +169,6 @@ $(document).ready(function() {
     }
 
     var previousWindowHeight = window.innerHeight;
-    var $canvasContainer = $('#canvasContainer');
-    var $canvas = $('canvas');
 
     $els.window.on('resize', function() {
         var newWindowHeight = window.innerHeight;
@@ -271,7 +268,7 @@ function setDifficulty(selectedDifficulty) {
         imageDirectory = 'images/sprites/front/';
     } else if (selectedDifficulty == DIFFICULTY.MASTER) {
         imageDirectory = 'images/sprites/back/';
-    } else if (selectedDifficulty == DIFFICULTY.ULTRA) {
+    } else if (selectedDifficulty == DIFFICULTY.ELITE) {
         imageDirectory = null;
     }
 
@@ -325,7 +322,7 @@ function setSound(isEnabled) {
 
 function setLanguage(l, changedByUser) {
     // Set the language variable
-    if (lang[l]) {
+    if (window.lang[l]) {
         settings.language = l;
     } else {
         return false;
@@ -333,7 +330,7 @@ function setLanguage(l, changedByUser) {
 
     // Change all the languages on the page
     $('.translatable').each(function() {
-        $(this).html(lang[settings.language][$(this).data('lang')]);
+        $(this).html(window.lang[settings.language][$(this).data('lang')]);
     });
 
     // Highlight the flag of the selected language
@@ -442,7 +439,7 @@ function revealPokemon(correctlyGuessed) {
 
     // Before we preload the new pokemon, we display this pokemon's other names
     $("#alsoKnownAs").show();
-    for (var l in lang) {
+    for (var l in window.lang) {
         var $el = $('#alsoKnownAs' + l);
         if (l !== settings.language) {
             $el.html(currentPokemonNames[l]);
@@ -471,7 +468,7 @@ function generateNewNumbers(force) {
     if(force || !_.isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
-        var i = 0;
+
         //we iterate through each newGen number and put it through _.range to get the
         //pokemon numbers which is then pushed to upcomingPokemon and finally shuffled
         newGen.forEach(function(genToInc) {
@@ -501,10 +498,9 @@ function preloadPokemon() {
     }
 
     if(currentPokemonImageUrl !== null) {
-        img = new Image();
+        var img = new Image();
         img.src = currentPokemonImageUrl;
         pokemonPreloaded = true;
-        preloadedGen = settings.generations;
         preloadedDifficulty = settings.difficulty;
         return true;
     } else {
@@ -592,7 +588,7 @@ function newPokemon() {
 
 function generationFinished() {
     var message = '<p>Well done, you got through the whole generation! Why not try a different setting?</p>';
-    messageDiv = document.getElementById('infoMessage');
+    var messageDiv = document.getElementById('infoMessage');
     messageDiv.innerHTML = message;
     messageDiv.setAttribute('style', 'display: inherit');
     hideMain();
@@ -629,10 +625,10 @@ function checkPokemonLoaded() {
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
         if(++consecutiveLoadFails < 3) {
             $('#nextCountdown').data("lang", "loadfail");
-            $('#nextCountdown').html(lang[settings.language].loadfail);
+            $('#nextCountdown').html(window.lang[settings.language].loadfail);
         } else {
             $('#nextCountdown').data("lang", "slowconn");
-            $('#nextCountdown').html(lang[settings.language].slowconn);
+            $('#nextCountdown').html(window.lang[settings.language].slowconn);
         }
 
         $('#nextCountdown').show();
@@ -799,7 +795,7 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-        var countdownMessage = lang[settings.language].nextpokemon;
+        var countdownMessage = window.lang[settings.language].nextpokemon;
         countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
         $('#nextCountdown').html(countdownMessage);
         nextTimer--;
@@ -847,7 +843,7 @@ function getRandomPokemonNumber() {
  */
 
 function getPokemonNames(number) {
-    return pokemonNames[number-1].names;
+    return window.pokemonNames[number-1].names;
 }
 
 function getLocalPokemonName(number) {
