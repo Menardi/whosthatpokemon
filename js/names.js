@@ -5827,7 +5827,7 @@ window.pokemonNames = [{
   names: {
     de: "flamiau",
     en: "litten",
-    fr: "flamiaou‎‎",
+    fr: "flamiaou",
     ja: "ニャビー"
   },
   number: 725
