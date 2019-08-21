@@ -3219,7 +3219,7 @@ window.pokemonNames = [{
   names: {
     de: "bidiza",
     en: "bidoof",
-    fr: "keunottor",
+    fr: "keunotor",
     ja: "ビッパ"
   },
   number: 399
