@@ -18,7 +18,11 @@ var pokemonAccentMap = {
   'é':'e',
   'È':'e',
   'è':'e',
-}
+  'ô':'o',
+  'Ô':'O',
+  'ç':'c',
+  'Ç':'C'
+};
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js
 
