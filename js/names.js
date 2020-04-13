@@ -6453,705 +6453,705 @@ window.pokemonNames = [{
   number: 802
 },{
   names: {
-    de: "Venicro",
-    en: "Poipole",
-    fr: "Vémini",
+    de: "venicro",
+    en: "poipole",
+    fr: "vémini",
     ja: "ベベノム"
   },
   number: 803,
 },{
   names: {
-    de: "Agoyon",
-    en: "Naganadel",
-    fr: "Mandrillon",
+    de: "agoyon",
+    en: "naganadel",
+    fr: "mandrillon",
     ja: "アーゴヨン"
   },
   number: 804,
 },{
   names: {
-    de: "Muramura",
-    en: "Stakataka",
-    fr: "Ama-Ama",
+    de: "muramura",
+    en: "stakataka",
+    fr: "ama-ama",
     ja: "ツンデツンデ"
   },
   number: 805,
 },{
   names: {
-    de: "Kopplosio",
-    en: "Blacephalon",
-    fr: "Pierroteknik",
+    de: "kopplosio",
+    en: "blacephalon",
+    fr: "pierroteknik",
     ja: "ズガドーン"
   },
   number: 806,
 },{
   names: {
-    de: "Zeraora",
-    en: "Zeraora",
-    fr: "Zeraora",
+    de: "zeraora",
+    en: "zeraora",
+    fr: "zeraora",
     ja: "ゼラオラ"
   },
   number: 807,
 },{
   names: {
-    de: "Meltan",
-    en: "Meltan",
-    fr: "Meltan",
+    de: "meltan",
+    en: "meltan",
+    fr: "meltan",
     ja: "メルタン"
   },
   number: 808,
 },{
   names: {
-    de: "Melmetal",
-    en: "Melmetal",
-    fr: "Melmetal",
+    de: "melmetal",
+    en: "melmetal",
+    fr: "melmetal",
     ja: "メルメタル"
   },
   number: 809,
 },{
   names: {
-    de: "Chimpep",
-    en: "Grookey",
-    fr: "Ouistempo",
+    de: "chimpep",
+    en: "grookey",
+    fr: "ouistempo",
     ja: "サルノリ"
   },
   number: 810,
 },{
   names: {
-    de: "Chimstix",
-    en: "Thwackey",
-    fr: "Badabouin",
+    de: "chimstix",
+    en: "thwackey",
+    fr: "badabouin",
     ja: "バチンキー"
   },
   number: 811,
 },{
   names: {
-    de: "Gortrom",
-    en: "Rillaboom",
-    fr: "Gorythmic",
+    de: "gortrom",
+    en: "rillaboom",
+    fr: "gorythmic",
     ja: "ゴリランダー"
   },
   number: 812,
 },{
   names: {
-    de: "Hopplo",
-    en: "Scorbunny",
-    fr: "Flambino",
+    de: "hopplo",
+    en: "scorbunny",
+    fr: "flambino",
     ja: "ヒバニー"
   },
   number: 813,
 },{
   names: {
-    de: "Kickerlo",
-    en: "Raboot",
-    fr: "Lapyro",
+    de: "kickerlo",
+    en: "raboot",
+    fr: "lapyro",
     ja: "ラビフット"
   },
   number: 814,
 },{
   names: {
-    de: "Liberlo",
-    en: "Cinderace",
-    fr: "Pyrobut",
+    de: "liberlo",
+    en: "cinderace",
+    fr: "pyrobut",
     ja: "エースバーン"
   },
   number: 815,
 },{
   names: {
-    de: "Memmeon",
-    en: "Sobble",
-    fr: "Larméléon",
+    de: "memmeon",
+    en: "sobble",
+    fr: "larméléon",
     ja: "メッソン"
   },
   number: 816,
 },{
   names: {
-    de: "Phlegleon",
-    en: "Drizzile",
-    fr: "Arrozard",
+    de: "phlegleon",
+    en: "drizzile",
+    fr: "arrozard",
     ja: "ジメレオン"
   },
   number: 817,
 },{
   names: {
-    de: "Intelleon",
-    en: "Inteleon",
-    fr: "Lézargus",
+    de: "intelleon",
+    en: "inteleon",
+    fr: "lézargus",
     ja: "インテレオン"
   },
   number: 818,
 },{
   names: {
-    de: "Raffel",
-    en: "Skwovet",
-    fr: "Rongourmand",
+    de: "raffel",
+    en: "skwovet",
+    fr: "rongourmand",
     ja: "ホシガリス"
   },
   number: 819,
 },{
   names: {
-    de: "Schlaraffel",
-    en: "Greedent",
-    fr: "Rongrigou",
+    de: "schlaraffel",
+    en: "greedent",
+    fr: "rongrigou",
     ja: "ヨクバリス"
   },
   number: 820,
 },{
   names: {
-    de: "Meikro",
-    en: "Rookidee",
-    fr: "Minisange",
+    de: "meikro",
+    en: "rookidee",
+    fr: "minisange",
     ja: "ココガラ"
   },
   number: 821,
 },{
   names: {
-    de: "Kranoviz",
-    en: "Corvisquire",
-    fr: "Bleuseille",
+    de: "kranoviz",
+    en: "corvisquire",
+    fr: "bleuseille",
     ja: "アオガラス"
   },
   number: 822,
 },{
   names: {
-    de: "Krarmor",
-    en: "Corviknight",
-    fr: "Corvaillus",
+    de: "krarmor",
+    en: "corviknight",
+    fr: "corvaillus",
     ja: "アーマーガア"
   },
   number: 823,
 },{
   names: {
-    de: "Sensect",
-    en: "Blipbug",
-    fr: "Larvadar",
+    de: "sensect",
+    en: "blipbug",
+    fr: "larvadar",
     ja: "サッチムシ"
   },
   number: 824,
 },{
   names: {
-    de: "Keradar",
-    en: "Dottler",
-    fr: "Coléodôme",
+    de: "keradar",
+    en: "dottler",
+    fr: "coléodôme",
     ja: "レドームシ"
   },
   number: 825,
 },{
   names: {
-    de: "Maritellit",
-    en: "Orbeetle",
-    fr: "Astronelle",
+    de: "maritellit",
+    en: "orbeetle",
+    fr: "astronelle",
     ja: "イオルブ"
   },
   number: 826,
 },{
   names: {
-    de: "Kleptifux",
-    en: "Nickit",
-    fr: "Goupilou",
+    de: "kleptifux",
+    en: "nickit",
+    fr: "goupilou",
     ja: "クスネ"
   },
   number: 827,
 },{
   names: {
-    de: "Gaunux",
-    en: "Thievul",
-    fr: "Roublenard",
+    de: "gaunux",
+    en: "thievul",
+    fr: "roublenard",
     ja: "フォクスライ"
   },
   number: 828,
 },{
   names: {
-    de: "Cottini",
-    en: "Gossifleur",
-    fr: "Tournicoton",
+    de: "cottini",
+    en: "gossifleur",
+    fr: "tournicoton",
     ja: "ヒメンカ"
   },
   number: 829,
 },{
   names: {
-    de: "Cottomi",
-    en: "Eldegoss",
-    fr: "Blancoton",
+    de: "cottomi",
+    en: "eldegoss",
+    fr: "blancoton",
     ja: "ワタシラガ"
   },
   number: 830,
 },{
   names: {
-    de: "Wolly",
-    en: "Wooloo",
-    fr: "Moumouton",
+    de: "wolly",
+    en: "wooloo",
+    fr: "moumouton",
     ja: "ウールー"
   },
   number: 831,
 },{
   names: {
-    de: "Zwollock",
-    en: "Dubwool",
-    fr: "Moumouflon",
+    de: "zwollock",
+    en: "dubwool",
+    fr: "moumouflon",
     ja: "バイウールー"
   },
   number: 832,
 },{
   names: {
-    de: "Kamehaps",
-    en: "Chewtle",
-    fr: "Khélocrok",
+    de: "kamehaps",
+    en: "chewtle",
+    fr: "khélocrok",
     ja: "カムカメ"
   },
   number: 833,
 },{
   names: {
-    de: "Kamalm",
-    en: "Drednaw",
-    fr: "Torgamord",
+    de: "kamalm",
+    en: "drednaw",
+    fr: "torgamord",
     ja: "カジリガメ"
   },
   number: 834,
 },{
   names: {
-    de: "Voldi",
-    en: "Yamper",
-    fr: "Voltoutou",
+    de: "voldi",
+    en: "yamper",
+    fr: "voltoutou",
     ja: "ワンパチ"
   },
   number: 835,
 },{
   names: {
-    de: "Bellektro",
-    en: "Boltund",
-    fr: "Fulgudog",
+    de: "bellektro",
+    en: "boltund",
+    fr: "fulgudog",
     ja: "パルスワン"
   },
   number: 836,
 },{
   names: {
-    de: "Klonkett",
-    en: "Rolycoly",
-    fr: "Charbi",
+    de: "klonkett",
+    en: "rolycoly",
+    fr: "charbi",
     ja: "タンドン"
   },
   number: 837,
 },{
   names: {
-    de: "Wagong",
-    en: "Carkol",
-    fr: "Wagomine",
+    de: "wagong",
+    en: "carkol",
+    fr: "wagomine",
     ja: "トロッゴン"
   },
   number: 838,
 },{
   names: {
-    de: "Montecarbo",
-    en: "Coalossal",
-    fr: "Monthracite",
+    de: "montecarbo",
+    en: "coalossal",
+    fr: "monthracite",
     ja: "セキタンザン"
   },
   number: 839,
 },{
   names: {
-    de: "Knapfel",
-    en: "Applin",
-    fr: "Verpom",
+    de: "knapfel",
+    en: "applin",
+    fr: "verpom",
     ja: "カジッチュ"
   },
   number: 840,
 },{
   names: {
-    de: "Drapfel",
-    en: "Flapple",
-    fr: "Pomdrapi",
+    de: "drapfel",
+    en: "flapple",
+    fr: "pomdrapi",
     ja: "アップリュー"
   },
   number: 841,
 },{
   names: {
-    de: "Schlapfel",
-    en: "Appletun",
-    fr: "Dratatin",
+    de: "schlapfel",
+    en: "appletun",
+    fr: "dratatin",
     ja: "タルップル"
   },
   number: 842,
 },{
   names: {
-    de: "Salanga",
-    en: "Silicobra",
-    fr: "Dunaja",
+    de: "salanga",
+    en: "silicobra",
+    fr: "dunaja",
     ja: "スナヘビ"
   },
   number: 843,
 },{
   names: {
-    de: "Sanaconda",
-    en: "Sandaconda",
-    fr: "Dunaconda",
+    de: "sanaconda",
+    en: "sandaconda",
+    fr: "dunaconda",
     ja: "サダイジャ"
   },
   number: 844,
 },{
   names: {
-    de: "Urgl",
-    en: "Cramorant",
-    fr: "Nigosier",
+    de: "urgl",
+    en: "cramorant",
+    fr: "nigosier",
     ja: "ウッウ"
   },
   number: 845,
 },{
   names: {
-    de: "Pikuda",
-    en: "Arrokuda",
-    fr: "Embrochet",
+    de: "pikuda",
+    en: "arrokuda",
+    fr: "embrochet",
     ja: "サシカマス"
   },
   number: 846,
 },{
   names: {
-    de: "Barrakiefa",
-    en: "Barraskewda",
-    fr: "Hastacuda",
+    de: "barrakiefa",
+    en: "barraskewda",
+    fr: "hastacuda",
     ja: "カマスジョー"
   },
   number: 847,
 },{
   names: {
-    de: "Toxel",
-    en: "Toxel",
-    fr: "Toxizap",
+    de: "toxel",
+    en: "toxel",
+    fr: "toxizap",
     ja: "エレズン"
   },
   number: 848,
 },{
   names: {
-    de: "Riffex",
-    en: "Toxtricity",
-    fr: "Salarsen",
+    de: "riffex",
+    en: "toxtricity",
+    fr: "salarsen",
     ja: "ストリンダー"
   },
   number: 849,
 },{
   names: {
-    de: "Thermopod",
-    en: "Sizzlipede",
-    fr: "Grillepattes",
+    de: "thermopod",
+    en: "sizzlipede",
+    fr: "grillepattes",
     ja: "ヤクデ"
   },
   number: 850,
 },{
   names: {
-    de: "Infernopod",
-    en: "Centiskorch",
-    fr: "Scolocendre",
+    de: "infernopod",
+    en: "centiskorch",
+    fr: "scolocendre",
     ja: "マルヤクデ"
   },
   number: 851,
 },{
   names: {
-    de: "Klopptopus",
-    en: "Clobbopus",
-    fr: "Poulpaf",
+    de: "klopptopus",
+    en: "clobbopus",
+    fr: "poulpaf",
     ja: "タタッコ"
   },
   number: 852,
 },{
   names: {
-    de: "Kaocto",
-    en: "Grapploct",
-    fr: "Krakos",
+    de: "kaocto",
+    en: "grapploct",
+    fr: "krakos",
     ja: "オトスパス"
   },
   number: 853,
 },{
   names: {
-    de: "Fatalitee",
-    en: "Sinistea",
-    fr: "Théffroi",
+    de: "fatalitee",
+    en: "sinistea",
+    fr: "théffroi",
     ja: "ヤバチャ"
   },
   number: 854,
 },{
   names: {
-    de: "Mortipot",
-    en: "Polteageist",
-    fr: "Polthégeist",
+    de: "mortipot",
+    en: "polteageist",
+    fr: "polthégeist",
     ja: "ポットデス"
   },
   number: 855,
 },{
   names: {
-    de: "Brimova",
-    en: "Hatenna",
-    fr: "Bibichut",
+    de: "brimova",
+    en: "hatenna",
+    fr: "bibichut",
     ja: "ミブリム"
   },
   number: 856,
 },{
   names: {
-    de: "Brimano",
-    en: "Hattrem",
-    fr: "Chapotus",
+    de: "brimano",
+    en: "hattrem",
+    fr: "chapotus",
     ja: "テブリム"
   },
   number: 857,
 },{
   names: {
-    de: "Silembrim",
-    en: "Hatterene",
-    fr: "Sorcilence",
+    de: "silembrim",
+    en: "hatterene",
+    fr: "sorcilence",
     ja: "ブリムオン"
   },
   number: 858,
 },{
   names: {
-    de: "Bähmon",
-    en: "Impidimp",
-    fr: "Grimalin",
+    de: "bähmon",
+    en: "impidimp",
+    fr: "grimalin",
     ja: "ベロバー"
   },
   number: 859,
 },{
   names: {
-    de: "Pelzebub",
-    en: "Morgrem",
-    fr: "Fourbelin",
+    de: "pelzebub",
+    en: "morgrem",
+    fr: "fourbelin",
     ja: "ギモー"
   },
   number: 860,
 },{
   names: {
-    de: "Olangaar",
-    en: "Grimmsnarl",
-    fr: "Angoliath",
+    de: "olangaar",
+    en: "grimmsnarl",
+    fr: "angoliath",
     ja: "オーロンゲ"
   },
   number: 861,
 },{
   names: {
-    de: "Barrikadax",
-    en: "Obstagoon",
-    fr: "Ixon",
+    de: "barrikadax",
+    en: "obstagoon",
+    fr: "ixon",
     ja: "タチフサグマ"
   },
   number: 862,
 },{
   names: {
-    de: "Mauzinger",
-    en: "Perrserker",
-    fr: "Berserkatt",
+    de: "mauzinger",
+    en: "perrserker",
+    fr: "berserkatt",
     ja: "ニャイキング"
   },
   number: 863,
 },{
   names: {
-    de: "Gorgasonn",
-    en: "Cursola",
-    fr: "Corayôme",
+    de: "gorgasonn",
+    en: "cursola",
+    fr: "corayôme",
     ja: "サニゴーン"
   },
   number: 864,
 },{
   names: {
-    de: "Lauchzelot",
-    en: "Sirfetch'd",
-    fr: "Palarticho",
+    de: "lauchzelot",
+    en: "sirfetch'd",
+    fr: "palarticho",
     ja: "ネギガナイト"
   },
   number: 865,
 },{
   names: {
-    de: "Pantifrost",
-    en: "Mr. Rime",
-    fr: "M. Glaquette",
+    de: "pantifrost",
+    en: "mr. rime",
+    fr: "m. glaquette",
     ja: "バリコオル"
   },
   number: 866,
 },{
   names: {
-    de: "Oghnatoll",
-    en: "Runerigus",
-    fr: "Tutétékri",
+    de: "oghnatoll",
+    en: "runerigus",
+    fr: "tutétékri",
     ja: "デスバーン"
   },
   number: 867,
 },{
   names: {
-    de: "Hokumil",
-    en: "Milcery",
-    fr: "Crèmy",
+    de: "hokumil",
+    en: "milcery",
+    fr: "crèmy",
     ja: "マホミル"
   },
   number: 868,
 },{
   names: {
-    de: "Pokusan",
-    en: "Alcremie",
-    fr: "Charmilly",
+    de: "pokusan",
+    en: "alcremie",
+    fr: "charmilly",
     ja: "マホイップ"
   },
   number: 869,
 },{
   names: {
-    de: "Legios",
-    en: "Falinks",
-    fr: "Hexadron",
+    de: "legios",
+    en: "falinks",
+    fr: "hexadron",
     ja: "タイレーツ"
   },
   number: 870,
 },{
   names: {
-    de: "Britzigel",
-    en: "Pincurchin",
-    fr: "Wattapik",
+    de: "britzigel",
+    en: "pincurchin",
+    fr: "wattapik",
     ja: "バチンウニ"
   },
   number: 871,
 },{
   names: {
-    de: "Snomnom",
-    en: "Snom",
-    fr: "Frissonille",
+    de: "snomnom",
+    en: "snom",
+    fr: "frissonille",
     ja: "ユキハミ"
   },
   number: 872,
 },{
   names: {
-    de: "Mottineva",
-    en: "Frosmoth",
-    fr: "Beldeneige",
+    de: "mottineva",
+    en: "frosmoth",
+    fr: "beldeneige",
     ja: "モスノウ"
   },
   number: 873,
 },{
   names: {
-    de: "Humanolith",
-    en: "Stonjourner",
-    fr: "Dolman",
+    de: "humanolith",
+    en: "stonjourner",
+    fr: "dolman",
     ja: "イシヘンジン"
   },
   number: 874,
 },{
   names: {
-    de: "Kubuin",
-    en: "Eiscue",
-    fr: "Bekaglaçon",
+    de: "kubuin",
+    en: "eiscue",
+    fr: "bekaglaçon",
     ja: "コオリッポ"
   },
   number: 875,
 },{
   names: {
-    de: "Servol",
-    en: "Indeedee",
-    fr: "Wimessir",
+    de: "servol",
+    en: "indeedee",
+    fr: "wimessir",
     ja: "イエッサン"
   },
   number: 876,
 },{
   names: {
-    de: "Morpeko",
-    en: "Morpeko",
-    fr: "Morpeko",
+    de: "morpeko",
+    en: "morpeko",
+    fr: "morpeko",
     ja: "モルペコ"
   },
   number: 877,
 },{
   names: {
-    de: "Kupfanti",
-    en: "Cufant",
-    fr: "Charibari",
+    de: "kupfanti",
+    en: "cufant",
+    fr: "charibari",
     ja: "ゾウドウ"
   },
   number: 878,
 },{
   names: {
-    de: "Patinaraja",
-    en: "Copperajah",
-    fr: "Pachyradjah",
+    de: "patinaraja",
+    en: "copperajah",
+    fr: "pachyradjah",
     ja: "ダイオウドウ"
   },
   number: 879,
 },{
   names: {
-    de: "Lectragon",
-    en: "Dracozolt",
-    fr: "Galvagon",
+    de: "lectragon",
+    en: "dracozolt",
+    fr: "galvagon",
     ja: "パッチラゴン"
   },
   number: 880,
 },{
   names: {
-    de: "Lecryodon",
-    en: "Arctozolt",
-    fr: "Galvagla",
+    de: "lecryodon",
+    en: "arctozolt",
+    fr: "galvagla",
     ja: "パッチルドン"
   },
   number: 881,
 },{
   names: {
-    de: "Pescragon",
-    en: "Dracovish",
-    fr: "Hydragon",
+    de: "pescragon",
+    en: "dracovish",
+    fr: "hydragon",
     ja: "ウオノラゴン"
   },
   number: 882,
 },{
   names: {
-    de: "Pescryodon",
-    en: "Arctovish",
-    fr: "Hydragla",
+    de: "pescryodon",
+    en: "arctovish",
+    fr: "hydragla",
     ja: "ウオチルドン"
   },
   number: 883,
 },{
   names: {
-    de: "Duraludon",
-    en: "Duraludon",
-    fr: "Duralugon",
+    de: "duraludon",
+    en: "duraludon",
+    fr: "duralugon",
     ja: "ジュラルドン"
   },
   number: 884,
 },{
   names: {
-    de: "Grolldra",
-    en: "Dreepy",
-    fr: "Fantyrm",
+    de: "grolldra",
+    en: "dreepy",
+    fr: "fantyrm",
     ja: "ドラメシヤ"
   },
   number: 885,
 },{
   names: {
-    de: "Phandra",
-    en: "Drakloak",
-    fr: "Dispareptil",
+    de: "phandra",
+    en: "drakloak",
+    fr: "dispareptil",
     ja: "ドロンチ"
   },
   number: 886,
 },{
   names: {
-    de: "Katapuldra",
-    en: "Dragapult",
-    fr: "Lanssorien",
+    de: "katapuldra",
+    en: "dragapult",
+    fr: "lanssorien",
     ja: "ドラパルト"
   },
   number: 887,
 },{
   names: {
-    de: "Zacian",
-    en: "Zacian",
-    fr: "Zacian",
+    de: "zacian",
+    en: "zacian",
+    fr: "zacian",
     ja: "ザシアン"
   },
   number: 888,
 },{
   names: {
-    de: "Zamazenta",
-    en: "Zamazenta",
-    fr: "Zamazenta",
+    de: "zamazenta",
+    en: "zamazenta",
+    fr: "zamazenta",
     ja: "ザマゼンタ"
   },
   number: 889,
 },{
   names: {
-    de: "Endynalos",
-    en: "Eternatus",
-    fr: "Éthernatos",
+    de: "endynalos",
+    en: "eternatus",
+    fr: "éthernatos",
     ja: "ムゲンダイナ"
   },
   number: 890,
