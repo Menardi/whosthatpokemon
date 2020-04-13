@@ -116,7 +116,7 @@ var settings = {};
 var records;
 var DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL,
-    generations: [1, 2, 3, 4, 5, 6, 7],
+    generations: [1, 2, 3, 4, 5, 6, 7, 8],
     sound: false,
     forgivingSpelling: false,
     language: 'en'
