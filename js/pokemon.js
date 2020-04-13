@@ -12,37 +12,63 @@ var currentPokemonImageUrl;
 // For Pokemon cries
 var currentPokemonSoundUrl;
 
+// Used for difficulty setting
+var DIFFICULTY = {
+    UNSET: -1,
+    NORMAL: 0,
+    ULTRA: 1,
+    MASTER: 2,
+    ELITE: 3,
+    EASY: 4
+};
+var pendingDifficulty = DIFFICULTY.UNSET;
+var imageDirectory;
+
 // For generation selection
 var newGen = [];
 var allGenerations = {
     1: {
         start: 1,
-        end: 151
+        end: 151,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     2: {
         start: 152,
-        end: 251
+        end: 251,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     3: {
         start: 252,
-        end: 386
+        end: 386,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     4: {
         start: 387,
-        end: 493
+        end: 493,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     5: {
         start: 494,
-        end: 649
+        end: 649,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     6: {
         start: 650,
-        end: 721
+        end: 721,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
     7: {
         start: 722,
-        end: 802
-    }
+        end: 807,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+    },
+    8: {
+        // Technically gen 8 starts at 810, but 808 and 809 don't have sprites, and so are closer to being gen 8
+        // than gen 7 (they were introduced in Let's Go)
+        start: 808,
+        end: 890,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+    },
 };
 
 
@@ -56,18 +82,6 @@ var intervalId;
 // For timing how long an answer takes
 var startTime;
 var timeTaken = '-';
-
-// Used for difficulty setting
-var DIFFICULTY = {
-    UNSET: -1,
-    NORMAL: 0,
-    ULTRA: 1,
-    MASTER: 2,
-    ELITE: 3,
-    EASY: 4
-};
-var pendingDifficulty = DIFFICULTY.UNSET;
-var imageDirectory;
 
 // Set if a Pokemon image has been preloaded
 var pokemonPreloaded = false;
@@ -94,11 +108,11 @@ var IPHONE_KEYBOARD_HEIGHT = 216;
 
 var isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
-var LATEST_INFOBOX = 20180301;
+var LATEST_INFOBOX = 20200413;
 var INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
 
 
-var settings;
+var settings = {};
 var records;
 var DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL,
@@ -469,9 +483,8 @@ function generateNewNumbers(force) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
 
-        //we iterate through each newGen number and put it through _.range to get the
-        //pokemon numbers which is then pushed to upcomingPokemon and finally shuffled
-        newGen.forEach(function(genToInc) {
+        newGen.filter(function(gen) { return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
+            .forEach(function(genToInc) {
             (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
                 upcomingPokemon.push(pokemonNumber);
             });
@@ -529,6 +542,16 @@ function newPokemon() {
     nextTimer = 3;
     clearInterval(intervalId);
 
+    $els.input.removeClass('correct disabled').val('');
+
+    $('#nextCountdown').hide();
+    $('#alsoKnownAs').hide();
+    $('#infoBoxMain').hide();
+
+    // Save the settings and refresh the settings boxes
+    updateStateAndRefreshUI();
+    saveState();
+
     if(currentPokemonNumber < 0) {
         generationFinished();
     } else {
@@ -538,16 +561,7 @@ function newPokemon() {
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
         currentPokemonSoundUrl = getPokemonSoundUrl(currentPokemonNumber);
 
-        $els.input.removeClass('correct disabled').val('');
-
         $els.dontKnowButton.show();
-        $('#nextCountdown').hide();
-        $('#alsoKnownAs').hide();
-        $('#infoBoxMain').hide();
-
-        // Save the settings and refresh the settings boxes
-        updateStateAndRefreshUI();
-        saveState();
 
         // Now load the next Pokemon
         if(currentPokemonImageUrl !== null) {
@@ -587,7 +601,7 @@ function newPokemon() {
  */
 
 function generationFinished() {
-    var message = '<p>Well done, you got through the whole generation! Why not try a different setting?</p>';
+    var message = '<p>There are no Pokémon left! Why not try different generation settings?</p>';
     var messageDiv = document.getElementById('infoMessage');
     messageDiv.innerHTML = message;
     messageDiv.setAttribute('style', 'display: inherit');
@@ -600,6 +614,7 @@ function generationFinished() {
 function hideMain() {
     $els.playArea.hide();
     $els.infoMessage.show();
+    $('#infoBoxMain').hide();
 }
 
 /*
@@ -827,7 +842,7 @@ function giveAnswer() {
 
 function getRandomPokemonNumber() {
     var number;
-    if(upcomingPokemonArrayPos > upcomingPokemon.length) {
+    if(upcomingPokemonArrayPos > upcomingPokemon.length || upcomingPokemon.length === 0) {
         number = -1;
     } else {
         number = upcomingPokemon[upcomingPokemonArrayPos++];
@@ -843,7 +858,8 @@ function getRandomPokemonNumber() {
  */
 
 function getPokemonNames(number) {
-    return window.pokemonNames[number-1].names;
+    var pokemon = window.pokemonNames.find(function(pokemon) { return pokemon.number === number });
+    return pokemon ? pokemon.names : {};
 }
 
 function getLocalPokemonName(number) {
