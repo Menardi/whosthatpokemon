@@ -7155,4 +7155,68 @@ window.pokemonNames = [{
     ja: "ムゲンダイナ"
   },
   number: 890,
+},{
+  names: {
+    de: "dakuma",
+    en: "kubfu",
+    fr: "wushours",
+    ja: "ダクマ"
+  },
+  number: 891,
+},{
+  names: {
+    de: "wulaosu",
+    en: "urshifu",
+    fr: "shifours",
+    ja: "ウーラオス"
+  },
+  number: 892,
+},{
+  names: {
+    de: "zarude",
+    en: "zarude",
+    fr: "zarude",
+    ja: "ザルード"
+  },
+  number: 893,
+},{
+  names: {
+    de: "regieleki",
+    en: "regieleki",
+    fr: "regieleki",
+    ja: "レジエレキ"
+  },
+  number: 894,
+},{
+  names: {
+    de: "regidrago",
+    en: "regidrago",
+    fr: "regidrago",
+    ja: "レジドラゴ"
+  },
+  number: 895,
+},{
+  names: {
+    de: "polaross",
+    en: "glastrier",
+    fr: "blizzeval",
+    ja: "ブリザポス"
+  },
+  number: 896,
+},{
+  names: {
+    de: "phantoross",
+    en: "spectrier",
+    fr: "spectreval",
+    ja: "レイスポス"
+  },
+  number: 897,
+},{
+  names: {
+    de: "coronospa",
+    en: "calyrex",
+    fr: "sylveroy",
+    ja: "バドレックス"
+  },
+  number: 898,
 }];
