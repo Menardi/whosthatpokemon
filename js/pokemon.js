@@ -516,6 +516,11 @@ function preloadPokemon() {
         pokemonPreloaded = true;
         preloadedDifficulty = settings.difficulty;
         return true;
+    } else if (settings.difficulty === DIFFICULTY.ELITE) {
+        // There is no image to preload, so assume success
+        pokemonPreloaded = true;
+        preloadedDifficulty = settings.difficulty;
+        return true;
     } else {
         return false;
     }
