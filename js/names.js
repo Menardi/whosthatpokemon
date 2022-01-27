@@ -7219,4 +7219,60 @@ window.pokemonNames = [{
     ja: "バドレックス"
   },
   number: 898,
+},{
+  names: {
+    de: "damythir",
+    en: "wyrdeer",
+    fr: "cerbyllin",
+    ja: "アヤシシ"
+  },
+  number: 899,
+},{
+  names: {
+    de: "axantor",
+    en: "kleavor",
+    fr: "hachécateur",
+    ja: "バサギリ"
+  },
+  number: 900,
+},{
+  names: {
+    de: "ursaluna",
+    en: "ursaluna",
+    fr: "ursaking",
+    ja: "ガチグマ"
+  },
+  number: 901,
+},{
+  names: {
+    de: "salmagnis",
+    en: "basculegion",
+    fr: "paragruel",
+    ja: "イダイトウ"
+  },
+  number: 902,
+},{
+  names: {
+    de: "snieboss",
+    en: "sneasler",
+    fr: "farfurex",
+    ja: "オオニューラ"
+  },
+  number: 903,
+},{
+  names: {
+    de: "myriador",
+    en: "overqwil",
+    fr: "qwilpik",
+    ja: "ハリーマン"
+  },
+  number: 904,
+},{
+  names: {
+    de: "cupidos",
+    en: "enamorus",
+    fr: "amovénus",
+    ja: "ラブトロス"
+  },
+  number: 905,
 }];

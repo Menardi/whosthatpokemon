@@ -66,7 +66,7 @@ var allGenerations = {
         // Technically gen 8 starts at 810, but 808 and 809 don't have sprites, and so are closer to being gen 8
         // than gen 7 (they were introduced in Let's Go)
         start: 808,
-        end: 898,
+        end: 905,
         supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
 };
