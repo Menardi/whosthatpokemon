@@ -1003,8 +1003,6 @@ function loadState() {
 
     if(lsSettings) {
         settings = JSON.parse(lsSettings);
-    } else if(readCookie('generation')) { // assume that if this cookie exists, they all do
-        settings = _getSettingsObjectFromCookie();
     } else {
         settings = extend({}, DEFAULT_SETTINGS);
     }
@@ -1021,8 +1019,6 @@ function loadState() {
 
     if(lsRecords) {
         records = JSON.parse(lsRecords)
-    } else if(document.cookie.indexOf('totalTimeTaken') > -1) { // a quick way to check if there are cookies from an old version
-        records = _getRecordsObjectFromCookie();
     } else {
         records = _getDefaultRecordsObj();
     }
@@ -1048,52 +1044,6 @@ function _getDefaultRecordsObj() {
         }
     };
 }
-
-
-/*
- * Convert all the old cookie-based data to the new object format
- */
-function _getSettingsObjectFromCookie() {
-    return {
-        generations: JSON.parse(readCookie('generation')) || DEFAULT_SETTINGS.generations,
-        difficulty: parseInt(readCookie('difficulty'), 10) || DEFAULT_SETTINGS.difficulty,
-        forgivingSpelling: readCookie('spelling') == '1' || DEFAULT_SETTINGS.forgivingSpelling,
-        sound: readCookie('sound') == '1' || DEFAULT_SETTINGS.sound,
-        language: readCookie('language') || DEFAULT_SETTINGS.language
-    };
-}
-
-function _getRecordsObjectFromCookie() {
-    let cookieRecords = _getDefaultRecordsObj();
-
-    // The old cookie format supported four difficulties
-    for(let i=0; i<4; i++) {
-        cookieRecords.streaks[i] = parseInt(readCookie('bestCount' + i)) || 0;
-        cookieRecords.bests.time[i] = parseInt(readCookie('bestTime' + i)) || 0;
-        cookieRecords.bests.pokemonId[i] = parseInt(readCookie('bestPokemon' + i)) || 0;
-        cookieRecords.totals.time[i] = parseInt(readCookie('totalTimeTaken' + i)) || 0;
-        cookieRecords.totals.guesses[i] = parseInt(readCookie('totalGuesses' + i)) || 0;
-    }
-
-    return cookieRecords;
-}
-
-/*
- * Cookie stuff from http://www.quirksmode.org/js/cookies.html
- */
-
-function readCookie(name: string) {
-    let nameEQ = name + "=";
-    let ca = document.cookie.split(';');
-    for(let i=0;i < ca.length;i++) {
-        let c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-
 
 /*
  * This returns a 'soundex', which gives a general idea of what a word sounds like.
