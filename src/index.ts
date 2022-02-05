@@ -12,7 +12,6 @@ import { LanguageId, TranslationKey, TRANSLATIONS } from './translations';
 
 declare global {
     interface Window {
-        ga: any;
         mixpanel: any;
     }
 }
@@ -186,7 +185,7 @@ $(document).ready(function() {
 
     // Event listeners first
     $('.languageSelector').on('click', function() {
-        setLanguage($(this).data('language'), true);
+        setLanguage($(this).data('language'));
     });
 
     $('.show-menu').on('click', function(ev) {
@@ -371,7 +370,7 @@ function setSound(isEnabled: boolean) {
 /**
  * Sets the language
  */
-function setLanguage(l: LanguageId, changedByUser?: boolean) {
+function setLanguage(l: LanguageId) {
     // Set the language variable
     if (TRANSLATIONS[l]) {
         settings.language = l;
@@ -397,10 +396,6 @@ function setLanguage(l: LanguageId, changedByUser?: boolean) {
     }
 
     saveState();
-
-    if(changedByUser) {
-        if(window.ga) window.ga('send', 'event', 'Language', l);
-    }
 }
 
 // TODO Remove these from global scope and use event listeners
@@ -978,7 +973,6 @@ function trackCurrentPokemon(correct: 0 | 1) {
         'Time Taken': timeTaken
     };
 
-    if(window.ga) window.ga('send', 'event', 'Guess', correct ? 'Correct' : 'Incorrect', currentPokemonNumber, timeTaken);
     if(window.mixpanel) window.mixpanel.track("Guess", guessData);
 }
 
