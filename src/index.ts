@@ -7,8 +7,8 @@ import range from 'lodash/range';
 import shuffle from 'lodash/shuffle';
 import $ from 'jquery'; // TODO Replace with Preact
 
-import { NamesForPokemon, PokemonNumber, POKEMON_NAMES, removeAccents } from './names';
-import { LanguageId, TranslationKey, TRANSLATIONS } from './lang';
+import { NamesForPokemon, PokemonNumber, POKEMON_NAMES, removeAccents } from './pokemon';
+import { LanguageId, TranslationKey, TRANSLATIONS } from './translations';
 
 declare global {
     interface Window {
