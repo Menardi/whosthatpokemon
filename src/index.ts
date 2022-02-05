@@ -1,32 +1,41 @@
-/*
- * pokemon.js
- *
- * All in-game functionality is in this file
- */
+// Import lodash dependencies separately because it doesn't tree shake correctly if they're all
+// imported directly from lodash.
+import extend from 'lodash/extend';
+import isEqual from 'lodash/isEqual';
+import noop from 'lodash/noop';
+import range from 'lodash/range';
+import shuffle from 'lodash/shuffle';
+import $ from 'jquery'; // TODO Replace with Preact
 
-// Initialise some variables
-var currentPokemonNumber;
-var currentPokemonNames = {}; // a dictionary which stores English, French and German names of the current Pokemon
-var currentPokemonImageUrl;
+import { NamesForPokemon, PokemonNumber, POKEMON_NAMES, removeAccents } from './names';
+import { LanguageId, TranslationKey, TRANSLATIONS } from './lang';
 
-// For Pokemon cries
-var currentPokemonSoundUrl;
+declare global {
+    interface Window {
+        ga: any;
+        mixpanel: any;
+    }
+}
 
 // Used for difficulty setting
-var DIFFICULTY = {
+const DIFFICULTY = {
     UNSET: -1,
     NORMAL: 0,
     ULTRA: 1,
     MASTER: 2,
     ELITE: 3,
     EASY: 4
-};
-var pendingDifficulty = DIFFICULTY.UNSET;
-var imageDirectory;
+} as const;
+
+type DifficultyKey = keyof typeof DIFFICULTY;
+type Difficulty = typeof DIFFICULTY[DifficultyKey];
+type StatsPerDifficultyArray = [number, number, number, number, number];
+
+let pendingDifficulty: Difficulty = DIFFICULTY.UNSET;
+let imageDirectory: string | null;
 
 // For generation selection
-var newGen = [];
-var allGenerations = {
+const allGenerations = {
     1: {
         start: 1,
         end: 151,
@@ -69,58 +78,90 @@ var allGenerations = {
         end: 905,
         supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
-};
+} as const;
 
+type GenerationId = keyof typeof allGenerations;
+
+let newGen: GenerationId[] = [];
+
+let currentPokemonNumber: PokemonNumber | -1;
+/** A dictionary which stores English, French and German names of the current Pokemon */
+let currentPokemonNames: NamesForPokemon | {} = {};
+let currentPokemonImageUrl: string | null;
+
+// For Pokemon cries
+let currentPokemonSoundUrl: string;
 
 // To count streaks
-var correctCount = [0, 0, 0, 0, 0];
+let correctCount: StatsPerDifficultyArray = [0, 0, 0, 0, 0];
 
 // For countdown timer after a correct answer
-var nextTimer = 3;
-var intervalId;
+let nextTimer = 3;
+let intervalId: number;
 
 // For timing how long an answer takes
-var startTime;
-var timeTaken = '-';
+let startTime: number;
+let timeTaken: string | number = '-';
 
 // Set if a Pokemon image has been preloaded
-var pokemonPreloaded = false;
-var preloadedDifficulty = -1;
+let pokemonPreloaded = false;
+let preloadedDifficulty = -1;
 
 // This will store the current image loaded
-var loadedImage;
+let loadedImage: HTMLImageElement;
 
 // Counts the number of times in a row an image has failed to load
-var consecutiveLoadFails = 0;
+let consecutiveLoadFails = 0;
 
 // Will be used to hold the ID of the image loading timeout so it can be disabled if necessary
-var imageTimeoutId;
+let imageTimeoutId: number;
 
 // Will be used as an array to store upcoming Pokemon
-var upcomingPokemon;
-var upcomingPokemonArrayPos;
+let upcomingPokemon: PokemonNumber[];
+let upcomingPokemonArrayPos: number;
 
-var firstRender = true;
+let firstRender = true;
 
-var $els;
+let $els: { [key: string]: JQuery<HTMLElement> } = {};
 
-var IPHONE_KEYBOARD_HEIGHT = 216;
+let IPHONE_KEYBOARD_HEIGHT = 216;
 
-var isIphone = /iPhone|iPod/.test(navigator.userAgent);
+let isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
-var LATEST_INFOBOX = 20200413;
-var INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
+let LATEST_INFOBOX = 20200413;
+let INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
 
+type Settings = {
+    difficulty: Difficulty;
+    generations: GenerationId[];
+    sound: boolean;
+    forgivingSpelling: boolean;
+    language: LanguageId;
+};
 
-var settings = {};
-var records;
-var DEFAULT_SETTINGS = {
+type Records = {
+    streaks: StatsPerDifficultyArray;
+    bests: {
+        time: StatsPerDifficultyArray;
+        pokemonId: StatsPerDifficultyArray;
+    };
+    totals: {
+        time: StatsPerDifficultyArray;
+        guesses: StatsPerDifficultyArray;
+    };
+};
+
+let records: Records;
+
+let DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL,
     generations: [1, 2, 3, 4, 5, 6, 7, 8],
     sound: false,
     forgivingSpelling: false,
     language: 'en'
 };
+let settings = { ...DEFAULT_SETTINGS } as Settings;
+
 
 
 /*
@@ -131,7 +172,6 @@ $(document).ready(function() {
     // Cache all the DOM elements we use here
     // TODO: Use these cached elements everywhere instead of selectors
     $els = {
-        window: $(window),
         body: $(document.body),
         playArea: $('#playArea'),
         infoMessage: $('#infoMessage'),
@@ -173,20 +213,20 @@ $(document).ready(function() {
 
     newPokemon();
 
-    for(var i=0; i < newGen.length; i++) {
+    for(let i=0; i < newGen.length; i++) {
         $("#gen" + newGen[i]).removeClass("pending").addClass("selected");
     }
 
-    var lastSeenInfobox = localStorage.getItem(INFOBOX_LS_KEY);
+    let lastSeenInfobox = parseInt(localStorage.getItem(INFOBOX_LS_KEY) || '0', 10);
     if(lastSeenInfobox >= LATEST_INFOBOX) {
         $("#infoBox").hide();
     }
 
-    var previousWindowHeight = window.innerHeight;
+    let previousWindowHeight = window.innerHeight;
 
-    $els.window.on('resize', function() {
-        var newWindowHeight = window.innerHeight;
-        var heightChange = newWindowHeight - previousWindowHeight;
+    $(window).on('resize', function() {
+        let newWindowHeight = window.innerHeight;
+        let heightChange = newWindowHeight - previousWindowHeight;
 
         if(heightChange < -100) {
             _onKeyboardOpen();
@@ -244,20 +284,20 @@ function _onKeyboardClose() {
  * Set the range of numbers to generate from depending on the Pokemon Generation selected
  */
 
-function setGen(genToAffect) {
-    genToAffect = parseInt(genToAffect);
+function setGen(genToAffect: string | number) {
+    const genId = (typeof genToAffect === 'string' ? parseInt(genToAffect, 10) : genToAffect) as GenerationId;
 
     // Before editing gen selection, we ensure that the user is not about to remove their last gen
-    if (!(newGen.length === 1 && newGen[0] === genToAffect)) {
+    if (!(newGen.length === 1 && newGen[0] === genId)) {
         // Remove all the "selected" classes and replace them with "pending" classes if it's the user's first time clicking a gen this round
         $('.selected.genSelect').removeClass('selected').addClass('pending');
 
-        if (newGen.indexOf(genToAffect) > -1) {
-            newGen.splice(newGen.indexOf(genToAffect), 1);
-            $("#gen" + genToAffect).removeClass("pending");
+        if (newGen.indexOf(genId) > -1) {
+            newGen.splice(newGen.indexOf(genId), 1);
+            $("#gen" + genId).removeClass("pending");
         } else {
-            newGen.push(genToAffect);
-            $("#gen" + genToAffect).addClass("pending");
+            newGen.push(genId);
+            $("#gen" + genId).addClass("pending");
         }
 
         $('#infoBoxMain').show();
@@ -275,7 +315,7 @@ function setGen(genToAffect) {
  * Sets the difficulty level, which is essentially choosing where we get the images from.
  */
 
-function setDifficulty(selectedDifficulty) {
+function setDifficulty(selectedDifficulty: Difficulty) {
     if (selectedDifficulty == DIFFICULTY.EASY || selectedDifficulty == DIFFICULTY.NORMAL) {
         imageDirectory = 'images/artwork/';
     } else if (selectedDifficulty == DIFFICULTY.ULTRA) {
@@ -301,12 +341,11 @@ function setDifficulty(selectedDifficulty) {
 }
 
 
-/*
+/**
  * Sets the tolerance for bad spelling. Right now there are two settings -- exact and
  * forgiving.
  */
-
-function setForgivingSpelling(isEnabled) {
+function setForgivingSpelling(isEnabled: boolean) {
     $('.spelling-setting').removeClass('selected');
     $('#spelling-' + isEnabled).addClass('selected');
 
@@ -316,11 +355,10 @@ function setForgivingSpelling(isEnabled) {
 
 
 
-/*
+/**
  * Turns Pokemon cries on or off
  */
-
-function setSound(isEnabled) {
+function setSound(isEnabled: boolean) {
     $('.sound-setting').removeClass('selected');
     $('#sound-' + isEnabled).addClass('selected');
 
@@ -330,13 +368,12 @@ function setSound(isEnabled) {
 
 
 
-/*
+/**
  * Sets the language
  */
-
-function setLanguage(l, changedByUser) {
+function setLanguage(l: LanguageId, changedByUser?: boolean) {
     // Set the language variable
-    if (window.lang[l]) {
+    if (TRANSLATIONS[l]) {
         settings.language = l;
     } else {
         return false;
@@ -344,7 +381,7 @@ function setLanguage(l, changedByUser) {
 
     // Change all the languages on the page
     $('.translatable').each(function() {
-        $(this).html(window.lang[settings.language][$(this).data('lang')]);
+        $(this).html(TRANSLATIONS[settings.language][$(this).data('lang') as TranslationKey]);
     });
 
     // Highlight the flag of the selected language
@@ -366,23 +403,30 @@ function setLanguage(l, changedByUser) {
     }
 }
 
+// TODO Remove these from global scope and use event listeners
+window.setGen = setGen;
+window.setDifficulty = setDifficulty;
+window.setForgivingSpelling = setForgivingSpelling;
+window.setSound = setSound;
+window.setLanguage = setLanguage;
+
 /*
  * Remove the silhouette of the Pokemon, and show the user that they are right, if they
  * managed to guess themselves.
  */
 
-function revealPokemon(correctlyGuessed) {
+function revealPokemon(correctlyGuessed: boolean) {
     timeTaken = new Date().getTime() - startTime;
     clearTimeout(imageTimeoutId);
 
     silhouette(currentPokemonImageUrl, 'shadowImage', false);
 
-    if(settings.sound == 1) {
-        var audioPlayPromise = $els.audioPlayer.get(0).play();
+    if(settings.sound) {
+        let audioPlayPromise = $els.audioPlayer.get(0).play();
 
         // Edge returns undefined here, where other browsers return a promise
         if(audioPlayPromise) {
-            audioPlayPromise.catch(_.noop);
+            audioPlayPromise.catch(noop);
         }
     }
 
@@ -444,7 +488,7 @@ function revealPokemon(correctlyGuessed) {
         $('.bestTimePokemon').html('(' + getLocalPokemonName(records.bests.pokemonId[settings.difficulty]) + ')');
 
     if(records.totals.guesses[settings.difficulty] > 0) {
-        var avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
+        let avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
         $('.averageTimeText').html(avgTime.toFixed(3));
     }
 
@@ -453,8 +497,8 @@ function revealPokemon(correctlyGuessed) {
 
     // Before we preload the new pokemon, we display this pokemon's other names
     $("#alsoKnownAs").show();
-    for (var l in window.lang) {
-        var $el = $('#alsoKnownAs' + l);
+    for (let l in TRANSLATIONS) {
+        let $el = $('#alsoKnownAs' + l);
         if (l !== settings.language) {
             $el.html(currentPokemonNames[l]);
             $el.parent().show();
@@ -478,19 +522,19 @@ function revealPokemon(correctlyGuessed) {
  * The force parameter will ignore the check for a generation change.
  */
 
-function generateNewNumbers(force) {
-    if(force || !_.isEqual(settings.generations, newGen)) {
+function generateNewNumbers(force?: boolean) {
+    if(force || !isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayPos = 0;
 
         newGen.filter(function(gen) { return allGenerations[gen].supportedDifficulties.includes(settings.difficulty); })
             .forEach(function(genToInc) {
-            (_.range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
-                upcomingPokemon.push(pokemonNumber);
+            (range(allGenerations[genToInc].start, allGenerations[genToInc].end + 1)).forEach(function (pokemonNumber) {
+                upcomingPokemon.push(pokemonNumber as PokemonNumber);
             });
         });
 
-        upcomingPokemon = _.shuffle(upcomingPokemon);
+        upcomingPokemon = shuffle(upcomingPokemon);
     }
 
 }
@@ -511,7 +555,7 @@ function preloadPokemon() {
     }
 
     if(currentPokemonImageUrl !== null) {
-        var img = new Image();
+        let img = new Image();
         img.src = currentPokemonImageUrl;
         pokemonPreloaded = true;
         preloadedDifficulty = settings.difficulty;
@@ -540,7 +584,7 @@ function newPokemon() {
      * Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
      * changed since the Pokemon was revealed.
      */
-    if(!pokemonPreloaded || !_.isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
+    if(!pokemonPreloaded || !isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
         currentPokemonNumber = getRandomPokemonNumber();
     }
 
@@ -557,7 +601,7 @@ function newPokemon() {
     updateStateAndRefreshUI();
     saveState();
 
-    if(currentPokemonNumber < 0) {
+    if(currentPokemonNumber === -1) {
         generationFinished();
     } else {
         pokemonPreloaded = false;
@@ -570,17 +614,17 @@ function newPokemon() {
 
         // Now load the next Pokemon
         if(currentPokemonImageUrl !== null) {
-            var shouldSilhouette = settings.difficulty != DIFFICULTY.EASY;
+            let shouldSilhouette = settings.difficulty != DIFFICULTY.EASY;
             silhouette(currentPokemonImageUrl, 'shadowImage', shouldSilhouette);
             imageTimeoutId = setTimeout(checkPokemonLoaded, 3000);
         }
 
         $els.audioPlayer.attr('src', currentPokemonSoundUrl);
         if(settings.difficulty == DIFFICULTY.ELITE) {
-            var audioPlayPromise = $els.audioPlayer.get(0).play();
+            let audioPlayPromise = $els.audioPlayer.get(0).play();
 
             if(audioPlayPromise) {
-                audioPlayPromise.catch(_.noop);
+                audioPlayPromise.catch(noop);
             }
         }
 
@@ -606,8 +650,8 @@ function newPokemon() {
  */
 
 function generationFinished() {
-    var message = '<p>There are no Pokémon left! Why not try different generation settings?</p>';
-    var messageDiv = document.getElementById('infoMessage');
+    let message = '<p>There are no Pokémon left! Why not try different generation settings?</p>';
+    let messageDiv = document.getElementById('infoMessage');
     messageDiv.innerHTML = message;
     messageDiv.setAttribute('style', 'display: inherit');
     hideMain();
@@ -645,10 +689,10 @@ function checkPokemonLoaded() {
     if(!loadedImage.complete || loadedImage.naturalWidth == 0 || loadedImage.naturalHeight == 0) {
         if(++consecutiveLoadFails < 3) {
             $('#nextCountdown').data("lang", "loadfail");
-            $('#nextCountdown').html(window.lang[settings.language].loadfail);
+            $('#nextCountdown').html(TRANSLATIONS[settings.language].loadfail);
         } else {
             $('#nextCountdown').data("lang", "slowconn");
-            $('#nextCountdown').html(window.lang[settings.language].slowconn);
+            $('#nextCountdown').html(TRANSLATIONS[settings.language].slowconn);
         }
 
         $('#nextCountdown').show();
@@ -667,13 +711,13 @@ function checkPokemonLoaded() {
 
 function updateStateAndRefreshUI() {
     // Checks to see if the generation selection has changed
-    if(!_.isEqual(settings.generations, newGen)) {
+    if(!isEqual(settings.generations, newGen)) {
         $('.genSelect').removeClass('pending selected');
 
         settings.generations.length = 0;
 
         //Add current to all of our selected generations and push them into current Gen
-        for(var i=0; i < newGen.length; i++) {
+        for(let i=0; i < newGen.length; i++) {
             $('#gen' + newGen[i]).addClass('selected');
             settings.generations.push(newGen[i]);
         }
@@ -721,7 +765,7 @@ function updateStateAndRefreshUI() {
     }
 
     if (records.totals.guesses[settings.difficulty] > 0) {
-        var avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
+        let avgTime = records.totals.time[settings.difficulty] / records.totals.guesses[settings.difficulty] / 1000;
         $('.averageTimeText').html(avgTime.toFixed(3));
     } else {
         $('.averageTimeText').html('-');
@@ -742,9 +786,9 @@ function updateStateAndRefreshUI() {
  * want the previous Pokemon still there while the other is loading -- that's confusing to the user.
  */
 
-function clearCanvas(canvasId) {
-    var canvas = document.getElementById(canvasId),
-        ctx = canvas.getContext('2d');
+function clearCanvas(canvasId: string) {
+    const canvas = <HTMLCanvasElement> document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d')!;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -762,13 +806,13 @@ function clearCanvas(canvasId) {
  * Returns: None
  */
 
-function silhouette(imageUrl, canvasId, doSilhouette) {
+function silhouette(imageUrl: string, canvasId: string, doSilhouette: boolean) {
 
     if(imageUrl === null)
         return false;
 
-    var canvas = document.getElementById(canvasId),
-        ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement> document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d')!;
 
     loadedImage = new Image();
 
@@ -787,9 +831,9 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
         ctx.drawImage(loadedImage, 0, 0, canvas.width, canvas.height);
 
         if(doSilhouette) {
-            var rawImage = ctx.getImageData(0,0,canvas.width,canvas.height);
+            let rawImage = ctx.getImageData(0,0,canvas.width,canvas.height);
 
-            for (var i=0; i<rawImage.data.length;i+=4) {
+            for (let i=0; i<rawImage.data.length;i+=4) {
                 if(rawImage.data[i+3] >= 100) {
                     rawImage.data[i] = 30;
                     rawImage.data[i+1] = 30;
@@ -815,8 +859,8 @@ function silhouette(imageUrl, canvasId, doSilhouette) {
 
 function nextCountdown() {
     if(nextTimer > 0) {
-        var countdownMessage = window.lang[settings.language].nextpokemon;
-        countdownMessage = countdownMessage.replace('_TIME_', nextTimer);
+        let countdownMessage: string = TRANSLATIONS[settings.language].nextpokemon;
+        countdownMessage = countdownMessage.replace('_TIME_', nextTimer.toString());
         $('#nextCountdown').html(countdownMessage);
         nextTimer--;
     } else {
@@ -845,14 +889,14 @@ function giveAnswer() {
  * have to return a number from the randomised array.
  */
 
-function getRandomPokemonNumber() {
-    var number;
+function getRandomPokemonNumber(): PokemonNumber {
+    let number;
     if(upcomingPokemonArrayPos > upcomingPokemon.length || upcomingPokemon.length === 0) {
         number = -1;
     } else {
         number = upcomingPokemon[upcomingPokemonArrayPos++];
     }
-    return number;
+    return number as PokemonNumber;
 }
 
 
@@ -862,12 +906,12 @@ function getRandomPokemonNumber() {
  * subtract 1 from the given number to get the right name.
  */
 
-function getPokemonNames(number) {
-    var pokemon = window.pokemonNames.find(function(pokemon) { return pokemon.number === number });
+function getPokemonNames(number: PokemonNumber): NamesForPokemon | {} {
+    let pokemon = POKEMON_NAMES.find(function(pokemon) { return pokemon.number === number });
     return pokemon ? pokemon.names : {};
 }
 
-function getLocalPokemonName(number) {
+function getLocalPokemonName(number: PokemonNumber) {
     return getPokemonNames(number)[settings.language];
 }
 
@@ -876,7 +920,7 @@ function getLocalPokemonName(number) {
  * Get the URL of the Pokemon image. The format is 123.png. On failure, it returns false.
  */
 
-function getPokemonImageUrl(number) {
+function getPokemonImageUrl(number: PokemonNumber) {
     if(imageDirectory !== null)
         return imageDirectory + number + '.png';
     else
@@ -889,7 +933,7 @@ function getPokemonImageUrl(number) {
  * Get the URL of the Pokemon cry. The format is 123.mp3.
  */
 
-function getPokemonSoundUrl(number) {
+function getPokemonSoundUrl(number: PokemonNumber) {
     return 'sounds/cries/' + number + '.mp3';
 }
 
@@ -898,8 +942,8 @@ function getPokemonSoundUrl(number) {
  * Check to see if the guess equals the answer in any language. If it does, reveal the Pokemon, else return false.
  */
 
-function checkPokemonAnswer(g) {
-    var guess = removeAccents(g.toLowerCase());
+function checkPokemonAnswer(typedGuess: string) {
+    let guess = removeAccents(typedGuess.toLowerCase());
 
     if (settings.language === 'en' && settings.forgivingSpelling && soundAlike(guess, currentPokemonNames.en) ) {
         revealPokemon(true);
@@ -914,22 +958,19 @@ function checkPokemonAnswer(g) {
  * Returns true if both inputs can be considered to be alike-sounding words, else false.
  */
 
-function soundAlike(s1, s2, lang) {
-    var l;
-
+function soundAlike(s1: string, s2: string, lang?: LanguageId) {
     if(lang === 'fr' || lang === 'de') {
-        l = ( levenshtein(s1, s2) < 3 );
+        return levenshtein(s1, s2) < 3;
     } else {
-        l = ( ( soundex(s1) === soundex(s2) ) && ( levenshtein(s1, s2) < 3 ) );
+        return soundex(s1) === soundex(s2) && levenshtein(s1, s2) < 3;
     }
-    return l;
 }
 
 /*
  * Send correct / incorrect answers to GA and Mixpanel
  */
-function trackCurrentPokemon(correct) {
-    var guessData = {
+function trackCurrentPokemon(correct: 0 | 1) {
+    let guessData = {
         'Pokemon ID': currentPokemonNumber,
         'Correct': correct,
         'Difficulty': settings.difficulty,
@@ -955,17 +996,17 @@ function hideInfobox() {
  * Save and load user settings and records
  */
 
-var SETTINGS_LS_KEY = 'wtp_settings';
-var RECORDS_LS_KEY = 'wtp_records';
+let SETTINGS_LS_KEY = 'wtp_settings';
+let RECORDS_LS_KEY = 'wtp_records';
 function loadState() {
-    var lsSettings = localStorage.getItem(SETTINGS_LS_KEY);
+    let lsSettings = localStorage.getItem(SETTINGS_LS_KEY);
 
     if(lsSettings) {
         settings = JSON.parse(lsSettings);
     } else if(readCookie('generation')) { // assume that if this cookie exists, they all do
         settings = _getSettingsObjectFromCookie();
     } else {
-        settings = _.extend({}, DEFAULT_SETTINGS);
+        settings = extend({}, DEFAULT_SETTINGS);
     }
 
     settings.generations.forEach(function(generation) {
@@ -976,7 +1017,7 @@ function loadState() {
     setForgivingSpelling(settings.forgivingSpelling);
     setLanguage(settings.language);
 
-    var lsRecords = localStorage.getItem(RECORDS_LS_KEY);
+    let lsRecords = localStorage.getItem(RECORDS_LS_KEY);
 
     if(lsRecords) {
         records = JSON.parse(lsRecords)
@@ -1023,10 +1064,10 @@ function _getSettingsObjectFromCookie() {
 }
 
 function _getRecordsObjectFromCookie() {
-    var cookieRecords = _getDefaultRecordsObj();
+    let cookieRecords = _getDefaultRecordsObj();
 
     // The old cookie format supported four difficulties
-    for(var i=0; i<4; i++) {
+    for(let i=0; i<4; i++) {
         cookieRecords.streaks[i] = parseInt(readCookie('bestCount' + i)) || 0;
         cookieRecords.bests.time[i] = parseInt(readCookie('bestTime' + i)) || 0;
         cookieRecords.bests.pokemonId[i] = parseInt(readCookie('bestPokemon' + i)) || 0;
@@ -1041,11 +1082,11 @@ function _getRecordsObjectFromCookie() {
  * Cookie stuff from http://www.quirksmode.org/js/cookies.html
  */
 
-function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
+function readCookie(name: string) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for(let i=0;i < ca.length;i++) {
+        let c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1,c.length);
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
@@ -1059,12 +1100,12 @@ function readCookie(name) {
  * From https://github.com/kvz/phpjs/blob/master/functions/strings/soundex.js
  */
 
-function soundex (str) {
+function soundex (str: string) {
   str = (str + '').toUpperCase();
   if (!str) {
     return '';
   }
-  var sdx = [0, 0, 0, 0],
+  let sdx = [0, 0, 0, 0],
     m = {
       B: 1, F: 1, P: 1, V: 1,
       C: 2, G: 2, J: 2, K: 2, Q: 2, S: 2, X: 2, Z: 2,
@@ -1097,7 +1138,7 @@ function soundex (str) {
  * From https://github.com/kvz/phpjs/blob/master/functions/strings/levenshtein.js
  */
 
-function levenshtein (s1, s2) {
+function levenshtein (s1: string, s2: string): number {
   // http://kevin.vanzonneveld.net
   // +            original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
   // +            bugfixed by: Onno Marsman
@@ -1110,8 +1151,8 @@ function levenshtein (s1, s2) {
     return 0;
   }
 
-  var s1_len = s1.length;
-  var s2_len = s2.length;
+  let s1_len = s1.length;
+  let s2_len = s2.length;
   if (s1_len === 0) {
     return s2_len;
   }
@@ -1120,7 +1161,7 @@ function levenshtein (s1, s2) {
   }
 
   // BEGIN STATIC
-  var split = false;
+  let split = false;
   try {
     split = !('0')[0];
   } catch (e) {
@@ -1132,16 +1173,16 @@ function levenshtein (s1, s2) {
     s2 = s2.split('');
   }
 
-  var v0 = new Array(s1_len + 1);
-  var v1 = new Array(s1_len + 1);
+  let v0 = new Array(s1_len + 1);
+  let v1 = new Array(s1_len + 1);
 
-  var s1_idx = 0,
+  let s1_idx = 0,
     s2_idx = 0,
     cost = 0;
   for (s1_idx = 0; s1_idx < s1_len + 1; s1_idx++) {
     v0[s1_idx] = s1_idx;
   }
-  var char_s1 = '',
+  let char_s1 = '',
     char_s2 = '';
   for (s2_idx = 1; s2_idx <= s2_len; s2_idx++) {
     v1[0] = s2_idx;
@@ -1150,9 +1191,9 @@ function levenshtein (s1, s2) {
     for (s1_idx = 0; s1_idx < s1_len; s1_idx++) {
       char_s1 = s1[s1_idx];
       cost = (char_s1 == char_s2) ? 0 : 1;
-      var m_min = v0[s1_idx + 1] + 1;
-      var b = v1[s1_idx] + 1;
-      var c = v0[s1_idx] + cost;
+      let m_min = v0[s1_idx + 1] + 1;
+      let b = v1[s1_idx] + 1;
+      let c = v0[s1_idx] + cost;
       if (b < m_min) {
         m_min = b;
       }
@@ -1161,7 +1202,7 @@ function levenshtein (s1, s2) {
       }
       v1[s1_idx + 1] = m_min;
     }
-    var v_tmp = v0;
+    let v_tmp = v0;
     v0 = v1;
     v1 = v_tmp;
   }

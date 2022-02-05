@@ -1,3 +1,5 @@
+node_modules
+index.js
 images/*
 !images/flags/
 !images/icons/

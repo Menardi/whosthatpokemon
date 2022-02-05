@@ -5,7 +5,7 @@
  * to remove accents from non-English Pokemon names for easier comparison.
  */
 
-var pokemonAccentMap = {
+const ACCENT_MAP = {
   'â':'a',
   'ä':'a',
   'ß':'s',
@@ -22,20 +22,20 @@ var pokemonAccentMap = {
   'Ô':'O',
   'ç':'c',
   'Ç':'C'
-};
+} as const;
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js
 
-function removeAccents (s) {
-    if (!s) { return ''; }
-    var ret = '';
-    for (var i=0; i<s.length; i++) {
-        ret += pokemonAccentMap[s.charAt(i)] || s.charAt(i);
-    }
-    return ret;
+export const removeAccents = (s: string) => {
+  if (!s) { return ''; }
+  var ret = '';
+  for (var i=0; i<s.length; i++) {
+      ret += ACCENT_MAP[s.charAt(i)] || s.charAt(i);
+  }
+  return ret;
 }
 
-window.pokemonNames = [{
+export const POKEMON_NAMES = [{
   names: {
     de: "bisasam",
     en: "bulbasaur",
@@ -7275,4 +7275,8 @@ window.pokemonNames = [{
     ja: "ラブトロス"
   },
   number: 905,
-}];
+}] as const;
+
+export type PokemonNumber = typeof POKEMON_NAMES[number]['number'];
+
+export type NamesForPokemon = typeof POKEMON_NAMES[number]['names'];

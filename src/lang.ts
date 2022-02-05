@@ -1,4 +1,4 @@
-window.lang = {
+export const TRANSLATIONS = {
 	"en": {
 		"title": 		"Who's That Pokémon?",
 		"dontknow": 	"I don't know!",
@@ -175,4 +175,8 @@ window.lang = {
 		"settings":		'オプション',
 		"stats":		'レコード',
 	}
-};
+} as const;
+
+export type LanguageId = keyof typeof TRANSLATIONS;
+
+export type TranslationKey = keyof typeof TRANSLATIONS['en'];
