@@ -22,6 +22,7 @@ a {
     text-decoration: none;
     font-weight: bold;
     color: #333;
+    cursor: pointer;
 }
 
 h1, h2, h3 {
@@ -246,16 +247,20 @@ input.correct {
     font-size: 100%;
 }
 
-#alsoKnownAs ul  {
+#alsoKnownAs ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     list-style: none;
     padding: 0;
-    margin: 0 0 0px 0;
+    margin: 4px 0 0 0;
 }
 
 #alsoKnownAs ul li {
-    display: inline-block;
     background-color: rgba(255, 255, 255, 0.25);
-    padding: 5px;
+    padding: 4px 8px;
+    margin: 0 4px;
+    border-radius: 4px;
     text-transform: capitalize;
 }
 

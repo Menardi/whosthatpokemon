@@ -24,16 +24,20 @@ function soundex (str: string) {
     c, p;
 
   while ((c = str.charAt(i++)) && s < 4) {
+    // @ts-ignore
     if (j === m[c]) {
       if (j !== p) {
+        // @ts-ignore
         sdx[s++] = p = j;
       }
     } else {
+      // @ts-ignore
       s += i === 1;
       p = 0;
     }
   }
 
+  // @ts-ignore
   sdx[0] = str.charAt(0);
   return sdx.join('');
 }
@@ -74,7 +78,9 @@ function levenshtein (s1: string, s2: string): number {
   }
   // END STATIC
   if (split) {
+    // @ts-ignore
     s1 = s1.split('');
+    // @ts-ignore
     s2 = s2.split('');
   }
 

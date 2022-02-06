@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "A browser-based game in which Pokémon silhouettes are shown to the user and they guess which Pokémon it is.",
   "scripts": {
-    "build": "npx esbuild src/index.ts --bundle --outfile=index.js --target=ie11",
-    "serve": "npx esbuild src/index.ts --bundle --outfile=index.js --target=ie11 --servedir=."
+    "build": "npx esbuild src/index.ts --bundle --outfile=index.js --target=ie11 --minify",
+    "serve": "npx esbuild src/index.ts --bundle --outfile=index.js --target=ie11 --servedir=.",
+    "typecheck": "npx tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,6 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "jquery": "^3.6.0",
     "lodash": "^4.17.21"
   }
 }

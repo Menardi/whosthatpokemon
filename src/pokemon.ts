@@ -28,9 +28,10 @@ const ACCENT_MAP = {
 
 export const removeAccents = (s: string) => {
   if (!s) { return ''; }
-  var ret = '';
-  for (var i=0; i<s.length; i++) {
-      ret += ACCENT_MAP[s.charAt(i)] || s.charAt(i);
+  let ret = '';
+  for (let i=0; i<s.length; i++) {
+    // @ts-ignore
+    ret += ACCENT_MAP[s.charAt(i)] || s.charAt(i);
   }
   return ret;
 }
