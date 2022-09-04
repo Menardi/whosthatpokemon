@@ -154,9 +154,9 @@ let elements: {
 
 const isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
-/** Number in YYYYMMDD format representing the last date the info box at the top of the page was updated */
-const LATEST_INFOBOX = 20200413;
-/** The key used to store the LATEST_INFOBOX value in localStorage, after a user dismisses the info box */
+/** Timestamp representing the last date the info box at the top of the page was updated */
+const LATEST_INFOBOX_TIMESTAMP = 1586736000000;
+/** The key used to store the LATEST_INFOBOX_TIMESTAMP value in localStorage, after a user dismisses the info box */
 const INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
 
 type Settings = {
@@ -267,7 +267,11 @@ const onReady = () => {
     }
 
     let lastSeenInfobox = parseInt(localStorage.getItem(INFOBOX_LS_KEY) || '0', 10);
-    if(lastSeenInfobox >= LATEST_INFOBOX) {
+    if(
+        lastSeenInfobox >= LATEST_INFOBOX_TIMESTAMP
+        // If the infobox is more than 30 days old, hide it
+        || Date.now() - LATEST_INFOBOX_TIMESTAMP > 2592000000
+    ) {
         hideElement(document.querySelector("#infoBox")!);
     }
 
@@ -964,7 +968,7 @@ function trackCurrentPokemon(correct: 0 | 1) {
  */
 function hideInfobox() {
     hideElement(document.getElementById('infoBox')!);
-    localStorage.setItem(INFOBOX_LS_KEY, LATEST_INFOBOX.toString());
+    localStorage.setItem(INFOBOX_LS_KEY, LATEST_INFOBOX_TIMESTAMP.toString());
 }
 
 /**
