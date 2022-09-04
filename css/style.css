@@ -323,6 +323,11 @@ input.correct {
         display: none;
     }
 
+    /* The title keeps the buttons apart, so we make it invisible instead of removing it completely */
+    .keyboard-open header .title {
+        opacity: 0;
+    }
+
     #infoBox {
         display: none;
     }
@@ -347,18 +352,22 @@ input.correct {
     #playArea {
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
+        flex: 1;
         min-height: 0;
     }
 
     #canvasContainer {
-        flex-grow: 1;
+        flex: 1;
         padding: 10px;
+        padding-top: 50px; /* Push canvas below the header text */
+    }
+
+    .keyboard-open #canvasContainer {
+        padding-top: 10px; /* The text is hidden, so we can move this back up */
     }
 
     #answerArea {
         z-index: 10;
-        flex-shrink: 0;
         width: 100%;
         padding: 10px;
         background-color: rgba(0, 0, 0, 0.1);
@@ -424,6 +433,10 @@ input.correct {
         display: flex;
         height: 48px;
         line-height: 48px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
     }
 
     header .title {

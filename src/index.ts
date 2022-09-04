@@ -152,7 +152,6 @@ let elements: {
     settingsChangeMessage: HTMLElement;
 };
 
-const IPHONE_KEYBOARD_HEIGHT = 216;
 const isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
 /** Number in YYYYMMDD format representing the last date the info box at the top of the page was updated */
@@ -272,21 +271,6 @@ const onReady = () => {
         hideElement(document.querySelector("#infoBox")!);
     }
 
-    let previousWindowHeight = window.innerHeight;
-
-    window.addEventListener('resize', function() {
-        let newWindowHeight = window.innerHeight;
-        let heightChange = newWindowHeight - previousWindowHeight;
-
-        if(heightChange < -100) {
-            _onKeyboardOpen();
-        } else if(heightChange > 100) {
-            _onKeyboardClose();
-        }
-
-        previousWindowHeight = newWindowHeight;
-    });
-
     elements.input.addEventListener('input', function (this: HTMLInputElement) {
         checkPokemonAnswer(this.value);
     });
@@ -306,11 +290,20 @@ const onReady = () => {
         // for sure when the keyboard is open or what height it is. So instead
         // we assume the input being focused will bring up the keyboard, and we
         // resize the view by what is the most likely height of the keyboard.
-        // It won't be perfectly aligned but it's better than nothing.
 
         elements.input.addEventListener('focus', function() {
-            document.body.style.height = `calc(100% - ${IPHONE_KEYBOARD_HEIGHT}px)`;
-            document.body.scrollTop = 0;
+            // Wait 250ms for the keyboard opening animation to finish
+            setTimeout(() => {
+                // Because the input is positioned at the bottom of the screen, the system will scroll
+                // the window by the entire height of the keyboard to make sure the input isn't
+                // covered by the keyboard. So, we can assume that window.scrollY is pretty close to
+                // the height of the keyboard. The + 22px here is a magic number which works for
+                // perfect alignment on both iPhone 13 and iPhone in my testing, though why exactly it
+                // works I have no idea.
+                document.body.style.height = `calc(100% - ${window.scrollY}px + 22px)`;
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 250);
 
             _onKeyboardOpen();
         });
@@ -700,7 +693,8 @@ function hideMain() {
  * Show the playing area
  */
 function showMain() {
-    showElement(elements.playArea);
+    // playArea is block on desktop, and flex on mobile, so set to an empty string to revert to original CSS
+    showElement(elements.playArea, '');
     hideElement(elements.generationFinishedMessage);
 
     if(!firstRender) {
