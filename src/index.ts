@@ -556,8 +556,9 @@ function revealPokemon(correctlyGuessed: boolean) {
 }
 
 /**
- * Creates a new random array of Pokemon numbers if the selected generation has changed.
- * The force parameter will ignore the check for a generation change.
+ * Re-generates the array of Pokémon numbers, only if there is a pending generation change.
+ * Set force to true to re-generate the array, regardless of whether there is a pending
+ * generation change.
  */
 function generateNewNumbers(force?: boolean) {
     if(force || !isEqual(settings.generations, newGen)) {
@@ -615,6 +616,7 @@ function newPokemon() {
     // Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
     // changed since the Pokemon was revealed.
     if(!pokemonPreloaded || !isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
+        generateNewNumbers(); // will only generate new numbers if the generations have changed
         currentPokemonNumber = getRandomPokemonNumber();
     }
 
