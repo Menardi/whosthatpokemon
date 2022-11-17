@@ -89,6 +89,9 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
     },
 } as const;
 
+/** These numbers are currently missing in the game data for Gen 9 */
+const MISSING_NUMBERS = [980, 987];
+
 let newGen: GenerationId[] = [];
 
 /** The number of the Pokemon currently on screen. -1 if the user has reached the end of the list generated for them. */
@@ -577,9 +580,8 @@ function generateNewNumbers(force?: boolean) {
             });
         });
 
-        upcomingPokemon = shuffle(upcomingPokemon);
+        upcomingPokemon = shuffle(upcomingPokemon).filter((number) => !MISSING_NUMBERS.includes(number));
     }
-
 }
 
 /**
