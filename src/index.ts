@@ -31,7 +31,7 @@ type StatsPerDifficultyArray = [number, number, number, number, number];
 let pendingDifficulty: Difficulty;
 let imageDirectory: string | null;
 
-type GenerationId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+type GenerationId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type Generation = {
     start: number;
     end: number;
@@ -80,6 +80,11 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
         // than gen 7 (they were introduced in Let's Go)
         start: 808,
         end: 905,
+        supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+    },
+    9: {
+        start: 906,
+        end: 1010,
         supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
 } as const;
@@ -155,7 +160,7 @@ let elements: {
 const isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
 /** Timestamp representing the last date the info box at the top of the page was updated */
-const LATEST_INFOBOX_TIMESTAMP = 1586736000000;
+const LATEST_INFOBOX_TIMESTAMP = 1668697200000;
 /** The key used to store the LATEST_INFOBOX_TIMESTAMP value in localStorage, after a user dismisses the info box */
 const INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
 
@@ -183,7 +188,7 @@ let records: Records;
 
 let DEFAULT_SETTINGS = {
     difficulty: DIFFICULTY.NORMAL as Difficulty,
-    generations: [1, 2, 3, 4, 5, 6, 7, 8] as Settings['generations'],
+    generations: [1, 2, 3, 4, 5, 6, 7, 8, 9] as Settings['generations'],
     sound: false,
     forgivingSpelling: false,
     language: 'en' as LanguageId,
