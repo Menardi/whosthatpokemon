@@ -294,6 +294,7 @@ export const POKEMON_NAMES = [{
     en: "nidoran",
     fr: "nidoran",
     ja: "ニドラン",
+    zh: "尼多兰",
   },
   number: 29,
 },{
@@ -320,6 +321,7 @@ export const POKEMON_NAMES = [{
     en: "nidoran",
     fr: "nidoran",
     ja: "ニドラン",
+    zh: "尼多朗",
   },
   number: 32,
 },{
