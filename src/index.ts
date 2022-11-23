@@ -732,6 +732,10 @@ function checkPokemonLoaded() {
         }
 
         showElement(elements.countdownToNextMessage);
+        elements.countdownToNextMessage.querySelector('#loadNewPokemonCta')?.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            newPokemon();
+        })
     } else {
         consecutiveLoadFails = 0;
     }
