@@ -589,7 +589,7 @@ function generateNewNumbers(force?: boolean) {
  * it preloaded, false otherwise.
  */
 function preloadPokemon() {
-    currentPokemonNumber = getRandomPokemonNumber();
+    currentPokemonNumber = getNextPokemonNumber();
 
     if(currentPokemonNumber > 0) {
         currentPokemonNames = getPokemonNames(currentPokemonNumber);
@@ -623,8 +623,8 @@ function newPokemon() {
     // Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
     // changed since the Pokemon was revealed.
     if(!pokemonPreloaded || !isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
-        generateNewNumbers(); // will only generate new numbers if the generations have changed
-        currentPokemonNumber = getRandomPokemonNumber();
+        generateNewNumbers(true);
+        currentPokemonNumber = getNextPokemonNumber();
     }
 
     nextTimer = 3;
@@ -687,7 +687,7 @@ function newPokemon() {
  * Shows a message to the user if they have completed the entire generation
  */
 function generationFinished() {
-    let message = '<p>There are no Pokémon left! Why not try a different generation or difficulty?</p>';
+    let message = '<p>There are no Pokémon left! Why not try a different generation or difficulty? Note that Gen 8 and 9 don\'t support Ultra and Master difficulties as these games don\'t have sprites.</p>';
     elements.generationFinishedMessage.innerHTML = message;
     showElement(elements.generationFinishedMessage);
     hideMain();
@@ -906,10 +906,9 @@ function giveAnswer() {
 }
 
 /**
- * Sort of a relic from when the number was randomly generated on demand. Still useful to
- * have to return a number from the randomised array.
+ * Gets the next Pokémon number from the array, and moves the pointer onwards.
  */
-function getRandomPokemonNumber(): PokemonNumber {
+function getNextPokemonNumber(): PokemonNumber {
     let number;
     if(upcomingPokemonArrayIndex > upcomingPokemon.length || upcomingPokemon.length === 0) {
         number = -1;
