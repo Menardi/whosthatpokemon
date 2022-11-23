@@ -264,12 +264,8 @@ input.correct {
     text-transform: capitalize;
 }
 
-#infoMessage {
-    font-size: 140%;
-}
-
-#infoMessage a {
-    text-shadow: 1px 1px #FFF;
+#generationFinishedMessage {
+    font-size: 120%;
 }
 
 #infoBoxMain {

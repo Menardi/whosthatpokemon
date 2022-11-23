@@ -207,7 +207,7 @@ const onReady = () => {
         canvas: document.getElementById('shadowImage') as HTMLCanvasElement,
         countdownToNextMessage: document.getElementById('nextCountdown') as HTMLElement,
         dontKnowButton: document.getElementById('giveAnswer') as HTMLElement,
-        generationFinishedMessage: document.getElementById('infoMessage') as HTMLElement,
+        generationFinishedMessage: document.getElementById('generationFinishedMessage') as HTMLElement,
         input: document.getElementById('pokemonGuess') as HTMLInputElement,
         playArea: document.getElementById('playArea') as HTMLElement,
         settingsChangeMessage: document.getElementById('infoBoxMain') as HTMLElement,
@@ -687,8 +687,6 @@ function newPokemon() {
  * Shows a message to the user if they have completed the entire generation
  */
 function generationFinished() {
-    let message = '<p>There are no Pokémon left! Why not try a different generation or difficulty? Note that Gen 8 and 9 don\'t support Ultra and Master difficulties as these games don\'t have sprites.</p>';
-    elements.generationFinishedMessage.innerHTML = message;
     showElement(elements.generationFinishedMessage);
     hideMain();
 }
