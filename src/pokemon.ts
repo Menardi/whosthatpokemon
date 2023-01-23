@@ -8282,22 +8282,13 @@ export const POKEMON_NAMES = [{
   number: 916,
 },{
   names: {
-    de: "dummimisel",
-    en: "dudunsparce",
-    fr: "deusolourdo",
-    ja: "ノココッチ",
-    zh: "土龙节节",
-  },
-  number: 917,
-},{
-  names: {
     de: "tarundel",
     en: "tarountula",
     fr: "tissenboule",
     ja: "タマンチュラ",
     zh: "团珠蛛",
   },
-  number: 918,
+  number: 917,
 },{
   names: {
     de: "spinsidias",
@@ -8306,7 +8297,7 @@ export const POKEMON_NAMES = [{
     ja: "ワナイダー",
     zh: "操陷蛛",
   },
-  number: 919,
+  number: 918,
 },{
   names: {
     de: "micrick",
@@ -8315,7 +8306,7 @@ export const POKEMON_NAMES = [{
     ja: "マメバッタ",
     zh: "豆蟋蟀",
   },
-  number: 920,
+  number: 919,
 },{
   names: {
     de: "lextremo",
@@ -8324,295 +8315,7 @@ export const POKEMON_NAMES = [{
     ja: "エクスレッグ",
     zh: "烈腿蝗",
   },
-  number: 921,
-},{
-  names: {
-    de: "relluk",
-    en: "rellor",
-    fr: "léboulérou",
-    ja: "シガロコ",
-    zh: "虫滚泥",
-  },
-  number: 922,
-},{
-  names: {
-    de: "skarabaks",
-    en: "rabsca",
-    fr: "bérasca",
-    ja: "ベラカス",
-    zh: "虫甲圣",
-  },
-  number: 923,
-},{
-  names: {
-    de: "gruff",
-    en: "greavard",
-    fr: "toutombe",
-    ja: "ボチ",
-    zh: "墓仔狗",
-  },
-  number: 924,
-},{
-  names: {
-    de: "friedwuff",
-    en: "houndstone",
-    fr: "tomberro",
-    ja: "ハカドッグ",
-    zh: "墓扬犬",
-  },
-  number: 925,
-},{
-  names: {
-    de: "flattutu",
-    en: "flittle",
-    fr: "flotillon",
-    ja: "ヒラヒナ",
-    zh: "飘飘雏",
-  },
-  number: 926,
-},{
-  names: {
-    de: "psiopatra",
-    en: "espathra",
-    fr: "cléopsytra",
-    ja: "クエスパトラ",
-    zh: "超能艳鸵",
-  },
-  number: 927,
-},{
-  names: {
-    de: "farigiraf",
-    en: "farigiraf",
-    fr: "farigiraf",
-    ja: "リキキリン",
-    zh: "奇麒麟",
-  },
-  number: 928,
-},{
-  names: {
-    de: "schligda",
-    en: "wiglett",
-    fr: "taupikeau",
-    ja: "ウミディグダ",
-    zh: "海地鼠",
-  },
-  number: 929,
-},{
-  names: {
-    de: "schligdri",
-    en: "wugtrio",
-    fr: "triopikeau",
-    ja: "ウミトリオ",
-    zh: "三海地鼠",
-  },
-  number: 930,
-},{
-  names: {
-    de: "heerashai",
-    en: "dondozo",
-    fr: "oyacata",
-    ja: "ヘイラッシャ",
-    zh: "吃吼霸",
-  },
-  number: 931,
-},{
-  names: {
-    de: "agiluza",
-    en: "veluza",
-    fr: "délestin",
-    ja: "ミガルーサ",
-    zh: "轻身鳕",
-  },
-  number: 932,
-},{
-  names: {
-    de: "normifin",
-    en: "finizen",
-    fr: "dofin",
-    ja: "ナミイルカ",
-    zh: "波普海豚",
-  },
-  number: 933,
-},{
-  names: {
-    de: "delfinator",
-    en: "palafin",
-    fr: "superdofin",
-    ja: "イルカマン",
-    zh: "海豚侠",
-  },
-  number: 934,
-},{
-  names: {
-    de: "olini",
-    en: "smoliv",
-    fr: "olivini",
-    ja: "ミニーブ",
-    zh: "迷你芙",
-  },
-  number: 935,
-},{
-  names: {
-    de: "olivinio",
-    en: "dolliv",
-    fr: "olivado",
-    ja: "オリーニョ",
-    zh: "奥利纽",
-  },
-  number: 936,
-},{
-  names: {
-    de: "olithena",
-    en: "arboliva",
-    fr: "arboliva",
-    ja: "オリーヴァ",
-    zh: "奥利瓦",
-  },
-  number: 937,
-},{
-  names: {
-    de: "chilingel",
-    en: "capsakid",
-    fr: "pimito",
-    ja: "カプサイジ",
-    zh: "热辣娃",
-  },
-  number: 938,
-},{
-  names: {
-    de: "halupenjo",
-    en: "scovillain",
-    fr: "scovilain",
-    ja: "スコヴィラン",
-    zh: "狠辣椒",
-  },
-  number: 939,
-},{
-  names: {
-    de: "blipp",
-    en: "tadbulb",
-    fr: "têtampoule",
-    ja: "ズピカ",
-    zh: "光蚪仔",
-  },
-  number: 940,
-},{
-  names: {
-    de: "wampitz",
-    en: "bellibolt",
-    fr: "ampibidou",
-    ja: "ハラバリー",
-    zh: "电肚蛙",
-  },
-  number: 941,
-},{
-  names: {
-    de: "knattox",
-    en: "varoom",
-    fr: "vrombi",
-    ja: "ブロロン",
-    zh: "噗隆隆",
-  },
-  number: 942,
-},{
-  names: {
-    de: "knattatox",
-    en: "revavroom",
-    fr: "vrombotor",
-    ja: "ブロロローム",
-    zh: "普隆隆姆",
-  },
-  number: 943,
-},{
-  names: {
-    de: "schlurm",
-    en: "orthworm",
-    fr: "ferdeter",
-    ja: "ミミズズ",
-    zh: "拖拖蚓",
-  },
-  number: 944,
-},{
-  names: {
-    de: "zwieps",
-    en: "tandemaus",
-    fr: "compagnol",
-    ja: "ワッカネズミ",
-    zh: "一对鼠",
-  },
-  number: 945,
-},{
-  names: {
-    de: "famieps",
-    en: "maushold",
-    fr: "famignol",
-    ja: "イッカネズミ",
-    zh: "一家鼠",
-  },
-  number: 946,
-},{
-  names: {
-    de: "flaniwal",
-    en: "cetoddle",
-    fr: "piétacé",
-    ja: "アルクジラ",
-    zh: "走鲸",
-  },
-  number: 947,
-},{
-  names: {
-    de: "kolowal",
-    en: "cetitan",
-    fr: "balbalèze",
-    ja: "ハルクジラ",
-    zh: "浩大鲸",
-  },
-  number: 948,
-},{
-  names: {
-    de: "frospino",
-    en: "frigibax",
-    fr: "frigodo",
-    ja: "セビエ",
-    zh: "凉脊龙",
-  },
-  number: 949,
-},{
-  names: {
-    de: "cryospino",
-    en: "arctibax",
-    fr: "cryodo",
-    ja: "セゴール",
-    zh: "冻脊龙",
-  },
-  number: 950,
-},{
-  names: {
-    de: "espinodon",
-    en: "baxcalibur",
-    fr: "glaivodo",
-    ja: "セグレイブ",
-    zh: "戟脊龙",
-  },
-  number: 951,
-},{
-  names: {
-    de: "nigiragi",
-    en: "tatsugiri",
-    fr: "nigirigon",
-    ja: "シャリタツ",
-    zh: "米立龙",
-  },
-  number: 952,
-},{
-  names: {
-    de: "mopex",
-    en: "cyclizar",
-    fr: "motorizard",
-    ja: "モトトカゲ",
-    zh: "摩托蜥",
-  },
-  number: 953,
+  number: 920,
 },{
   names: {
     de: "pamo",
@@ -8621,7 +8324,7 @@ export const POKEMON_NAMES = [{
     ja: "パモ",
     zh: "布拨",
   },
-  number: 954,
+  number: 921,
 },{
   names: {
     de: "pamamo",
@@ -8630,7 +8333,7 @@ export const POKEMON_NAMES = [{
     ja: "パモット",
     zh: "布土拨",
   },
-  number: 955,
+  number: 922,
 },{
   names: {
     de: "pamomamo",
@@ -8639,124 +8342,25 @@ export const POKEMON_NAMES = [{
     ja: "パーモット",
     zh: "巴布土拨",
   },
-  number: 956,
+  number: 923,
 },{
   names: {
-    de: "voltrel",
-    en: "wattrel",
-    fr: "zapétrel",
-    ja: "カイデン",
-    zh: "电海燕",
+    de: "zwieps",
+    en: "tandemaus",
+    fr: "compagnol",
+    ja: "ワッカネズミ",
+    zh: "一对鼠",
   },
-  number: 957,
+  number: 924,
 },{
   names: {
-    de: "voltrean",
-    en: "kilowattrel",
-    fr: "fulgulairo",
-    ja: "タイカイデン",
-    zh: "大电海燕",
+    de: "famieps",
+    en: "maushold",
+    fr: "famignol",
+    ja: "イッカネズミ",
+    zh: "一家鼠",
   },
-  number: 958,
-},{
-  names: {
-    de: "adebom",
-    en: "bombirdier",
-    fr: "lestombaile",
-    ja: "オトシドリ",
-    zh: "下石鸟",
-  },
-  number: 959,
-},{
-  names: {
-    de: "krawalloro",
-    en: "squawkabilly",
-    fr: "tapatoès",
-    ja: "イキリンコ",
-    zh: "怒鹦哥",
-  },
-  number: 960,
-},{
-  names: {
-    de: "flaminkno",
-    en: "flamigo",
-    fr: "flamenroule",
-    ja: "カラミンゴ",
-    zh: "缠红鹤",
-  },
-  number: 961,
-},{
-  names: {
-    de: "klibbe",
-    en: "klawf",
-    fr: "craparoi",
-    ja: "ガケガニ",
-    zh: "毛崖蟹",
-  },
-  number: 962,
-},{
-  names: {
-    de: "geosali",
-    en: "nacli",
-    fr: "selutin",
-    ja: "コジオ",
-    zh: "盐石宝",
-  },
-  number: 963,
-},{
-  names: {
-    de: "sedisal",
-    en: "naclstack",
-    fr: "amassel",
-    ja: "ジオヅム",
-    zh: "盐石垒",
-  },
-  number: 964,
-},{
-  names: {
-    de: "saltigant",
-    en: "garganacl",
-    fr: "gigansel",
-    ja: "キョジオーン",
-    zh: "盐石巨灵",
-  },
-  number: 965,
-},{
-  names: {
-    de: "lumispross",
-    en: "glimmet",
-    fr: "germéclat",
-    ja: "キラーメ",
-    zh: "晶光芽",
-  },
-  number: 966,
-},{
-  names: {
-    de: "lumiflora",
-    en: "glimmora",
-    fr: "floréclat",
-    ja: "キラフロル",
-    zh: "晶光花",
-  },
-  number: 967,
-},{
-  names: {
-    de: "sproxi",
-    en: "shroodle",
-    fr: "gribouraigne",
-    ja: "シルシュルー",
-    zh: "滋汁鼹",
-  },
-  number: 968,
-},{
-  names: {
-    de: "affiti",
-    en: "grafaiai",
-    fr: "tag-tag",
-    ja: "タギングル",
-    zh: "涂标客",
-  },
-  number: 969,
+  number: 925,
 },{
   names: {
     de: "hefel",
@@ -8765,7 +8369,7 @@ export const POKEMON_NAMES = [{
     ja: "パピモッチ",
     zh: "狗仔包",
   },
-  number: 970,
+  number: 926,
 },{
   names: {
     de: "backel",
@@ -8774,268 +8378,70 @@ export const POKEMON_NAMES = [{
     ja: "バウッツェル",
     zh: "麻花犬",
   },
-  number: 971,
+  number: 927,
 },{
   names: {
-    de: "mobtiff",
-    en: "maschiff",
-    fr: "grondogue",
-    ja: "オラチフ",
-    zh: "偶叫獒",
+    de: "olini",
+    en: "smoliv",
+    fr: "olivini",
+    ja: "ミニーブ",
+    zh: "迷你芙",
   },
-  number: 972,
+  number: 928,
 },{
   names: {
-    de: "mastifioso",
-    en: "mabosstiff",
-    fr: "dogrino",
-    ja: "マフィティフ",
-    zh: "獒教父",
+    de: "olivinio",
+    en: "dolliv",
+    fr: "olivado",
+    ja: "オリーニョ",
+    zh: "奥利纽",
   },
-  number: 973,
+  number: 929,
 },{
   names: {
-    de: "weherba",
-    en: "bramblin",
-    fr: "virovent",
-    ja: "アノクサ",
-    zh: "纳噬草",
+    de: "olithena",
+    en: "arboliva",
+    fr: "arboliva",
+    ja: "オリーヴァ",
+    zh: "奥利瓦",
   },
-  number: 974,
+  number: 930,
 },{
   names: {
-    de: "horrerba",
-    en: "brambleghast",
-    fr: "virevorreur",
-    ja: "アノホラグサ",
-    zh: "怖纳噬草",
+    de: "krawalloro",
+    en: "squawkabilly",
+    fr: "tapatoès",
+    ja: "イキリンコ",
+    zh: "怒鹦哥",
   },
-  number: 975,
+  number: 931,
 },{
   names: {
-    de: "gierspenst",
-    en: "gimmighoul",
-    fr: "mordudor",
-    ja: "コレクレー",
-    zh: "索财灵",
+    de: "geosali",
+    en: "nacli",
+    fr: "selutin",
+    ja: "コジオ",
+    zh: "盐石宝",
   },
-  number: 976,
+  number: 932,
 },{
   names: {
-    de: "monetigo",
-    en: "gholdengo",
-    fr: "gromago",
-    ja: "サーフゴー",
-    zh: "赛富豪",
+    de: "sedisal",
+    en: "naclstack",
+    fr: "amassel",
+    ja: "ジオヅム",
+    zh: "盐石垒",
   },
-  number: 977,
+  number: 933,
 },{
   names: {
-    de: "riesenzahn",
-    en: "great tusk",
-    fr: "fort-ivoire",
-    ja: "イダイナキバ",
-    zh: "雄伟牙",
+    de: "saltigant",
+    en: "garganacl",
+    fr: "gigansel",
+    ja: "キョジオーン",
+    zh: "盐石巨灵",
   },
-  number: 978,
-},{
-  names: {
-    de: "wutpilz",
-    en: "brute bonnet",
-    fr: "fongus-furie",
-    ja: "アラブルタケ",
-    zh: "猛恶菇",
-  },
-  number: 979,
-},{
-  names: {
-    de: "sandfell",
-    en: "sandy shocks",
-    fr: "pelage-sablé",
-    ja: "スナノケガワ",
-    zh: "沙铁皮",
-  },
-  number: 981,
-},{
-  names: {
-    de: "brüllschweif",
-    en: "scream tail",
-    fr: "hurle-queue",
-    ja: "サケブシッポ",
-    zh: "吼叫尾",
-  },
-  number: 982,
-},{
-  names: {
-    de: "flatterhaar",
-    en: "flutter mane",
-    fr: "flotte-mèche",
-    ja: "ハバタクカミ",
-    zh: "振翼发",
-  },
-  number: 983,
-},{
-  names: {
-    de: "kriechflügel",
-    en: "slither wing",
-    fr: "rampe-ailes",
-    ja: "チヲハウハネ",
-    zh: "爬地翅",
-  },
-  number: 984,
-},{
-  names: {
-    de: "donnersichel",
-    en: "roaring moon",
-    fr: "rugit-lune",
-    ja: "トドロクツキ",
-    zh: "轰鸣月",
-  },
-  number: 985,
-},{
-  names: {
-    de: "eisenrad",
-    en: "iron treads",
-    fr: "roue-de-fer",
-    ja: "テツノワダチ",
-    zh: "铁辙迹",
-  },
-  number: 986,
-},{
-  names: {
-    de: "eisenfalter",
-    en: "iron moth",
-    fr: "mite-de-fer",
-    ja: "テツノドクガ",
-    zh: "铁毒蛾",
-  },
-  number: 988,
-},{
-  names: {
-    de: "eisenhand",
-    en: "iron hands",
-    fr: "paume-de-fer",
-    ja: "テツノカイナ",
-    zh: "铁臂膀",
-  },
-  number: 989,
-},{
-  names: {
-    de: "eisenhals",
-    en: "iron jugulis",
-    fr: "têtes-de-fer",
-    ja: "テツノコウベ",
-    zh: "铁脖颈",
-  },
-  number: 990,
-},{
-  names: {
-    de: "eisendorn",
-    en: "iron thorns",
-    fr: "épine-de-fer",
-    ja: "テツノイバラ",
-    zh: "铁荆棘",
-  },
-  number: 991,
-},{
-  names: {
-    de: "eisenbündel",
-    en: "iron bundle",
-    fr: "hotte-de-fer",
-    ja: "テツノツツミ",
-    zh: "铁包袱",
-  },
-  number: 992,
-},{
-  names: {
-    de: "eisenkrieger",
-    en: "iron valiant",
-    fr: "garde-de-fer",
-    ja: "テツノブジン",
-    zh: "铁武者",
-  },
-  number: 993,
-},{
-  names: {
-    de: "dinglu",
-    en: "ting-lu",
-    fr: "dinglu",
-    ja: "ディンルー",
-    zh: "古鼎鹿",
-  },
-  number: 994,
-},{
-  names: {
-    de: "baojian",
-    en: "chien-pao",
-    fr: "baojian",
-    ja: "パオジアン",
-    zh: "古剑豹",
-  },
-  number: 995,
-},{
-  names: {
-    de: "chongjian",
-    en: "wo-chien",
-    fr: "chongjian",
-    ja: "チオンジェン",
-    zh: "古简蜗",
-  },
-  number: 996,
-},{
-  names: {
-    de: "yuyu",
-    en: "chi-yu",
-    fr: "yuyu",
-    ja: "イーユイ",
-    zh: "古玉鱼",
-  },
-  number: 997,
-},{
-  names: {
-    de: "koraidon",
-    en: "koraidon",
-    fr: "koraidon",
-    ja: "コライドン",
-    zh: "故勒顿",
-  },
-  number: 998,
-},{
-  names: {
-    de: "miraidon",
-    en: "miraidon",
-    fr: "miraidon",
-    ja: "ミライドン",
-    zh: "密勒顿",
-  },
-  number: 999,
-},{
-  names: {
-    de: "forgita",
-    en: "tinkatink",
-    fr: "forgerette",
-    ja: "カヌチャン",
-    zh: "小锻匠",
-  },
-  number: 1000,
-},{
-  names: {
-    de: "tafforgita",
-    en: "tinkatuff",
-    fr: "forgella",
-    ja: "ナカヌチャン",
-    zh: "巧锻匠",
-  },
-  number: 1001,
-},{
-  names: {
-    de: "granforgita",
-    en: "tinkaton",
-    fr: "forgelina",
-    ja: "デカヌチャン",
-    zh: "巨锻匠",
-  },
-  number: 1002,
+  number: 934,
 },{
   names: {
     de: "knarbon",
@@ -9044,7 +8450,7 @@ export const POKEMON_NAMES = [{
     ja: "カルボウ",
     zh: "炭小侍",
   },
-  number: 1003,
+  number: 935,
 },{
   names: {
     de: "crimanzo",
@@ -9053,7 +8459,7 @@ export const POKEMON_NAMES = [{
     ja: "グレンアルマ",
     zh: "红莲铠骑",
   },
-  number: 1004,
+  number: 936,
 },{
   names: {
     de: "azugladis",
@@ -9062,7 +8468,97 @@ export const POKEMON_NAMES = [{
     ja: "ソウブレイズ",
     zh: "苍炎刃鬼",
   },
-  number: 1005,
+  number: 937,
+},{
+  names: {
+    de: "blipp",
+    en: "tadbulb",
+    fr: "têtampoule",
+    ja: "ズピカ",
+    zh: "光蚪仔",
+  },
+  number: 938,
+},{
+  names: {
+    de: "wampitz",
+    en: "bellibolt",
+    fr: "ampibidou",
+    ja: "ハラバリー",
+    zh: "电肚蛙",
+  },
+  number: 939,
+},{
+  names: {
+    de: "voltrel",
+    en: "wattrel",
+    fr: "zapétrel",
+    ja: "カイデン",
+    zh: "电海燕",
+  },
+  number: 940,
+},{
+  names: {
+    de: "voltrean",
+    en: "kilowattrel",
+    fr: "fulgulairo",
+    ja: "タイカイデン",
+    zh: "大电海燕",
+  },
+  number: 941,
+},{
+  names: {
+    de: "mobtiff",
+    en: "maschiff",
+    fr: "grondogue",
+    ja: "オラチフ",
+    zh: "偶叫獒",
+  },
+  number: 942,
+},{
+  names: {
+    de: "mastifioso",
+    en: "mabosstiff",
+    fr: "dogrino",
+    ja: "マフィティフ",
+    zh: "獒教父",
+  },
+  number: 943,
+},{
+  names: {
+    de: "sproxi",
+    en: "shroodle",
+    fr: "gribouraigne",
+    ja: "シルシュルー",
+    zh: "滋汁鼹",
+  },
+  number: 944,
+},{
+  names: {
+    de: "affiti",
+    en: "grafaiai",
+    fr: "tag-tag",
+    ja: "タギングル",
+    zh: "涂标客",
+  },
+  number: 945,
+},{
+  names: {
+    de: "weherba",
+    en: "bramblin",
+    fr: "virovent",
+    ja: "アノクサ",
+    zh: "纳噬草",
+  },
+  number: 946,
+},{
+  names: {
+    de: "horrerba",
+    en: "brambleghast",
+    fr: "virevorreur",
+    ja: "アノホラグサ",
+    zh: "怖纳噬草",
+  },
+  number: 947,
 },{
   names: {
     de: "tentagra",
@@ -9071,7 +8567,7 @@ export const POKEMON_NAMES = [{
     ja: "ノノクラゲ",
     zh: "原野水母",
   },
-  number: 1006,
+  number: 948,
 },{
   names: {
     de: "tenterra",
@@ -9080,25 +8576,268 @@ export const POKEMON_NAMES = [{
     ja: "リククラゲ",
     zh: "陆地水母",
   },
-  number: 1007,
+  number: 949,
 },{
   names: {
-    de: "gladimperio",
-    en: "kingambit",
-    fr: "scalpereur",
-    ja: "ドドゲザン",
-    zh: "仆刀将军",
+    de: "klibbe",
+    en: "klawf",
+    fr: "craparoi",
+    ja: "ガケガニ",
+    zh: "毛崖蟹",
   },
-  number: 1008,
+  number: 950,
 },{
   names: {
-    de: "suelord",
-    en: "clodsire",
-    fr: "terraiste",
-    ja: "ドオー",
-    zh: "土王",
+    de: "chilingel",
+    en: "capsakid",
+    fr: "pimito",
+    ja: "カプサイジ",
+    zh: "热辣娃",
   },
-  number: 1009,
+  number: 951,
+},{
+  names: {
+    de: "halupenjo",
+    en: "scovillain",
+    fr: "scovilain",
+    ja: "スコヴィラン",
+    zh: "狠辣椒",
+  },
+  number: 952,
+},{
+  names: {
+    de: "relluk",
+    en: "rellor",
+    fr: "léboulérou",
+    ja: "シガロコ",
+    zh: "虫滚泥",
+  },
+  number: 953,
+},{
+  names: {
+    de: "skarabaks",
+    en: "rabsca",
+    fr: "bérasca",
+    ja: "ベラカス",
+    zh: "虫甲圣",
+  },
+  number: 954,
+},{
+  names: {
+    de: "flattutu",
+    en: "flittle",
+    fr: "flotillon",
+    ja: "ヒラヒナ",
+    zh: "飘飘雏",
+  },
+  number: 955,
+},{
+  names: {
+    de: "psiopatra",
+    en: "espathra",
+    fr: "cléopsytra",
+    ja: "クエスパトラ",
+    zh: "超能艳鸵",
+  },
+  number: 956,
+},{
+  names: {
+    de: "forgita",
+    en: "tinkatink",
+    fr: "forgerette",
+    ja: "カヌチャン",
+    zh: "小锻匠",
+  },
+  number: 957,
+},{
+  names: {
+    de: "tafforgita",
+    en: "tinkatuff",
+    fr: "forgella",
+    ja: "ナカヌチャン",
+    zh: "巧锻匠",
+  },
+  number: 958,
+},{
+  names: {
+    de: "granforgita",
+    en: "tinkaton",
+    fr: "forgelina",
+    ja: "デカヌチャン",
+    zh: "巨锻匠",
+  },
+  number: 959,
+},{
+  names: {
+    de: "schligda",
+    en: "wiglett",
+    fr: "taupikeau",
+    ja: "ウミディグダ",
+    zh: "海地鼠",
+  },
+  number: 960,
+},{
+  names: {
+    de: "schligdri",
+    en: "wugtrio",
+    fr: "triopikeau",
+    ja: "ウミトリオ",
+    zh: "三海地鼠",
+  },
+  number: 961,
+},{
+  names: {
+    de: "adebom",
+    en: "bombirdier",
+    fr: "lestombaile",
+    ja: "オトシドリ",
+    zh: "下石鸟",
+  },
+  number: 962,
+},{
+  names: {
+    de: "normifin",
+    en: "finizen",
+    fr: "dofin",
+    ja: "ナミイルカ",
+    zh: "波普海豚",
+  },
+  number: 963,
+},{
+  names: {
+    de: "delfinator",
+    en: "palafin",
+    fr: "superdofin",
+    ja: "イルカマン",
+    zh: "海豚侠",
+  },
+  number: 964,
+},{
+  names: {
+    de: "knattox",
+    en: "varoom",
+    fr: "vrombi",
+    ja: "ブロロン",
+    zh: "噗隆隆",
+  },
+  number: 965,
+},{
+  names: {
+    de: "knattatox",
+    en: "revavroom",
+    fr: "vrombotor",
+    ja: "ブロロローム",
+    zh: "普隆隆姆",
+  },
+  number: 966,
+},{
+  names: {
+    de: "mopex",
+    en: "cyclizar",
+    fr: "motorizard",
+    ja: "モトトカゲ",
+    zh: "摩托蜥",
+  },
+  number: 967,
+},{
+  names: {
+    de: "schlurm",
+    en: "orthworm",
+    fr: "ferdeter",
+    ja: "ミミズズ",
+    zh: "拖拖蚓",
+  },
+  number: 968,
+},{
+  names: {
+    de: "lumispross",
+    en: "glimmet",
+    fr: "germéclat",
+    ja: "キラーメ",
+    zh: "晶光芽",
+  },
+  number: 969,
+},{
+  names: {
+    de: "lumiflora",
+    en: "glimmora",
+    fr: "floréclat",
+    ja: "キラフロル",
+    zh: "晶光花",
+  },
+  number: 970,
+},{
+  names: {
+    de: "gruff",
+    en: "greavard",
+    fr: "toutombe",
+    ja: "ボチ",
+    zh: "墓仔狗",
+  },
+  number: 971,
+},{
+  names: {
+    de: "friedwuff",
+    en: "houndstone",
+    fr: "tomberro",
+    ja: "ハカドッグ",
+    zh: "墓扬犬",
+  },
+  number: 972,
+},{
+  names: {
+    de: "flaminkno",
+    en: "flamigo",
+    fr: "flamenroule",
+    ja: "カラミンゴ",
+    zh: "缠红鹤",
+  },
+  number: 973,
+},{
+  names: {
+    de: "flaniwal",
+    en: "cetoddle",
+    fr: "piétacé",
+    ja: "アルクジラ",
+    zh: "走鲸",
+  },
+  number: 974,
+},{
+  names: {
+    de: "kolowal",
+    en: "cetitan",
+    fr: "balbalèze",
+    ja: "ハルクジラ",
+    zh: "浩大鲸",
+  },
+  number: 975,
+},{
+  names: {
+    de: "agiluza",
+    en: "veluza",
+    fr: "délestin",
+    ja: "ミガルーサ",
+    zh: "轻身鳕",
+  },
+  number: 976,
+},{
+  names: {
+    de: "heerashai",
+    en: "dondozo",
+    fr: "oyacata",
+    ja: "ヘイラッシャ",
+    zh: "吃吼霸",
+  },
+  number: 977,
+},{
+  names: {
+    de: "nigiragi",
+    en: "tatsugiri",
+    fr: "nigirigon",
+    ja: "シャリタツ",
+    zh: "米立龙",
+  },
+  number: 978,
 },{
   names: {
     de: "epitaff",
@@ -9107,7 +8846,268 @@ export const POKEMON_NAMES = [{
     ja: "コノヨザル",
     zh: "弃世猴",
   },
-  number: 1010,
+  number: 979,
+},{
+  names: {
+    de: "suelord",
+    en: "clodsire",
+    fr: "terraiste",
+    ja: "ドオー",
+    zh: "土王",
+  },
+  number: 980,
+},{
+  names: {
+    de: "farigiraf",
+    en: "farigiraf",
+    fr: "farigiraf",
+    ja: "リキキリン",
+    zh: "奇麒麟",
+  },
+  number: 981,
+},{
+  names: {
+    de: "dummimisel",
+    en: "dudunsparce",
+    fr: "deusolourdo",
+    ja: "ノココッチ",
+    zh: "土龙节节",
+  },
+  number: 982,
+},{
+  names: {
+    de: "gladimperio",
+    en: "kingambit",
+    fr: "scalpereur",
+    ja: "ドドゲザン",
+    zh: "仆刀将军",
+  },
+  number: 983,
+},{
+  names: {
+    de: "riesenzahn",
+    en: "great tusk",
+    fr: "fort-ivoire",
+    ja: "イダイナキバ",
+    zh: "雄伟牙",
+  },
+  number: 984,
+},{
+  names: {
+    de: "brüllschweif",
+    en: "scream tail",
+    fr: "hurle-queue",
+    ja: "サケブシッポ",
+    zh: "吼叫尾",
+  },
+  number: 985,
+},{
+  names: {
+    de: "wutpilz",
+    en: "brute bonnet",
+    fr: "fongus-furie",
+    ja: "アラブルタケ",
+    zh: "猛恶菇",
+  },
+  number: 986,
+},{
+  names: {
+    de: "flatterhaar",
+    en: "flutter mane",
+    fr: "flotte-mèche",
+    ja: "ハバタクカミ",
+    zh: "振翼发",
+  },
+  number: 987,
+},{
+  names: {
+    de: "kriechflügel",
+    en: "slither wing",
+    fr: "rampe-ailes",
+    ja: "チヲハウハネ",
+    zh: "爬地翅",
+  },
+  number: 988,
+},{
+  names: {
+    de: "sandfell",
+    en: "sandy shocks",
+    fr: "pelage-sablé",
+    ja: "スナノケガワ",
+    zh: "沙铁皮",
+  },
+  number: 989,
+},{
+  names: {
+    de: "eisenrad",
+    en: "iron treads",
+    fr: "roue-de-fer",
+    ja: "テツノワダチ",
+    zh: "铁辙迹",
+  },
+  number: 990,
+},{
+  names: {
+    de: "eisenbündel",
+    en: "iron bundle",
+    fr: "hotte-de-fer",
+    ja: "テツノツツミ",
+    zh: "铁包袱",
+  },
+  number: 991,
+},{
+  names: {
+    de: "eisenhand",
+    en: "iron hands",
+    fr: "paume-de-fer",
+    ja: "テツノカイナ",
+    zh: "铁臂膀",
+  },
+  number: 992,
+},{
+  names: {
+    de: "eisenhals",
+    en: "iron jugulis",
+    fr: "têtes-de-fer",
+    ja: "テツノコウベ",
+    zh: "铁脖颈",
+  },
+  number: 993,
+},{
+  names: {
+    de: "eisenfalter",
+    en: "iron moth",
+    fr: "mite-de-fer",
+    ja: "テツノドクガ",
+    zh: "铁毒蛾",
+  },
+  number: 994,
+},{
+  names: {
+    de: "eisendorn",
+    en: "iron thorns",
+    fr: "épine-de-fer",
+    ja: "テツノイバラ",
+    zh: "铁荆棘",
+  },
+  number: 995,
+},{
+  names: {
+    de: "frospino",
+    en: "frigibax",
+    fr: "frigodo",
+    ja: "セビエ",
+    zh: "凉脊龙",
+  },
+  number: 996,
+},{
+  names: {
+    de: "cryospino",
+    en: "arctibax",
+    fr: "cryodo",
+    ja: "セゴール",
+    zh: "冻脊龙",
+  },
+  number: 997,
+},{
+  names: {
+    de: "espinodon",
+    en: "baxcalibur",
+    fr: "glaivodo",
+    ja: "セグレイブ",
+    zh: "戟脊龙",
+  },
+  number: 998,
+},{
+  names: {
+    de: "gierspenst",
+    en: "gimmighoul",
+    fr: "mordudor",
+    ja: "コレクレー",
+    zh: "索财灵",
+  },
+  number: 999,
+},{
+  names: {
+    de: "monetigo",
+    en: "gholdengo",
+    fr: "gromago",
+    ja: "サーフゴー",
+    zh: "赛富豪",
+  },
+  number: 1000,
+},{
+  names: {
+    de: "chongjian",
+    en: "wo-chien",
+    fr: "chongjian",
+    ja: "チオンジェン",
+    zh: "古简蜗",
+  },
+  number: 1001,
+},{
+  names: {
+    de: "baojian",
+    en: "chien-pao",
+    fr: "baojian",
+    ja: "パオジアン",
+    zh: "古剑豹",
+  },
+  number: 1002,
+},{
+  names: {
+    de: "dinglu",
+    en: "ting-lu",
+    fr: "dinglu",
+    ja: "ディンルー",
+    zh: "古鼎鹿",
+  },
+  number: 1003,
+},{
+  names: {
+    de: "yuyu",
+    en: "chi-yu",
+    fr: "yuyu",
+    ja: "イーユイ",
+    zh: "古玉鱼",
+  },
+  number: 1004,
+},{
+  names: {
+    de: "donnersichel",
+    en: "roaring moon",
+    fr: "rugit-lune",
+    ja: "トドロクツキ",
+    zh: "轰鸣月",
+  },
+  number: 1005,
+},{
+  names: {
+    de: "eisenkrieger",
+    en: "iron valiant",
+    fr: "garde-de-fer",
+    ja: "テツノブジン",
+    zh: "铁武者",
+  },
+  number: 1006,
+},{
+  names: {
+    de: "koraidon",
+    en: "koraidon",
+    fr: "koraidon",
+    ja: "コライドン",
+    zh: "故勒顿",
+  },
+  number: 1007,
+},{
+  names: {
+    de: "miraidon",
+    en: "miraidon",
+    fr: "miraidon",
+    ja: "ミライドン",
+    zh: "密勒顿",
+  },
+  number: 1008,
 }] as const;
 
 export type PokemonNumber = typeof POKEMON_NAMES[number]['number'];
