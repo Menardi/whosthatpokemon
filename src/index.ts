@@ -84,13 +84,10 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
     },
     9: {
         start: 906,
-        end: 1010,
+        end: 1008,
         supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
 } as const;
-
-/** These numbers are currently missing in the game data for Gen 9 */
-const MISSING_NUMBERS = [980, 987];
 
 let newGen: GenerationId[] = [];
 
@@ -580,7 +577,7 @@ function generateNewNumbers(force?: boolean) {
             });
         });
 
-        upcomingPokemon = shuffle(upcomingPokemon).filter((number) => !MISSING_NUMBERS.includes(number));
+        upcomingPokemon = shuffle(upcomingPokemon);
     }
 }
 
