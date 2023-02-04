@@ -618,8 +618,12 @@ function newPokemon() {
     clearCanvas('shadowImage');
 
     // Generate a new Pokemon if one hasn't already been preloaded, or if the settings have
-    // changed since the Pokemon was revealed.
-    if(!pokemonPreloaded || !isEqual(settings.generations, newGen) || preloadedDifficulty != pendingDifficulty) {
+    // changed since the Pokemon was revealed. Don't generate new numbers if the selected
+    // generation(s) have been finished, so the user can be shown the "generation finished"
+    // message.
+    if((!pokemonPreloaded && currentPokemonNumber !== -1)
+        || !isEqual(settings.generations, newGen)
+        || (preloadedDifficulty !== -1 && preloadedDifficulty != pendingDifficulty)) {
         generateNewNumbers(true);
         currentPokemonNumber = getNextPokemonNumber();
     }
@@ -639,7 +643,7 @@ function newPokemon() {
     saveState();
 
     if(currentPokemonNumber === -1) {
-        generationFinished();
+        onGenerationFinished();
     } else {
         pokemonPreloaded = false;
 
@@ -683,7 +687,7 @@ function newPokemon() {
 /**
  * Shows a message to the user if they have completed the entire generation
  */
-function generationFinished() {
+function onGenerationFinished() {
     showElement(elements.generationFinishedMessage);
     hideMain();
 }
@@ -905,7 +909,7 @@ function giveAnswer() {
  */
 function getNextPokemonNumber(): PokemonNumber {
     let number;
-    if(upcomingPokemonArrayIndex > upcomingPokemon.length || upcomingPokemon.length === 0) {
+    if(upcomingPokemonArrayIndex >= upcomingPokemon.length || upcomingPokemon.length === 0) {
         number = -1;
     } else {
         number = upcomingPokemon[upcomingPokemonArrayIndex++];
