@@ -9108,6 +9108,24 @@ export const POKEMON_NAMES = [{
     zh: "密勒顿",
   },
   number: 1008,
+},{
+  names: {
+    de: "windewoge",
+    en: "walking wake",
+    fr: "serpente-eau",
+    ja: "ウネルミナモ",
+    zh: "波荡水",
+  },
+  number: 1009,
+},{
+  names: {
+    de: "eisenblatt",
+    en: "iron leaves",
+    fr: "vert-de-fer",
+    ja: "テツノイサハ",
+    zh: "铁斑叶",
+  },
+  number: 1010,
 }] as const;
 
 export type PokemonNumber = typeof POKEMON_NAMES[number]['number'];
