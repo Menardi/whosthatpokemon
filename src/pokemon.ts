@@ -9126,6 +9126,69 @@ export const POKEMON_NAMES = [{
     zh: "铁斑叶",
   },
   number: 1010,
+},{
+  names: {
+    de: "sirapfel",
+    en: "dipplin",
+    fr: "pomdramour",
+    ja: "カミッチュ",
+    zh: "裹蜜虫",
+  },
+  number: 1011,
+},{
+  names: {
+    de: "mortcha",
+    en: "poltchageist",
+    fr: "poltchageist",
+    ja: "チャデス",
+    zh: "斯魔茶",
+  },
+  number: 1012,
+},{
+  names: {
+    de: "fatalitcha",
+    en: "sinistcha",
+    fr: "théffroyable",
+    ja: "ヤバソチャ",
+    zh: "来悲粗茶",
+  },
+  number: 1013,
+},{
+  names: {
+    de: "boninu",
+    en: "okidogi",
+    fr: "félicanis",
+    ja: "イイネイヌ",
+    zh: "够赞狗",
+  },
+  number: 1014,
+},{
+  names: {
+    de: "benesaru",
+    en: "munkidori",
+    fr: "fortusimia",
+    ja: "マシマシラ",
+    zh: "愿增猿",
+  },
+  number: 1015,
+},{
+  names: {
+    de: "beatori",
+    en: "fezandipiti",
+    fr: "favianos",
+    ja: "キチキギス",
+    zh: "吉雉鸡",
+  },
+  number: 1016,
+},{
+  names: {
+    de: "ogerpon",
+    en: "ogerpon",
+    fr: "ogerpon",
+    ja: "オーガポン",
+    zh: "厄诡椪",
+  },
+  number: 1017,
 }] as const;
 
 export type PokemonNumber = typeof POKEMON_NAMES[number]['number'];
