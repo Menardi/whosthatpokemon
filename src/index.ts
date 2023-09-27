@@ -10,12 +10,6 @@ import { LanguageId, TranslationKey, TRANSLATIONS } from './translations';
 import { soundAlike } from './spelling';
 import { hideElement, showElement } from './util';
 
-declare global {
-    interface Window {
-        mixpanel: any;
-    }
-}
-
 const DIFFICULTY = {
     NORMAL: 0,
     ULTRA: 1,
@@ -498,10 +492,7 @@ function revealPokemon(correctlyGuessed: boolean) {
             records.totals.time[settings.difficulty] += timeTaken;
             records.totals.guesses[settings.difficulty] += 1;
         }
-
-        trackCurrentPokemon(1);
     } else {
-        trackCurrentPokemon(0);
         correctCount[settings.difficulty] = 0;
         timeTaken = -1;
     }
@@ -957,21 +948,6 @@ function checkPokemonAnswer(typedGuess: string) {
     } else if(guess == removeAccents(currentPokemonNames[settings.language])) {
         revealPokemon(true);
     }
-}
-
-/**
- * Send correct / incorrect answers to Mixpanel
- */
-function trackCurrentPokemon(correct: 0 | 1) {
-    let guessData = {
-        'Pokemon ID': currentPokemonNumber,
-        'Correct': correct,
-        'Difficulty': settings.difficulty,
-        'Generation': settings.generations,
-        'Time Taken': timeTaken
-    };
-
-    if(window.mixpanel) window.mixpanel.track("Guess", guessData);
 }
 
 /**
