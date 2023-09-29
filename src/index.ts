@@ -83,6 +83,9 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
     },
 } as const;
 
+/** How long to wait after a correct answer before showing the next Pokemon */
+const SECONDS_BETWEEN_POKEMON = 3;
+
 let newGen: GenerationId[] = [];
 
 /** The number of the Pokemon currently on screen. -1 if the user has reached the end of the list generated for them. */
@@ -98,7 +101,7 @@ let currentPokemonSoundUrl: string;
 let correctCount: StatsPerDifficultyArray = [0, 0, 0, 0, 0];
 
 /** Stores the number of seconds until the next Pokemon is shown, after the user has answered (or given up). */
-let nextTimer = 3;
+let nextTimer = SECONDS_BETWEEN_POKEMON;
 /** ID of the setInterval used to set the countdown timer after an answer. Used to clear the interval once the next
  *  Pokemon has been shown. */
 let intervalId: number;
@@ -109,12 +112,12 @@ let startTime: number;
  *  I Don't Know for the last Pokemon. */
 let timeTaken: number = -1;
 
-/** True if a Pokemon image has been preloaded and is ready to go for the next Pokemon. */
-let pokemonPreloaded = false;
-/** The difficulty level of the preloaded Pokemon. If the user changes the difficulty after the image has been
- *  preloaded, but before it has been shown, they would see the wrong image. Keeping track of the preloaded
- *  difficulty here allows us to discard the preloaded image if it is not for the correct difficulty. */
-let preloadedDifficulty = -1;
+/** True if a Pokemon image has been prepared and is ready to go for the next Pokemon. */
+let hasPreparedPokemon = false;
+/** The difficulty level of the prepared Pokemon. If the user changes the difficulty after the image has been
+ *  prepared, but before it has been shown, they would see the wrong image. Keeping track of the prepared
+ *  difficulty here allows us to discard the prepared image if it is not for the correct difficulty. */
+let preparedPokemonDifficulty = -1;
 
 /** The image loaded for the current Pokemon */
 let loadedImage: HTMLImageElement;
@@ -257,7 +260,7 @@ const onReady = () => {
 
     loadState();
 
-    generateNewNumbers(true);
+    maybeGenerateNewNumbers(true);
 
     newPokemon();
 
@@ -284,6 +287,10 @@ const onReady = () => {
     elements.input.addEventListener('keydown', function(this: HTMLInputElement, ev) {
         if(this.classList.contains('disabled')) {
             ev.preventDefault();
+
+            if (ev.key === 'Enter') {
+                newPokemon();
+            }
         }
     });
 
@@ -356,7 +363,7 @@ function setGen(genToAffect: GenerationId) {
     // This will only happen if the user has reached the end of a generation and then changed
     // the generation. It immediately puts up a new Pokemon.
     if(currentPokemonNumber === -1) {
-        generateNewNumbers(true);
+        maybeGenerateNewNumbers(true);
         newPokemon();
     }
 }
@@ -393,7 +400,7 @@ function setDifficulty(selectedDifficulty: Difficulty) {
     // This will only happen if the user has reached the end of a generation and then changed
     // the generation. It immediately puts up a new Pokemon.
     if (currentPokemonNumber === -1) {
-        generateNewNumbers(true);
+        maybeGenerateNewNumbers(true);
         newPokemon();
     }
 }
@@ -545,10 +552,10 @@ function revealPokemon(correctlyGuessed: boolean) {
     }
 
     // Update to any new settings that have been selected
-    generateNewNumbers();
+    maybeGenerateNewNumbers();
 
-    // Preload the next Pokemon
-    preloadPokemon();
+    // Prepare the next Pokemon, but it won't be shown until the countdown timer completes, or the user skips
+    prepareNextPokemon();
 }
 
 /**
@@ -556,7 +563,7 @@ function revealPokemon(correctlyGuessed: boolean) {
  * Set force to true to re-generate the array, regardless of whether there is a pending
  * generation change.
  */
-function generateNewNumbers(force?: boolean) {
+function maybeGenerateNewNumbers(force?: boolean) {
     if(force || !isEqual(settings.generations, newGen)) {
         upcomingPokemon = [];
         upcomingPokemonArrayIndex = 0;
@@ -572,30 +579,51 @@ function generateNewNumbers(force?: boolean) {
     }
 }
 
+/** Preloads the image and audio (if sound is enabled) for the given Pokémon number */
+function preloadPokemonMedia(number: PokemonNumber | -1) {
+    if (number === -1) return;
+
+    const imageUrl = getPokemonImageUrl(number);
+
+    if (imageUrl !== null) {
+        const img = new Image();
+        img.src = imageUrl;
+    }
+
+    if (settings.sound) {
+        const soundUrl = getPokemonSoundUrl(number);
+        const audio = new Audio();
+        audio.src = soundUrl;
+    }
+}
+
+function preloadNextPokemonMedia() {
+    preloadPokemonMedia(getNextPokemonNumber());
+}
+
 /**
  * Generates a new Pokemon and loads the image, but doesn't display it. Returns true if
  * it preloaded, false otherwise.
  */
-function preloadPokemon() {
-    currentPokemonNumber = getNextPokemonNumber();
+function prepareNextPokemon() {
+    currentPokemonNumber = shiftNextPokemonNumber();
 
-    if(currentPokemonNumber > 0) {
+    if (currentPokemonNumber !== -1) {
         currentPokemonNames = getPokemonNames(currentPokemonNumber);
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
     } else {
         return false;
     }
 
-    if(currentPokemonImageUrl !== null) {
-        let img = new Image();
-        img.src = currentPokemonImageUrl;
-        pokemonPreloaded = true;
-        preloadedDifficulty = settings.difficulty;
+    if (currentPokemonImageUrl !== null) {
+        preloadPokemonMedia(currentPokemonNumber);
+        hasPreparedPokemon = true;
+        preparedPokemonDifficulty = settings.difficulty;
         return true;
     } else if (settings.difficulty === DIFFICULTY.ELITE) {
         // There is no image to preload, so assume success
-        pokemonPreloaded = true;
-        preloadedDifficulty = settings.difficulty;
+        hasPreparedPokemon = true;
+        preparedPokemonDifficulty = settings.difficulty;
         return true;
     } else {
         return false;
@@ -612,14 +640,14 @@ function newPokemon() {
     // changed since the Pokemon was revealed. Don't generate new numbers if the selected
     // generation(s) have been finished, so the user can be shown the "generation finished"
     // message.
-    if((!pokemonPreloaded && currentPokemonNumber !== -1)
+    if((!hasPreparedPokemon && currentPokemonNumber !== -1)
         || !isEqual(settings.generations, newGen)
-        || (preloadedDifficulty !== -1 && preloadedDifficulty != pendingDifficulty)) {
-        generateNewNumbers(true);
-        currentPokemonNumber = getNextPokemonNumber();
+        || (preparedPokemonDifficulty !== -1 && preparedPokemonDifficulty != pendingDifficulty)) {
+        maybeGenerateNewNumbers(true);
+        currentPokemonNumber = shiftNextPokemonNumber();
     }
 
-    nextTimer = 3;
+    nextTimer = SECONDS_BETWEEN_POKEMON;
     clearInterval(intervalId);
 
     elements.input.classList.remove('correct', 'disabled');
@@ -636,7 +664,7 @@ function newPokemon() {
     if(currentPokemonNumber === -1) {
         onGenerationFinished();
     } else {
-        pokemonPreloaded = false;
+        hasPreparedPokemon = false;
 
         currentPokemonNames = getPokemonNames(currentPokemonNumber);
         currentPokemonImageUrl = getPokemonImageUrl(currentPokemonNumber);
@@ -669,8 +697,10 @@ function newPokemon() {
         if(document.body.classList.contains('keyboard-open')) {
             _onKeyboardOpen();
         }
-    }
 
+        // Preload the next Pokemon so users skipping the countdown don't have to wait for it to load later
+        setTimeout(preloadNextPokemonMedia, 500);
+    }
 }
 
 
@@ -887,7 +917,7 @@ function nextCountdown() {
  * Give the answer if the user has given up.
  */
 function giveAnswer() {
-    if(elements.input === document.activeElement) {
+    if (elements.input === document.activeElement) {
         window.requestAnimationFrame(function() {
             elements.input.focus();
         });
@@ -895,17 +925,23 @@ function giveAnswer() {
     revealPokemon(false);
 }
 
-/**
- * Gets the next Pokémon number from the array, and moves the pointer onwards.
- */
-function getNextPokemonNumber(): PokemonNumber {
+function getNextPokemonNumber(): PokemonNumber | -1 {
     let number;
     if(upcomingPokemonArrayIndex >= upcomingPokemon.length || upcomingPokemon.length === 0) {
         number = -1;
     } else {
-        number = upcomingPokemon[upcomingPokemonArrayIndex++];
+        number = upcomingPokemon[upcomingPokemonArrayIndex + 1];
     }
-    return number as PokemonNumber;
+    return number as PokemonNumber | -1;
+}
+
+/**
+ * Gets the next Pokémon number from the array, and moves the pointer onwards (similar to a shift operation on an array)
+ */
+function shiftNextPokemonNumber(): PokemonNumber | -1 {
+    const number = getNextPokemonNumber();
+    upcomingPokemonArrayIndex += 1;
+    return number;
 }
 
 /**
