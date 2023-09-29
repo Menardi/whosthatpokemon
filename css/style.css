@@ -345,6 +345,10 @@ input.correct {
         border-radius: 0;
     }
 
+    #whosthatpokemon a#nextPokemon, span#nextCountdown {
+        margin: 0;
+    }
+
     #playArea {
         display: flex;
         flex-direction: column;

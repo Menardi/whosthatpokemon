@@ -304,13 +304,9 @@ const onReady = () => {
         elements.input.addEventListener('focus', function() {
             // Wait 250ms for the keyboard opening animation to finish
             setTimeout(() => {
-                // Because the input is positioned at the bottom of the screen, the system will scroll
-                // the window by the entire height of the keyboard to make sure the input isn't
-                // covered by the keyboard. So, we can assume that window.scrollY is pretty close to
-                // the height of the keyboard. The + 22px here is a magic number which works for
-                // perfect alignment on both iPhone 13 and iPhone in my testing, though why exactly it
-                // works I have no idea.
-                document.body.style.height = `calc(100% - ${window.scrollY}px + 22px)`;
+                if (window.visualViewport) {
+                    document.body.style.height = `${window.visualViewport.height}px`;
+                }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 250);
