@@ -86,6 +86,8 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
 /** How long to wait after a correct answer before showing the next Pokemon */
 const SECONDS_BETWEEN_POKEMON = 3;
 
+const ANSWER_ATTRIBUTE_NAME = 'data-answer';
+
 let newGen: GenerationId[] = [];
 
 /** The number of the Pokemon currently on screen. -1 if the user has reached the end of the list generated for them. */
@@ -278,14 +280,23 @@ const onReady = () => {
     }
 
     elements.input.addEventListener('input', function (this: HTMLInputElement) {
-        checkPokemonAnswer(this.value);
+        if (!this.classList.contains('correct')) {
+            checkPokemonAnswer(this.value);
+        } else {
+            // Chrome on Android has an issue where calling ev.preventDefault() on keydown doesn't
+            // prevent the value from being updated, unlike every other browser. If the user is in
+            // forgiving spelling mode, it's quite possible for them to type too many characters,
+            // and end up with a confusing answer. This workaround fixes the issue by setting the
+            // value to the actual answer if the user types anything while in the "correct" state.
+            this.value = this.getAttribute(ANSWER_ATTRIBUTE_NAME)!;
+        }
     });
 
     // If we actually disable the input field, the keyboard goes down on
     // mobile, so instead we use a disabled class. Preventing the event on
     // keydown will essentially have the same effect as it being disabled.
     elements.input.addEventListener('keydown', function(this: HTMLInputElement, ev) {
-        if(this.classList.contains('disabled')) {
+        if (this.classList.contains('disabled')) {
             ev.preventDefault();
 
             if (ev.key === 'Enter') {
@@ -509,6 +520,8 @@ function revealPokemon(correctlyGuessed: boolean) {
 
     // Give the Pokemon name
     elements.input.value = currentPokemonNames[settings.language];
+    // Add an attribute with the name to the input, to help work around a Chrome Android bug
+    elements.input.setAttribute(ANSWER_ATTRIBUTE_NAME, elements.input.value);
 
     document.querySelectorAll('.currentCountText').forEach(el => el.innerHTML = correctCount[settings.difficulty].toString());
     document.querySelector('.bestCountText')!.innerHTML = records.streaks[settings.difficulty].toString();
@@ -648,6 +661,7 @@ function newPokemon() {
 
     elements.input.classList.remove('correct', 'disabled');
     elements.input.value = '';
+    elements.input.removeAttribute(ANSWER_ATTRIBUTE_NAME);
 
     hideElement(document.getElementById('nextCountdown')!);
     hideElement(document.getElementById('alsoKnownAs')!);
