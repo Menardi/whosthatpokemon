@@ -5,3 +5,4 @@ images/*
 !images/icons/
 sounds/*
 *.zip
+.DS_Store
