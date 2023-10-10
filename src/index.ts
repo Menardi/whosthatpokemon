@@ -135,9 +135,9 @@ let consecutiveLoadFails = 0;
 let imageTimeoutId: number;
 
 /** Array which stores the IDs of the Pokemon to be shown to the user, based on their selected settings. */
-let upcomingPokemon: PokemonNumber[];
-/** Index of the upcomingPokemon array which points to the Pokemon the user is currently guessing. */
-let upcomingPokemonArrayIndex: number;
+let shuffledPokemon: PokemonNumber[];
+/** Index of the pokemonToGuess array which points to the Pokemon the user is currently guessing. */
+let currentPokemonIndex: number;
 
 /** Set to false after the main area has rendered for the first time */
 let firstRender = true;
@@ -574,17 +574,17 @@ function revealPokemon(correctlyGuessed: boolean) {
  */
 function maybeGenerateNewNumbers(force?: boolean) {
     if(force || !isEqual(settings.generations, newGen)) {
-        upcomingPokemon = [];
-        upcomingPokemonArrayIndex = 0;
+        shuffledPokemon = [];
+        currentPokemonIndex = -1;
 
         newGen.filter((gen) => GENERATIONS[gen].supportedDifficulties.includes(settings.difficulty))
             .forEach((genToInc) => {
             (range(GENERATIONS[genToInc].start, GENERATIONS[genToInc].end + 1)).forEach(function (pokemonNumber) {
-                upcomingPokemon.push(pokemonNumber as PokemonNumber);
+                shuffledPokemon.push(pokemonNumber as PokemonNumber);
             });
         });
 
-        upcomingPokemon = shuffle(upcomingPokemon);
+        shuffledPokemon = shuffle(shuffledPokemon);
     }
 }
 
@@ -937,10 +937,11 @@ function giveAnswer() {
 
 function getNextPokemonNumber(): PokemonNumber | -1 {
     let number;
-    if(upcomingPokemonArrayIndex >= upcomingPokemon.length || upcomingPokemon.length === 0) {
+    const nextPokemonIndex = currentPokemonIndex + 1;
+    if(nextPokemonIndex >= shuffledPokemon.length || shuffledPokemon.length === 0) {
         number = -1;
     } else {
-        number = upcomingPokemon[upcomingPokemonArrayIndex + 1];
+        number = shuffledPokemon[nextPokemonIndex];
     }
     return number as PokemonNumber | -1;
 }
@@ -950,7 +951,7 @@ function getNextPokemonNumber(): PokemonNumber | -1 {
  */
 function shiftNextPokemonNumber(): PokemonNumber | -1 {
     const number = getNextPokemonNumber();
-    upcomingPokemonArrayIndex += 1;
+    currentPokemonIndex += 1;
     return number;
 }
 
