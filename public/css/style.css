@@ -1,3 +1,7 @@
+:root {
+  --color-primary: #3498db;
+}
+
 @font-face {
   font-family: 'Cantora One';
   font-style: normal;
@@ -36,10 +40,10 @@ h2.sectionHead {
     color: #FFF;
 }
 
-#container {
+.app {
     display: flex;
     margin: auto;
-    width: 760px;
+    width: 520px;
 }
 
 .upperBox {
@@ -193,14 +197,14 @@ span#bestTimePokemon {
     color: #FFF;
 }
 
-#whosthatpokemon {
-    background-color: #3498db;
+.game-area {
+    background-color: var(--color-primary);
     min-height: 650px;
     padding: 10px;
     border-radius: 10px;
 }
 
-#canvasContainer {
+.canvas-container {
     display: flex;
     flex-direction: column;
     justify-content: center;

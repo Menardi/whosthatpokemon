@@ -1,10 +1,9 @@
-/*
+import { LanguageId } from '../constants/translations';
+
+/**
  * This returns a 'soundex', which gives a general idea of what a word sounds like.
  * From https://github.com/kvz/phpjs/blob/master/functions/strings/soundex.js
  */
-
-import { LanguageId } from './translations';
-
 function soundex (str: string) {
   str = (str + '').toUpperCase();
   if (!str) {
@@ -42,11 +41,10 @@ function soundex (str: string) {
   return sdx.join('');
 }
 
-/*
+/**
  * Calculates how many letters are different between two words
  * From https://github.com/kvz/phpjs/blob/master/functions/strings/levenshtein.js
  */
-
 function levenshtein (s1: string, s2: string): number {
   // http://kevin.vanzonneveld.net
   // +            original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
@@ -120,14 +118,44 @@ function levenshtein (s1: string, s2: string): number {
   return v0[s1_len];
 }
 
-/*
+/**
  * Returns true if both inputs can be considered to be alike-sounding words, else false.
  */
-
 export function soundAlike(s1: string, s2: string, lang?: LanguageId) {
   if(lang === 'fr' || lang === 'de') {
-      return levenshtein(s1, s2) < 3;
+    return levenshtein(s1, s2) < 3;
   } else {
-      return soundex(s1) === soundex(s2) && levenshtein(s1, s2) < 3;
+    return soundex(s1) === soundex(s2) && levenshtein(s1, s2) < 3;
   }
 }
+
+const ACCENT_MAP = {
+  'â':'a',
+  'ä':'a',
+  'ß':'s',
+  'Ü':'u',
+  'ü':'u',
+  'Ï':'i',
+  'ï':'i',
+  'Ê':'e',
+  'ê':'e',
+  'é':'e',
+  'È':'e',
+  'è':'e',
+  'ô':'o',
+  'Ô':'O',
+  'ç':'c',
+  'Ç':'C'
+} as const;
+
+// Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js
+
+export const removeAccents = (s: string) => {
+  if (!s) { return ''; }
+  let ret = '';
+  for (let i=0; i<s.length; i++) {
+    // @ts-ignore
+    ret += ACCENT_MAP[s.charAt(i)] || s.charAt(i);
+  }
+  return ret;
+};
