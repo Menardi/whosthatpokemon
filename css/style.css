@@ -3,15 +3,23 @@
   font-style: normal;
   font-weight: 400;
   /* This edited version of Cantora One fixes an issue where "Stufful" appeared as "Stuffhl" */
-  src: url(../fonts/cantora-one-fixed.woff);
+  src: url(../fonts/xy.ttf);
 }
+
+@font-face {
+    font-family: 'Poke';
+    font-style: normal;
+    font-weight: 400;
+    /* This edited version of Cantora One fixes an issue where "Stufful" appeared as "Stuffhl" */
+    src: url(../fonts/Pokemon.ttf);
+  }
 
 * {
     box-sizing: border-box;
 }
 
 body {
-    background: #d7dbdd;
+    background: #e32e26;;
     text-align: center;
     font-family: 'Cantora One', sans-serif;
     max-height: 100%;
@@ -21,19 +29,26 @@ body {
 a {
     text-decoration: none;
     font-weight: bold;
-    color: #333;
+    color: #e2b51e;
     cursor: pointer;
 }
 
-h1, h2, h3 {
-    color: #FFF;
-    text-shadow: 1px 1px rgba(0,0,0,0.5);
+h1, h2{
+    color: #e2b51e;
+    -webkit-text-stroke: 1px #375f8f;
+    font-family: 'Poke', sans-serif;
+    text-shadow: 3px 3px #375f8f;
+}
+
+ h3 {
+    color: #e2b51e;
+    
 }
 
 h2.sectionHead {
     margin: 10px 0 0 0;
     font-size: 20px;
-    color: #FFF;
+    color: #e2b51e;
 }
 
 #container {
@@ -47,29 +62,29 @@ h2.sectionHead {
     padding: 10px;
     border-radius: 10px;
     margin: 0 auto 1em auto;
-    color: #FFF;
+    color: #eaf7fa;
 }
 
 .warning {
-    background-color: #A30006;
+    background-color: #8bcde2;
 }
 
 #infoBox {
-    background-color: #3498db;
+    background-color: #8bcde2;
 }
 
 #infoBox a {
-    color: #FFF;
-    text-shadow: 1px 1px #34495e;
+    color: #e32e26;
+    text-shadow: 1px 1px #8bcde2;
 }
 
 #infoBox a#hideInfoBox {
-    color: #333;
-    text-shadow: 1px 1px #FFF;
+    color: #e32e26;
+    text-shadow: 1px 1px #8bcde2;
 }
 
 .sidebox {
-    background-color: #34495e;
+    background-color: #375f8f;
 }
 
 #languageSelection {
@@ -83,7 +98,7 @@ h2.sectionHead {
 }
 
 #languageSelection img.selected {
-	border: 1px solid #FFF;
+	border: 1px solid #8bcde2;
 }
 
 /*
@@ -107,9 +122,13 @@ h2.sectionHead {
     margin: 0;
 }
 
+
 #settings {
     float: left;
-    color: #FFF;
+    color: #e2b51e;
+    width: calc(50% - 10px); 
+    margin-right: 25px; 
+    border-radius: 10px; 
 }
 
 #settings .sidebox {
@@ -125,18 +144,18 @@ h2.sectionHead {
 .userChoice a {
     display: block;
     padding: 5px;
-    color: rgba(255, 255, 255, 0.54);
+    color: #e2b51e;
 }
 
 .userChoice a.selected {
-    background-color: #FFF;
-    color: #34495E;
+    background-color: #64c3e1;
+    color: #eaf7fa;
 }
 
 .userChoice a.pending {
-    background-color: #67798c;
-    text-shadow: 1px 1px rgba(0,0,0,0.5);
-    color: #FFFFFF;
+    background-color: #e2b51e;
+    text-shadow: 1px 1px #375f8f;
+    color: #375f8f;
 }
 
 .userChoice.toggleChoice {
@@ -158,9 +177,12 @@ h2.sectionHead {
  * Right-hand side
  */
 
-#stats {
+ #stats {
     float: right;
-    color: #FFF;
+    color: #375f8f;
+    width: calc(50% - 10px); 
+    margin-left: 25px; 
+    border-radius: 10px; 
 }
 
 #stats .sidebox {
@@ -172,8 +194,7 @@ h2.sectionHead {
 
 #infoBoxRight {
     margin-top: 20px;
-    text-shadow: 1px 1px rgba(0,0,0,0.5);
-    background-color: #8e44ad;
+    background-color: #e2b51e;
 }
 
 span#bestTimePokemon {
@@ -182,22 +203,22 @@ span#bestTimePokemon {
 }
 
 
-/*
- * The main event!
- */
+/* The main event!
+ */ 
 
 #main {
     width: 520px;
     min-height: 580px;
     float: left;
-    color: #FFF;
+    color: #e2b51e;
 }
 
 #whosthatpokemon {
-    background-color: #3498db;
+    background: radial-gradient(circle,  #eaf7fa 40%,#64c3e1);
     min-height: 650px;
     padding: 10px;
     border-radius: 10px;
+    box-shadow: 0 0 10px #375f8f; 
 }
 
 #canvasContainer {
@@ -209,7 +230,7 @@ span#bestTimePokemon {
 }
 
 #whosthatpokemon a#giveAnswer, span#nextCountdown a {
-    color: #FFF;
+    color: #e2b51e;
 }
 
 #whosthatpokemon a#giveAnswer {
@@ -217,11 +238,11 @@ span#bestTimePokemon {
 }
 
 #whosthatpokemon a#giveAnswer {
-    text-shadow: 1px 1px #c0392b;
+    text-shadow: 1px 1px #375f8f;
 }
 
 #whosthatpokemon a#nextPokemon, span#nextCountdown {
-    text-shadow: 1px 1px #33F;
+    text-shadow: 1px 1px #375f8f;
     margin: 10px 0;
 }
 
@@ -235,11 +256,16 @@ input {
     text-transform: capitalize;
     font-family: 'Cantora One', sans-serif;
     outline: none;
+    box-shadow: 0 0 10px #375f8f;
+    border: 2px solid #e2b51e;
 }
 
 input.correct {
-    background-color: #27ae60;
-    color: #FFF;
+    background-color: #6eaa8e;
+    color: #eaf7fa;
+    box-shadow: 0 0 10px #375f8f;
+    border-radius: 10px;
+    border: 2px solid #e2b51e;
 }
 
 #alsoKnownAs h2 {
@@ -257,7 +283,7 @@ input.correct {
 }
 
 #alsoKnownAs ul li {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: #375f8f;
     padding: 4px 8px;
     margin: 0 4px;
     border-radius: 4px;
@@ -272,20 +298,25 @@ input.correct {
     padding: 5px;
     margin-top: 20px;
     border-radius: 10px;
-    text-shadow: 1px 1px rgba(0,0,0,0.5);
-    background-color: #8e44ad;
+    background-color: #375f8f;
 }
 
 #footer {
-    color: #666;
+    color: #e2b51e;
     font-size: 75%;
     margin: 1em;
     text-align: center;
-    text-shadow: 1px 1px #e1e1e1;
+    font-weight: bold;
+    padding: 10px; 
+    display: inline-block; 
+    background-color: #375f8f;
+    box-shadow: 0 0 10px #375f8f;
+    border-radius: 10px;
 }
 
 #footer a {
-    color: #666;
+    color: #e2b51e;
+    font-weight: bold;
 }
 
 @media (min-width: 461px) {
@@ -517,3 +548,97 @@ input.correct {
         border-radius: 0
     }
 }
+
+#modeToggleContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  #modeToggle {
+    background-color: #375f8f;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 70px; 
+    height: 70px;
+    transition: background-color 0.3s ease; 
+    box-shadow: 0 0 10px #375f8f; 
+    border-radius: 10px;
+  }
+
+  #modeToggle:hover {
+    background-color: #e2b51e; 
+    box-shadow: 0 0 10px #375f8f; 
+    transition: background-color 0.3s ease; 
+
+  }
+
+  #modeIcon {
+    width: 100%;
+    height: auto;
+  }
+  #pokemonCryPlayer {
+    border: 2px solid #375f8f;
+    box-shadow: 0 0 10px #375f8f; 
+  }
+ 
+.modal-background {
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5); 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .modal {
+    position: fixed;
+    z-index: 2; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #8bcde2;
+    padding: 20px;
+    width: 60%; 
+    max-height: 80%; 
+    overflow-y: auto;
+    box-shadow: 0 0 10px #375f8f;
+    text-align: center;
+    color: #e32e26;
+    border-radius: 8px;
+  }
+  
+  .modal-content {
+    background-color: #8bcde2;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    max-height: 90%;
+    overflow-y: auto;
+  }
+  
+  .modal a {
+    color: #e32e26;
+  }
+
+  .modal-button{
+    background-color: #375f8f;
+    color: #e2b51e;
+    box-shadow: 0 0 10px #375f8f;
+    font-family: 'Cantora One';
+    padding: 15px 30px; 
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-button:hover {
+    background-color: #e2b51e;
+    color: #375f8f;
+    box-shadow: 0 0 10px #375f8f;
+  }

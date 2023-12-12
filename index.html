@@ -4,11 +4,13 @@
 	<title>Who's That Pok&eacute;mon?</title>
 	<meta description="HTML5 game where you guess the Pokémon from the silhouette!" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link id="stylesheet" rel="stylesheet" type="text/css" href="css/style.css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<script src="index.js?20231010" type="application/javascript"></script>
+	<script src="src/script.js"></script>
+	<link rel="icon" href="images/icons/favicon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -108,7 +110,7 @@
 					<div id="answerArea">
 						<input type="text" id="pokemonGuess" name="pokemonGuess" tabindex="1" autocomplete="off" autocorrect="off" spellcheck="false" />
 
-						<a id="giveAnswer" class="translatable" data-lang="dontknow">I don't know!</a>
+						<h2 id="giveAnswer" class="translatable" data-lang="dontknow">I don't know!</h2>
 
 						<div id="alsoKnownAs" class="desktop">
 							<h2 class="translatable" data-lang="alsoknownas">Also Known As:</h2>
@@ -141,26 +143,26 @@
 			<h2 id="streakHeader" class="sectionHead translatable" data-lang="streak">Streak</h2>
 			<div class="sidebox">
 				<h3 class="translatable" data-lang="current">Current</h3>
-				<h1 class="currentCountText">0</h1>
+				<h3 class="currentCountText">0</h3>
 			</div>
 			<div class="sidebox">
 				<h3 class="translatable" data-lang="best">Best</h3>
-				<h1 class="bestCountText">0</h1>
+				<h3 class="bestCountText">0</h3>
 			</div>
 
 			<h2 id="timeHeader" class="sectionHead translatable" data-lang="time">Time</h2>
 			<div class="sidebox">
 				<h3 class="translatable" data-lang="previous">Previous</h3>
-				<h1 class="lastTimeText">-</h1>
+				<h3 class="lastTimeText">-</h3>
 			</div>
 			<div class="sidebox">
 				<h3 class="translatable" data-lang="best">Best</h3>
 				<span id="bestTimePokemon"></span>
-				<h1 class="bestTimeText">-</h1>
+				<h3 class="bestTimeText">-</h3>
 			</div>
 			<div class="sidebox">
 				<h3 class="translatable" data-lang="average">Average</h3>
-				<h1 class="averageTimeText">-</h1>
+				<h3 class="averageTimeText">-</h3>
 			</div>
 
 			<div id="infoBoxRight" style="display: none;" class="sidebox translatable" data-lang="streak-info">
@@ -168,5 +170,25 @@
 			</div>
 		</div>
 	</div>
+	<div id="modeToggleContainer">
+		<button id="modeToggle" onclick="toggleNightMode()">
+		  <img id="modeIcon" src="images/icons/moon.png" alt="Moon">
+		</button>
+	  </div>
+<audio id="audioPlayer" src="sounds/whos-that-pokemon_.mp3"></audio>
+
+<div class="modal-background" id="modalBackground"></div>
+
+<div id="myModal" class="modal">
+	<div class="modal-content">
+	  <h1>Welcome to Who's That Pokemon</h1>
+	  <h2>How to Play?:</h2>
+	  <p>Guess as many Pokemon as you can! Good luck and Enjoy!</p>
+	  <h2>Credits and Feedback:</h2>
+	  <p>Program created by <a href="https://github.com/Menardi"> Menardi</a>. Images and sounds contributed by <a href="https://github.com/sora10pls"> sora10pls</a>. Images and sounds © Nintendo, Gamefreak and The Pokemon Company.</p>
+	  <p>Send feedback or contribute at <a href="https://github.com/menardi/whosthatpokemon">Github</a>.</p>
+	  <button class="modal-button" id="play">Play</button>
+	</div>
+  </div>
 </body>
 </html>
