@@ -4,12 +4,18 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "react",
-    "lib": ["es2017", "dom"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": ["es2020", "dom"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "skipLibCheck": true,
+    "paths": {
+      "react": ["./node_modules/preact/compat/"],
+      "react-dom": ["./node_modules/preact/compat/"]
+    }
   },
   "exclude": [
     "node_modules",

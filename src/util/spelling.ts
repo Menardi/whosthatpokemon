@@ -1,4 +1,4 @@
-import { LanguageId } from '../constants/translations';
+import type { LanguageId } from '../constants/lang';
 
 /**
  * This returns a 'soundex', which gives a general idea of what a word sounds like.
@@ -9,18 +9,19 @@ function soundex (str: string) {
   if (!str) {
     return '';
   }
-  let sdx = [0, 0, 0, 0],
-    m = {
-      B: 1, F: 1, P: 1, V: 1,
-      C: 2, G: 2, J: 2, K: 2, Q: 2, S: 2, X: 2, Z: 2,
-      D: 3, T: 3,
-      L: 4,
-      M: 5, N: 5,
-      R: 6
-    },
-    i = 0,
-    j, s = 0,
-    c, p;
+  const sdx = [0, 0, 0, 0];
+  const m = {
+    B: 1, F: 1, P: 1, V: 1,
+    C: 2, G: 2, J: 2, K: 2, Q: 2, S: 2, X: 2, Z: 2,
+    D: 3, T: 3,
+    L: 4,
+    M: 5, N: 5,
+    R: 6,
+  };
+  let i = 0;
+  const j = 0;
+  let s = 0;
+  let c, p;
 
   while ((c = str.charAt(i++)) && s < 4) {
     // @ts-ignore
@@ -58,8 +59,8 @@ function levenshtein (s1: string, s2: string): number {
     return 0;
   }
 
-  let s1_len = s1.length;
-  let s2_len = s2.length;
+  const s1_len = s1.length;
+  const s2_len = s2.length;
   if (s1_len === 0) {
     return s2_len;
   }
@@ -101,8 +102,8 @@ function levenshtein (s1: string, s2: string): number {
       char_s1 = s1[s1_idx];
       cost = (char_s1 == char_s2) ? 0 : 1;
       let m_min = v0[s1_idx + 1] + 1;
-      let b = v1[s1_idx] + 1;
-      let c = v0[s1_idx] + cost;
+      const b = v1[s1_idx] + 1;
+      const c = v0[s1_idx] + cost;
       if (b < m_min) {
         m_min = b;
       }
@@ -111,7 +112,7 @@ function levenshtein (s1: string, s2: string): number {
       }
       v1[s1_idx + 1] = m_min;
     }
-    let v_tmp = v0;
+    const v_tmp = v0;
     v0 = v1;
     v1 = v_tmp;
   }
@@ -145,7 +146,7 @@ const ACCENT_MAP = {
   'ô':'o',
   'Ô':'O',
   'ç':'c',
-  'Ç':'C'
+  'Ç':'C',
 } as const;
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js

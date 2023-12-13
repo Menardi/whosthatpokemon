@@ -1,0 +1,525 @@
+:root {
+  --color-background: #d7dbdd;
+  --color-box-background: rgba(255, 255, 255, 0.25);
+  --color-side-box: #34495e;
+  --color-side-box-selected: #fff;
+  --color-side-box-faded: #9dbbd9;
+  --color-primary: #3498db;
+  --color-text: #333;
+  --color-text-contrast: #fff;
+  --color-text-muted: #666;
+  --color-positive: #27ae60;
+  --color-negative: #c0392b;
+  --font-family: 'Cantora One', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Cantora One';
+  font-style: normal;
+  font-weight: 400;
+  /* This edited version of Cantora One fixes an issue where "Stufful" appeared as "Stuffhl" */
+  src: url(../fonts/cantora-one-fixed.woff);
+}
+
+html, body, #stage, .app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--color-background);
+  text-align: center;
+  font-family: var(--font-family);
+  max-height: 100%;
+  font-size: 16px;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+button {
+  outline: none;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  font-family: var(--font-family);
+  color: var(--color-text-contrast);
+  cursor: pointer;
+}
+
+h1, h2, h3 {
+  color: var(--color-text-contrast);
+  text-shadow: 1px 1px rgba(0,0,0,0.5);
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 760px;
+}
+
+.app-inner {
+  display: flex;
+  align-self: stretch;
+}
+
+.app-inner-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Language selector */
+
+.language-selector-flags {
+  display: flex;
+  gap: 4px;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.language-selector-flags button {
+  display: block;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.language-selector-flags button.selected {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.language-selector-flags img {
+  display: block;
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+}
+
+/* Settings and Stats */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  max-width: 120px;
+  padding-top: 40px;
+}
+
+.menu h1 {
+  display: none;
+}
+
+.menu h2 {
+  font-size: 100%;
+  margin-bottom: 2px;
+  color: var(--color-side-box);
+  text-shadow: 1px 1px var(--color-text-contrast);
+}
+
+.menu h3 {
+  font-size: 90%;
+  color: var(--color-side-box-faded);
+}
+
+.menu-section button {
+  padding: 5px;
+  font-size: 100%;
+  background-color: var(--color-side-box);
+  color: var(--color-side-box-faded);
+}
+
+.menu-section button.selected {
+  background-color: var(--color-side-box-selected);
+  color: var(--color-side-box);
+}
+
+.menu-section-inner {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-side-box);
+  color: var(--color-text-contrast);
+  margin-bottom: 10px;
+}
+
+.settings .menu-section-inner {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.stats .menu-section-inner {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 5px;
+  gap: 10px;
+}
+
+.settings-generations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.settings-list-sound {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stats-number {
+  font-size: 200%;
+  line-height: 1;
+}
+
+/* Game Area */
+
+.game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+  background-color: var(--color-primary);
+  color: var(--color-text-contrast);
+  min-height: 640px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+header h1 {
+  margin: 10px 0;
+}
+
+header button {
+  display: none;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+}
+
+@keyframes canvasAnimation {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.canvas-container-animated {
+  animation: canvasAnimation .3s ease;
+}
+
+@media (prefers-reduced-motion) {
+  .canvas-container-animated {
+    animation: none;
+  }
+}
+
+.sound-off-warning {
+  background-color: var(--color-negative);
+  align-self: center;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.audio-player {
+  align-self: center;
+}
+
+.answer-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.answer-input-container {
+  position: relative;
+}
+
+.answer-input-container .countdown-loader {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+
+.countdown-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.countdown-loader span {
+  position: absolute;
+  color: var(--color-text-contrast);
+  font-size: 80%;
+  line-height: 1;
+}
+
+.answer-input {
+  height: 50px;
+  font-size: 175%;
+  min-width: 200px;
+  border: 0;
+  border-radius: 10px;
+  text-align: center;
+  text-transform: capitalize;
+  font-family: 'Cantora One', sans-serif;
+  outline: none;
+}
+
+.answer-input-correct {
+  transition: background-color .1s;
+  background-color: var(--color-positive);
+  color: var(--color-text-contrast);
+}
+
+@media (prefers-reduced-motion) {
+  .answer-input-correct {
+    transition: none;
+  }
+}
+
+.dont-know-button {
+  text-shadow: 1px 1px var(--color-negative);
+  font-size: 120%;
+}
+
+.also-known-as h2 {
+  font-size: 100%;
+}
+
+.also-known-as ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
+}
+
+.also-known-as ul li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-contrast);
+  background-color: var(--color-box-background);
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.also-known-as img {
+  width: 18px;
+  height: 13px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.generation-finished p {
+  margin: 0;
+}
+
+.generation-finished button {
+  font-size: 150%;
+  padding: 5px 10px;
+  margin-top: 10px;
+  background-color: var(--color-side-box);
+  border-radius: 4px;
+}
+
+footer {
+  color: var(--color-text-muted);
+  font-size: 75%;
+  margin: 1em;
+  text-align: center;
+  text-shadow: 1px 1px #e1e1e1;
+}
+
+footer a {
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 460px) {
+  body {
+    background-color: var(--color-primary);
+  }
+
+  .app, .app-inner, .app-inner-main, .game-area {
+    width: 100%;
+    height: 100%;
+  }
+
+  .game-area {
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+  }
+
+  header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    height: 48px;
+    line-height: 48px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 125%;
+  }
+
+  header button {
+    height: 36px;
+    width: 36px;
+    padding: 6px;
+    margin: 6px 0;
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  header button:first-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  header button:last-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  header button img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .canvas-container {
+    min-height: 0;
+    flex: 1;
+    padding: 10px;
+    padding-top: 50px; /* Push canvas below the header text */
+  }
+
+  .canvas-container canvas {
+    height: auto;
+    max-height: 100%;
+    max-width: 90%;
+    min-height: 0;
+    object-fit: contain;
+  }
+
+  .generation-finished {
+    padding: 10px;
+    padding-top: 50px;
+  }
+
+  .language-selector-flags,
+  footer {
+    display: none;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    max-width: none;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.8);
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+    transition: all 0.2s;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .open-menu-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .menu h1 {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .menu h2 {
+    color: var(--color-text-contrast);
+    text-shadow: none;
+  }
+
+  .menu-section-inner {
+    border-radius: 10px;
+  }
+
+  .menu.settings { left: -60%; }
+  .menu.settings.shown {
+    left: 0;
+  }
+
+  .menu.stats { right: -60%; }
+  .menu.stats.shown { right: 0; }
+
+  .answer-area {
+    z-index: 10;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    gap: 0;
+  }
+
+  .answer-input-container {
+    width: 100%;
+  }
+
+  .answer-input {
+    margin: 0 0 5px 0;
+    width: 100%;
+  }
+
+  .dont-know-button {
+    font-size: 100%;
+  }
+
+  .also-known-as {
+    display: none;
+  }
+}
