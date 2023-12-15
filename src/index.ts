@@ -78,7 +78,7 @@ const GENERATIONS: { [key in GenerationId]: Generation } = {
     },
     9: {
         start: 906,
-        end: 1017,
+        end: 1025,
         supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     },
 } as const;
