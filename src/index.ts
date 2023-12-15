@@ -159,7 +159,7 @@ let elements: {
 const isIphone = /iPhone|iPod/.test(navigator.userAgent);
 
 /** Timestamp representing the last date the info box at the top of the page was updated */
-const LATEST_INFOBOX_TIMESTAMP = 1668697200000;
+const LATEST_INFOBOX_TIMESTAMP = 1702659209068;
 /** The key used to store the LATEST_INFOBOX_TIMESTAMP value in localStorage, after a user dismisses the info box */
 const INFOBOX_LS_KEY = 'wtp_lastSeenInfobox';
 
