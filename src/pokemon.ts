@@ -9189,6 +9189,78 @@ export const POKEMON_NAMES = [{
     zh: "厄诡椪",
   },
   number: 1017,
+},{
+  names: {
+    de: "briduradon",
+    en: "archaludon",
+    fr: "pondralugon",
+    ja: "ブリジュラス",
+    zh: "铝钢桥龙",
+  },
+  number: 1018,
+},{
+  names: {
+    de: "hydrapfel",
+    en: "hydrapple",
+    fr: "pomdorochi",
+    ja: "カミツオロチ",
+    zh: "蜜集大蛇",
+  },
+  number: 1019,
+},{
+  names: {
+    de: "keilflamme",
+    en: "gouging fire",
+    fr: "feu-perçant",
+    ja: "ウガツホムラ",
+    zh: "破空焰",
+  },
+  number: 1020,
+},{
+  names: {
+    de: "furienblitz",
+    en: "raging bolt",
+    fr: "ire-foudre",
+    ja: "タケルライコ",
+    zh: "猛雷鼓",
+  },
+  number: 1021,
+},{
+  names: {
+    de: "eisenfels",
+    en: "iron boulder",
+    fr: "roc-de-fer",
+    ja: "テツノイワオ",
+    zh: "铁磐岩",
+  },
+  number: 1022,
+},{
+  names: {
+    de: "eisenhaupt",
+    en: "iron crown",
+    fr: "chef-de-fer",
+    ja: "テツノカシラ",
+    zh: "铁头壳",
+  },
+  number: 1023,
+},{
+  names: {
+    de: "terapagos",
+    en: "terapagos",
+    fr: "terapagos",
+    ja: "テラパゴス",
+    zh: "太乐巴戈斯",
+  },
+  number: 1024,
+},{
+  names: {
+    de: "infamomo",
+    en: "pecharunt",
+    fr: "pêchaminus",
+    ja: "モモワロウ",
+    zh: "桃歹郎",
+  },
+  number: 1025,
 }] as const;
 
 export type PokemonNumber = typeof POKEMON_NAMES[number]['number'];
