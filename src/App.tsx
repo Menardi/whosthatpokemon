@@ -6,10 +6,9 @@ import SettingsMenu from './components/SettingsMenu';
 import StatsListener from './components/StatsListener';
 import StatsMenu from './components/StatsMenu';
 import { useAppDispatch } from './store';
-import { setNewPokemonList } from './store/gameSlice';
+import { resetPokemon } from './store/actions';
 import { migrateToRedux } from './store/migrate';
 import { useGameState, useLang, useSettings, useVisualViewportHeight } from './util/hooks';
-import { getPokemonNumbers } from './util/pokemon';
 
 const App = () => {
   const lang = useLang();
@@ -25,7 +24,7 @@ const App = () => {
   useLayoutEffect(() => {
     if (!game.initialized) {
       migrateToRedux();
-      dispatch(setNewPokemonList(getPokemonNumbers(settings)));
+      dispatch(resetPokemon());
     }
   }, []);
 
