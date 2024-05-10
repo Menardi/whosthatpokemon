@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { JSXInternal } from 'preact/src/jsx';
 
 import { LANGUAGES } from '../constants/lang';
@@ -15,6 +15,17 @@ const AnswerInput = () => {
   const lang = useLang();
   const settings = useSettings();
   const gameState = useGameState();
+
+  // On mobile, when the user taps the "I don't know button", the input gets blurred and the screen
+  // moves awkwardly. To avoid this, we keep track of the input's focus state, and don't change it to
+  // false until 200ms after blur. We can then use this to refocus the input when "I don't know" was
+  // pressed, while not opening the keyboard if the user didn't have it open.
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isInputRecentlyFocused, setIsInputRecentlyFocused] = useState(false);
+  const onInputFocus = useCallback(() => setIsInputRecentlyFocused(true), []);
+  const onInputBlur = useCallback(() => {
+    setTimeout(() => setIsInputRecentlyFocused(false), 200);
+  }, []);
 
   const [guess, setGuess] = useState('');
 
@@ -60,7 +71,10 @@ const AnswerInput = () => {
   };
 
   const onGiveUp = () => {
-    // TODO Re-focus the input if it was focused before pressing this button
+    if (isInputRecentlyFocused) {
+      inputRef.current?.focus(); // re-focus the input if this button press blurred it
+    }
+
     dispatch(revealPokemon({ isCorrect: false }));
     setGuess(pokemonNames[settings.language]);
   };
@@ -85,8 +99,11 @@ const AnswerInput = () => {
           tabindex={1}
           spellcheck={false}
           onInput={onInput}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
           onKeyDown={onKeyDown}
           value={guess}
+          ref={inputRef}
         />
 
         {gameState.answered && <CountdownLoader />}

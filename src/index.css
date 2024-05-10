@@ -426,6 +426,7 @@ footer a {
   }
 
   header button {
+    display: block;
     height: 36px;
     width: 36px;
     padding: 6px;
@@ -540,10 +541,39 @@ footer a {
 
   .dont-know-button {
     font-size: 100%;
+    -webkit-user-select: none;
   }
 
   .also-known-as {
+    width: 100%;
+    padding-right: 60px; /* try to avoid overlaying the count text */
+  }
+
+  .also-known-as h2 {
     display: none;
+  }
+
+  .also-known-as ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+    gap: 2px;
+    margin: 0;
+  }
+
+  .also-known-as ul li {
+    font-size: 80%;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 2px;
+    word-break: keep-all; /* don't break the Japanese or Chinese names */
+    white-space: nowrap;
+  }
+
+  .also-known-as img {
+    width: 12px;
+    height: 9px;
   }
 
   .new-settings-effect {
