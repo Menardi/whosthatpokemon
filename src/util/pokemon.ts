@@ -5,16 +5,16 @@ import { DIFFICULTY, Difficulty, GENERATIONS } from '../constants';
 import type { PokemonNumber } from '../constants/pokemon';
 import { SettingsState } from '../store/settingsSlice';
 
-export const getPokemonNumbers = (settings: SettingsState) => {
-  const numbers = settings.generations
-    .filter((gen) => GENERATIONS[gen].supportedDifficulties.includes(settings.difficulty))
+export const getPokemonNumbers = (options: Pick<SettingsState, 'generations' | 'difficulty'>) => {
+  const numbers = options.generations
+    .filter((gen) => GENERATIONS[gen].supportedDifficulties.includes(options.difficulty))
     .flatMap((genToInc) => (
       range(GENERATIONS[genToInc].start, GENERATIONS[genToInc].end + 1)
     ));
 
   return {
     numbers: shuffle(numbers) as PokemonNumber[],
-    generations: settings.generations,
+    generations: options.generations,
   };
 };
 

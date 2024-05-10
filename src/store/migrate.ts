@@ -43,6 +43,7 @@ export const migrateToRedux = () => {
       soundEnabled: legacySettings.sound,
       forgivingSpellingEnabled: legacySettings.forgivingSpelling,
       language: legacySettings.language,
+      pendingSettings: null,
     };
 
     store.dispatch(setAllSettings(migratedSettings));

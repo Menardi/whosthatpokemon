@@ -1,5 +1,6 @@
 import { useAppDispatch } from '../store';
 import { setNewPokemonList } from '../store/gameSlice';
+import { processPendingSettings } from '../store/settingsSlice';
 import { useLang, useSettings } from '../util/hooks';
 import { getPokemonNumbers } from '../util/pokemon';
 
@@ -9,6 +10,7 @@ const GenerationFinished = () => {
   const settings = useSettings();
 
   const startAgain = () => {
+    dispatch(processPendingSettings());
     dispatch(setNewPokemonList(getPokemonNumbers(settings)));
   };
 

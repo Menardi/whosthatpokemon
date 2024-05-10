@@ -153,6 +153,11 @@ ul {
   color: var(--color-side-box);
 }
 
+.menu-section button.pending {
+  background-color: var(--color-side-box-faded);
+  color: var(--color-side-box);
+}
+
 .menu-section-inner {
   display: flex;
   flex-direction: column;
@@ -172,6 +177,10 @@ ul {
   border-bottom-right-radius: 10px;
   padding: 5px;
   gap: 10px;
+}
+
+.stats .streak-note {
+  font-size: 80%;
 }
 
 .settings-generations-grid {
@@ -268,6 +277,14 @@ header button {
   right: 8px;
 }
 
+.progress-counter {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 2px;
+  font-size: 80%;
+}
+
 .countdown-loader {
   display: flex;
   align-items: center;
@@ -342,6 +359,12 @@ header button {
   height: 13px;
   border-radius: 2px;
   object-fit: cover;
+}
+
+.new-settings-effect {
+  background-color: var(--color-side-box);
+  padding: 4px 12px;
+  border-radius: 8px;
 }
 
 .generation-finished p {
@@ -521,5 +544,11 @@ footer a {
 
   .also-known-as {
     display: none;
+  }
+
+  .new-settings-effect {
+    margin: 8px 0 0 0;
+    font-size: 90%;
+    width: 100%;
   }
 }

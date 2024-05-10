@@ -31,9 +31,10 @@ export const gameSlice = createSlice({
   reducers: {
     setNewPokemonList: (state, action: PayloadAction<Omit<GameState['pokemon'], 'currentIndex'>>) => {
       state.pokemon = { ...action.payload, currentIndex: 0 };
+      state.answered = null;
       state.initialized = true;
     },
-    goToNextPokemon: (state) => {
+    goToNextIndex: (state) => {
       state.pokemon.currentIndex += 1;
       state.answered = null;
     },
@@ -46,4 +47,4 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setNewPokemonList, goToNextPokemon, revealPokemon, setPokemonLoaded } = gameSlice.actions;
+export const { setNewPokemonList, goToNextIndex, revealPokemon, setPokemonLoaded } = gameSlice.actions;

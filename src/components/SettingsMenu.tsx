@@ -1,4 +1,6 @@
-import { DIFFICULTY, GENERATIONS, GenerationId } from '../constants';
+import classNames from 'classnames';
+
+import { DIFFICULTY, GENERATIONS } from '../constants';
 import { useAppDispatch } from '../store';
 import { setDifficulty, setForgivingSpellingEnabled, setSound, toggleGeneration } from '../store/settingsSlice';
 import { useLang, useSettings } from '../util/hooks';
@@ -27,15 +29,27 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
           <h2>{lang.generation}</h2>
 
           <div className="menu-section-inner settings-generations-grid">
-            {Object.values(GENERATIONS).map((generation) => (
-              <button
-                onClick={() => dispatch(toggleGeneration(generation.id))}
-                className={`${settings.generations.includes(generation.id) ? 'selected' : ''}`}
-                title={generation.games}
-              >
-                {generation.id}
-              </button>
-            ))}
+            {Object.values(GENERATIONS).map((generation) => {
+              const isActive = settings.generations.includes(generation.id);
+              const willBeActiveNextRound = !!(
+                (!settings.pendingSettings?.generations && isActive)
+                || settings.pendingSettings?.generations?.includes(generation.id)
+              );
+
+              return (
+                <button
+                  onClick={() => dispatch(toggleGeneration(generation.id))}
+                  className={classNames({
+                    selected: isActive && willBeActiveNextRound,
+                    pending: isActive !== willBeActiveNextRound,
+                  })}
+                  title={generation.games}
+                  key={generation.id}
+                >
+                  {generation.id}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -43,14 +57,22 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
           <h2>{lang.difficulty}</h2>
 
           <div className="menu-section-inner">
-            {Object.values(DIFFICULTY).map((difficulty) => (
-              <button
-                onClick={() => dispatch(setDifficulty(difficulty))}
-                className={`${settings.difficulty === difficulty ? 'selected' : ''}`}
-              >
-                {lang[`difficulty-${difficulty}`]}
-              </button>
-            ))}
+            {Object.values(DIFFICULTY).map((difficulty) => {
+              const isActive = difficulty === settings.difficulty;
+              const willBecomeActiveNextRound = difficulty === settings.pendingSettings?.difficulty;
+
+              return (
+                <button
+                  onClick={() => dispatch(setDifficulty(difficulty))}
+                  className={classNames({
+                    selected: isActive,
+                    pending: willBecomeActiveNextRound,
+                  })}
+                >
+                  {lang[`difficulty-${difficulty}`]}
+                </button>
+              );
+            })}
           </div>
         </div>
 

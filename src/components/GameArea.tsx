@@ -1,11 +1,12 @@
-import isEqual from 'lodash/isEqual';
-import { useEffect } from 'preact/hooks';
+import { useCallback, useEffect } from 'preact/hooks';
 
 import { DIFFICULTY, MILLISECONDS_BETWEEN_POKEMON } from '../constants';
 import { useAppDispatch } from '../store';
-import { goToNextPokemon, setNewPokemonList } from '../store/gameSlice';
-import { useLang, useCurrentPokemonNumber, useGameState, useSettings } from '../util/hooks';
-import { getPokemonNumbers, preloadPokemonMedia } from '../util/pokemon';
+import { goToNextPokemon } from '../store/actions';
+import { goToNextIndex } from '../store/gameSlice';
+import { processPendingSettings } from '../store/settingsSlice';
+import { useLang, useGameState, useSettings } from '../util/hooks';
+import { preloadPokemonMedia } from '../util/pokemon';
 import AnswerInput from './AnswerInput';
 import AudioPlayer from './AudioPlayer';
 import GenerationFinished from './GenerationFinished';
@@ -40,15 +41,6 @@ const GameArea = ({ onMenuOpen }: GameAreaProps) => {
       return () => clearTimeout(timeoutId);
     }
   }, [gameState.answered]);
-
-  // Re-generate the numbers if the generation settings have changed
-  // TODO Add better number re-generation so we intelligently add or remove numbers based on the
-  // generation change, rather than fully regenerating the array.
-  useEffect(() => {
-    if (!isEqual(settings.generations, gameState.pokemon.generations)) {
-      dispatch(setNewPokemonList(getPokemonNumbers(settings)));
-    }
-  }, [settings.generations]);
 
   return (
     <div className="game-area">

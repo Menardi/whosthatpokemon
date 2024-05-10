@@ -7,3 +7,7 @@ public/sounds/*
 *.zip
 .DS_Store
 dist/
+
+# Directories from the old app structure
+images/
+sounds/

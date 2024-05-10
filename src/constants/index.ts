@@ -23,7 +23,7 @@ export const GENERATIONS: { [key in GenerationId]: Generation } = {
   1: {
     id: 1,
     start: 1,
-    end: 2,
+    end: 151,
     supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     games: 'Red, Blue, & Yellow',
   },

@@ -56,7 +56,7 @@ export const TRANSLATIONS = {
     'loadfail': 'This is taking a while to load. Do you want to try loading another one? It won\'t affect your streak. <a href="#" id="loadNewPokemonCta">Load a new Pokémon?</a>',
     'slowconn': 'Is your connection slow or down? Maybe try a harder difficulty, they load faster.',
     'loadnew': 'Load a new Pokémon?',
-    'streak-info': 'Your streaks and times are separate for each difficulty',
+    'streak-info': 'Note: Your streaks and times are separate for each difficulty',
     'settings-effect': 'Your new settings will take effect for the next Pokémon',
     'genfinished': "There are no Pokémon left! Why not try a different generation or difficulty? Or you can start again with the same settings. Note that Gen 8 and 9 don't support Ultra and Master difficulties as these games don't have sprites.",
     'startAgain': 'Start again',

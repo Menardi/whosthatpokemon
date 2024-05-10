@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import isEqual from 'lodash/isEqual';
 
 import { DIFFICULTY, type Difficulty, type GenerationId } from '../constants';
 import type { LanguageId } from '../constants/lang';
@@ -9,6 +10,11 @@ export type SettingsState = {
   forgivingSpellingEnabled: boolean;
   soundEnabled: boolean;
   language: LanguageId;
+  /** Settings to be applied once the current Pokémon has been guessed */
+  pendingSettings: {
+    difficulty?: Difficulty;
+    generations?: GenerationId[];
+  } | null,
 };
 
 const initialState: SettingsState = {
@@ -17,6 +23,7 @@ const initialState: SettingsState = {
   forgivingSpellingEnabled: false,
   soundEnabled: false,
   language: 'en',
+  pendingSettings: null,
 };
 
 export const settingsSlice = createSlice({
@@ -24,19 +31,48 @@ export const settingsSlice = createSlice({
   initialState,
   reducers: {
     setDifficulty: (state, action: PayloadAction<Difficulty>) => {
-      state.difficulty = action.payload;
+      state.pendingSettings = {
+        ...state.pendingSettings,
+        difficulty: action.payload,
+      };
+
+      // If this change reverts back to the original difficulty, remove this pending setting
+      // and clear pendingSettings altogether if nothing else is pending.
+      if (state.pendingSettings.difficulty === state.difficulty) {
+        delete state.pendingSettings.difficulty;
+
+        if (Object.keys(state.pendingSettings).length === 0) {
+          state.pendingSettings = null;
+        }
+      }
     },
     toggleGeneration: (state, action: PayloadAction<GenerationId>) => {
-      const index = state.generations.indexOf(action.payload);
+      const generations = (state.pendingSettings?.generations ?? state.generations).slice(0);
+      const index = generations.indexOf(action.payload);
 
       if (index > -1) {
         // Only remove the generation if it's not the last one
-        if (state.generations.length > 1) {
-          state.generations.splice(index, 1);
+        if (generations.length > 1) {
+          generations.splice(index, 1);
         }
       } else {
-        state.generations.push(action.payload);
-        state.generations.sort((a, b) => a - b);
+        generations.push(action.payload);
+        generations.sort((a, b) => a - b);
+      }
+
+      state.pendingSettings = {
+        ...state.pendingSettings,
+        generations,
+      };
+
+      // If this change reverts back to the original generations, remove this pending setting
+      // and clear pendingSettings altogether if nothing else is pending.
+      if (isEqual(state.pendingSettings.generations, state.generations)) {
+        delete state.pendingSettings.generations;
+
+        if (Object.keys(state.pendingSettings).length === 0) {
+          state.pendingSettings = null;
+        }
       }
     },
     setSound: (state, action: PayloadAction<boolean>) => {
@@ -54,6 +90,11 @@ export const settingsSlice = createSlice({
         ...action.payload,
       };
     },
+    processPendingSettings: (state) => {
+      state.difficulty = state.pendingSettings?.difficulty ?? state.difficulty;
+      state.generations = state.pendingSettings?.generations ?? state.generations;
+      state.pendingSettings = null;
+    },
   },
 });
 
@@ -64,4 +105,5 @@ export const {
   setForgivingSpellingEnabled,
   setLanguage,
   setAllSettings,
+  processPendingSettings,
 } = settingsSlice.actions;
