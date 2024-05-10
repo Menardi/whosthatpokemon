@@ -46,6 +46,8 @@ const PokemonSilhouette = () => {
       if (image.width <= 100) {
         canvas.width = image.width * 4;
         canvas.height = image.height * 4;
+        // scales up sprites without smoothing so they look more crisp
+        ctx.imageSmoothingEnabled = false;
       } else {
         canvas.width = image.width;
         canvas.height = image.height;
