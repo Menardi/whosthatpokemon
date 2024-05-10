@@ -7,7 +7,8 @@
     "serve": "vite",
     "typecheck": "npx tsc --noEmit",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
@@ -19,9 +20,11 @@
   },
   "homepage": "https://github.com/Menardi/whosthatpokemon#readme",
   "devDependencies": {
+    "@playwright/test": "^1.44.0",
     "@preact/preset-vite": "^2.7.0",
     "@stylistic/eslint-plugin": "^1.5.1",
     "@types/lodash": "^4.14.202",
+    "@types/node": "^20.12.11",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "eslint": "^8.55.0",

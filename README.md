@@ -30,6 +30,14 @@ To build the site to be deployed online, run:
 npm run build
 ```
 
+## Testing
+
+There is some basic testing set up using [Playwright](https://playwright.dev). It does a full playthrough of the game on default settings in Chrome, Firefox and Safari. To run these tests, run:
+
+```
+npm test
+```
+
 ## Licence
 This code is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
 

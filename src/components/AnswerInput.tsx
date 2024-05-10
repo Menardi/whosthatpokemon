@@ -40,7 +40,7 @@ const AnswerInput = () => {
 
     if (
       (settings.forgivingSpellingEnabled && settings.language === 'en' && soundAlike(normalisedGuess, normalisedAnswer))
-      || (normalisedGuess === pokemonNames[settings.language])) {
+      || (normalisedGuess === normalisedAnswer)) {
       dispatch(revealPokemon({ isCorrect: true }));
       setGuess(pokemonNames[settings.language]);
     }
@@ -104,6 +104,10 @@ const AnswerInput = () => {
           onKeyDown={onKeyDown}
           value={guess}
           ref={inputRef}
+          // Add the number as an attribute during development to help make testing easier
+          {...(process.env.NODE_ENV !== 'production' ? {
+            'data-pokemon-number': number,
+          } : {})}
         />
 
         {gameState.answered && <CountdownLoader />}

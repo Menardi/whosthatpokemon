@@ -5,7 +5,6 @@ import { useLang, useSettings } from '../util/hooks';
 const GenerationFinished = () => {
   const dispatch = useAppDispatch();
   const lang = useLang();
-  const settings = useSettings();
 
   const startAgain = () => {
     dispatch(resetPokemon());
@@ -15,7 +14,9 @@ const GenerationFinished = () => {
     <div className="generation-finished">
       <p>{lang.genfinished}</p>
 
-      <button onClick={startAgain}>{lang.startAgain}</button>
+      <button onClick={startAgain}>
+        {lang.startAgain}
+      </button>
     </div>
   );
 };

@@ -11,3 +11,7 @@ dist/
 # Directories from the old app structure
 images/
 sounds/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
