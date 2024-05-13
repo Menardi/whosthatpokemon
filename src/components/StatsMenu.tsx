@@ -103,7 +103,7 @@ const StatsMenu = ({ isOpen, onClose }: StatsMenuProps) => {
         {!!settings.pendingSettings && (
           <div className="menu-section">
             <div className="menu-section-inner streak-note">
-              {lang['streak-info']}
+              {lang['streakInfo']}
             </div>
           </div>
         )}
