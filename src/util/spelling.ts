@@ -131,22 +131,22 @@ export function soundAlike(s1: string, s2: string, lang?: LanguageId) {
 }
 
 const ACCENT_MAP = {
-  'â':'a',
-  'ä':'a',
-  'ß':'s',
-  'Ü':'u',
-  'ü':'u',
-  'Ï':'i',
-  'ï':'i',
-  'Ê':'e',
-  'ê':'e',
-  'é':'e',
-  'È':'e',
-  'è':'e',
-  'ô':'o',
-  'Ô':'O',
-  'ç':'c',
-  'Ç':'C',
+  â:'a',
+  ä:'a',
+  ß:'s',
+  Ü:'u',
+  ü:'u',
+  Ï:'i',
+  ï:'i',
+  Ê:'e',
+  ê:'e',
+  é:'e',
+  È:'e',
+  è:'e',
+  ô:'o',
+  Ô:'O',
+  ç:'c',
+  Ç:'C',
 } as const;
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js

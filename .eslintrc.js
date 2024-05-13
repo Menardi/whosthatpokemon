@@ -28,6 +28,7 @@ module.exports = {
     '@stylistic/js/max-len': ['error', { code: 140, ignoreStrings: true }],
     '@stylistic/ts/indent': ['error', 2],
     '@stylistic/ts/no-extra-semi': 'error',
+    '@stylistic/ts/quote-props': ['error', 'as-needed'],
     '@stylistic/ts/quotes': ['error', 'single', { avoidEscape: true }],
     '@stylistic/ts/semi': ['error', 'always'],
   },
