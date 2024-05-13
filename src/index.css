@@ -237,6 +237,10 @@ header button {
   min-height: 350px;
 }
 
+.canvas-container canvas {
+  image-rendering: optimizeQuality;
+}
+
 @keyframes canvasAnimation {
   0% {
     opacity: 0.2;

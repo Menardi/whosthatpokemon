@@ -51,6 +51,7 @@ const PokemonSilhouette = () => {
       } else {
         canvas.width = image.width;
         canvas.height = image.height;
+        ctx.imageSmoothingQuality = 'high';
       }
 
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
