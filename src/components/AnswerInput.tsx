@@ -141,7 +141,7 @@ const AnswerInput = () => {
       )}
 
       {!!settings.pendingSettings && (
-        <span className="new-settingsEffect">{lang['settingsEffect']}</span>
+        <span className="new-settings-effect">{lang['settingsEffect']}</span>
       )}
     </div>
   );
