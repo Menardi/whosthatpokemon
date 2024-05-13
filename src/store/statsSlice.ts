@@ -25,18 +25,34 @@ type PokemonStat = {
   totalTime: number;
 };
 
+export enum StatsTableKey {
+  number = 'number',
+  name = 'name',
+  correct = 'correct',
+  time = 'time',
+  seen = 'seen',
+}
+
 export type StatsState = {
   streaks: {
     current: StatsPerDifficultyArray<number>;
     best: StatsPerDifficultyArray<number>;
-  },
+  };
   times: {
-    best: StatsPerDifficultyArray<SingleTimeStat>,
+    best: StatsPerDifficultyArray<SingleTimeStat>;
     total: StatsPerDifficultyArray<AverageTimeStat>;
     previous: SingleTimeStat;
-  },
+  };
   pokemon: {
     [num in PokemonNumber]?: PokemonStat;
+  };
+  /** An array containing up to the last 5 Pokémon seen and their times */
+  lastSeen: SingleTimeStat[];
+  /** Stores which column the player wants their stats table sorted by, and whether it
+   *  should be ascending or descending. */
+  tableSort: {
+    key: StatsTableKey;
+    ascending: boolean;
   }
 };
 
@@ -63,6 +79,11 @@ const initialState: StatsState = {
     previous: { time: 0, pokemon: 0 },
   },
   pokemon: {},
+  lastSeen: [],
+  tableSort: {
+    key: StatsTableKey.number,
+    ascending: true,
+  },
 };
 
 type AnswerPayload = {
@@ -124,14 +145,21 @@ export const statsSlice = createSlice({
       }
 
       state.pokemon[payload.pokemonNumber] = pokemonStat;
+
+      // Add the number to the front of the last seen array, and trim the array length to 5
+      state.lastSeen.unshift({ pokemon: payload.pokemonNumber, time: timeTaken });
+      state.lastSeen.length = Math.min(state.lastSeen.length, 5);
     },
-    setAllStats: (state, action: PayloadAction<StatsState>) => {
+    setMigratedStats: (state, action: PayloadAction<Pick<StatsState, 'streaks' | 'times'>>) => {
       return {
         ...state,
         ...action.payload,
       };
     },
+    setStatsTableSort: (state, action: PayloadAction<StatsState['tableSort']>) => {
+      state.tableSort = action.payload;
+    },
   },
 });
 
-export const { setAllStats, setAnswered } = statsSlice.actions;
+export const { setMigratedStats, setAnswered, setStatsTableSort } = statsSlice.actions;

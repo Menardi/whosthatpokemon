@@ -10,6 +10,7 @@
   --color-text-muted: #666;
   --color-positive: #27ae60;
   --color-negative: #c0392b;
+  --color-modal-content: #fff;
   --font-family: 'Cantora One', sans-serif;
 }
 
@@ -134,6 +135,7 @@ ul {
   margin-bottom: 2px;
   color: var(--color-side-box);
   text-shadow: 1px 1px var(--color-text-contrast);
+  text-transform: capitalize;
 }
 
 .menu h3 {
@@ -196,6 +198,12 @@ ul {
 .stats-number {
   font-size: 200%;
   line-height: 1;
+}
+
+button.see-all-stats-button {
+  background-color: transparent;
+  font-size: 80%;
+  color: var(--color-side-box);
 }
 
 /* Game Area */

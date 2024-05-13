@@ -1,4 +1,9 @@
-import { useLang, useSettings, useStats } from '../util/hooks';
+import { useMemo, useState } from 'preact/hooks';
+
+import { POKEMON_NAMES } from '../constants/pokemon';
+import { useGameState, useLang, useSettings, useStats } from '../util/hooks';
+import { formatStatTime } from '../util/stats';
+import StatsModal from './StatsModal';
 
 /** These props are only used in the mobile view. The stats menu is always visible on desktop. */
 type StatsMenuProps = {
@@ -6,15 +11,30 @@ type StatsMenuProps = {
   onClose: () => void;
 };
 
-const formatTime = (time: number) => {
-  if (time === 0 || isNaN(time)) return '-';
-  return (time / 1000).toPrecision(4);
-};
-
 const StatsMenu = ({ isOpen, onClose }: StatsMenuProps) => {
   const lang = useLang();
   const stats = useStats();
   const settings = useSettings();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const previousPokemonStats = useMemo(() => {
+    if (stats.lastSeen.length === 0) return null;
+
+    const number = stats.lastSeen[0].pokemon;
+    if (number === 0) return null;
+
+    const pokemonStats = stats.pokemon[number];
+    if (!pokemonStats) return null;
+
+    return {
+      name: POKEMON_NAMES.find((pkmn) => pkmn.number === number)!.names[settings.language],
+      timesSeen: pokemonStats.timesSeen,
+      percentage: Math.ceil((pokemonStats.timesCorrect / pokemonStats.timesSeen) * 100),
+      timeTaken: stats.lastSeen[0].time,
+      averageTime: pokemonStats.timesCorrect > 0 ? pokemonStats.totalTime / pokemonStats.timesCorrect : null,
+    };
+  }, [stats, settings.language]);
 
   return (
     <>
@@ -25,7 +45,7 @@ const StatsMenu = ({ isOpen, onClose }: StatsMenuProps) => {
         <h1>{lang.stats}</h1>
 
         <div className="menu-section">
-          <h2>{`${lang.streak} (${lang[`difficulty-${settings.difficulty}`]})`}</h2>
+          <h2>{lang.streak}</h2>
 
           <div className="menu-section-inner">
             <div>
@@ -44,25 +64,41 @@ const StatsMenu = ({ isOpen, onClose }: StatsMenuProps) => {
           </div>
         </div>
 
-        <div className="menu-section">
-          <h2>{`${lang.time} (${lang[`difficulty-${settings.difficulty}`]})`}</h2>
+        {previousPokemonStats !== null && (
+          <div className="menu-section">
+            <h2>{previousPokemonStats.name}</h2>
 
-          <div className="menu-section-inner">
-            <div>
-              <h3>{lang.previous}</h3>
-              <span className="stats-number">
-                {formatTime(stats.times.previous.time)}
-              </span>
+            <div className="menu-section-inner">
+              <div>
+                <h3>{lang.statsTimesCorrect}</h3>
+                <span className="stats-number">
+                  {`${previousPokemonStats.percentage}%`}
+                </span>
+              </div>
+
+              <div>
+                <h3>{lang.statsTime}</h3>
+                <span className="stats-number">
+                  {formatStatTime(previousPokemonStats.timeTaken)}
+                </span>
+              </div>
+
+              <div>
+                <h3>{lang.statsAverageTime}</h3>
+                <span className="stats-number">
+                  {formatStatTime(previousPokemonStats.averageTime)}
+                </span>
+              </div>
             </div>
 
-            <div>
-              <h3>{lang.average}</h3>
-              <span className="stats-number">
-                {formatTime(stats.times.total[settings.difficulty].time / stats.times.total[settings.difficulty].guesses)}
-              </span>
-            </div>
+            <button
+              className="see-all-stats-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              {`${lang.seeAllStats} >`}
+            </button>
           </div>
-        </div>
+        )}
 
         {!!settings.pendingSettings && (
           <div className="menu-section">
@@ -72,6 +108,10 @@ const StatsMenu = ({ isOpen, onClose }: StatsMenuProps) => {
           </div>
         )}
       </div>
+
+      {isModalOpen && (
+        <StatsModal onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 };

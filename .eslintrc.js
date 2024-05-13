@@ -31,5 +31,5 @@ module.exports = {
     '@stylistic/ts/quotes': ['error', 'single', { avoidEscape: true }],
     '@stylistic/ts/semi': ['error', 'always'],
   },
-  ignorePatterns: ['node_modules'],
+  ignorePatterns: ['node_modules', '**/*.css.d.ts'],
 };

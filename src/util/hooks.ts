@@ -14,7 +14,10 @@ export const useStats = () => useAppSelector(statsSelector);
 
 export const useLang = () => {
   const settings = useAppSelector(settingsSelector);
-  return TRANSLATIONS[settings.language];
+  return {
+    ...TRANSLATIONS.en,
+    ...TRANSLATIONS[settings.language],
+  };
 };
 
 export const useCurrentPokemonNumber = () => {

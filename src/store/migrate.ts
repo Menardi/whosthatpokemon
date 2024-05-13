@@ -3,7 +3,7 @@ import { Difficulty, GenerationId } from '../constants';
 import type { LanguageId } from '../constants/lang';
 import { PokemonNumber } from '../constants/pokemon';
 import { SettingsState, setAllSettings } from './settingsSlice';
-import { StatsPerDifficultyArray, StatsState, setAllStats } from './statsSlice';
+import { StatsPerDifficultyArray, StatsState, setMigratedStats } from './statsSlice';
 
 const SETTINGS_LS_KEY = 'wtp_settings';
 const RECORDS_LS_KEY = 'wtp_records';
@@ -53,7 +53,7 @@ export const migrateToRedux = () => {
 
   if (legacyStatsStr) {
     const legacyStats = JSON.parse(legacyStatsStr) as LegacyStats;
-    const migratedStats: StatsState = {
+    const migratedStats: Pick<StatsState, 'streaks' | 'times'> = {
       streaks: {
         current: [0, 0, 0, 0, 0],
         best: legacyStats.streaks,
@@ -69,10 +69,9 @@ export const migrateToRedux = () => {
         })) as StatsState['times']['total'],
         previous: { time: 0, pokemon: 0 },
       },
-      pokemon: {},
     };
 
-    store.dispatch(setAllStats(migratedStats));
+    store.dispatch(setMigratedStats(migratedStats));
   }
 
   localStorage.setItem(MIGRATION_COMPLETE_LS_KEY, 'true');

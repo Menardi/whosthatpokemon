@@ -1,0 +1,100 @@
+.container {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backdrop {
+  z-index: 101;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.content {
+  z-index: 102;
+  position: relative;
+  background-color: var(--color-modal-content);
+  margin: 32px 12px;
+  border-radius: 8px;
+  max-width: 100%;
+  max-height: calc(100% - 64px);
+  overflow-y: auto;
+}
+
+.table {
+  text-transform: capitalize;
+  width: 100%;
+  background-color: #fafafa;
+  overflow: hidden;
+  text-align: left;
+
+  thead tr {
+    th {
+      padding: 8px 10px;
+      background-color: var(--color-primary);
+      color: var(--color-text-contrast);
+      cursor: pointer;
+
+      &[data-active=true] {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 60%;
+          content: '▲';
+        }
+      }
+    }
+
+    &[data-sort-ascending=false] th[data-active=true]::after {
+      content: '▼';
+    }
+  }
+
+  tr:nth-child(2n + 1) {
+    background-color: #eee;
+  }
+
+  td {
+    padding: 8px;
+
+    &:first-child {
+      font-family: monospace;
+      margin: 0;
+      background-color: var(--color-primary);
+      color: var(--color-text-contrast);
+    }
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-bottom-left-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-side-box);
+}
+
+@media (min-width: 460px) {
+  .closeButton {
+    display: none; /* hide the close button since the backdrop is big enough to click */
+  }
+}
