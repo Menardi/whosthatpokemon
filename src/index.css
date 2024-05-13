@@ -238,7 +238,7 @@ header button {
 }
 
 .canvas-container canvas {
-  image-rendering: optimizeQuality;
+  image-rendering: pixelated;
 }
 
 @keyframes canvasAnimation {
