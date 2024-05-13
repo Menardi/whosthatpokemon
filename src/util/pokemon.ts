@@ -1,19 +1,38 @@
-import range from 'lodash/range';
-import shuffle from 'lodash/shuffle';
-
 import { DIFFICULTY, Difficulty, GENERATIONS } from '../constants';
 import type { PokemonNumber } from '../constants/pokemon';
 import { SettingsState } from '../store/settingsSlice';
+
+const getGenerationNumbers = (from: PokemonNumber, to: PokemonNumber): PokemonNumber[] => {
+  return [...Array((to + 1) - from).keys()].map(k => k + from as PokemonNumber);
+};
+
+/** Shuffles an array of numbers using a Fisher-Yates shuffle. This function creates a
+ *  copy of the given array, rather than modifying it in place.
+ *  Adapted from code at https://bost.ocks.org/mike/shuffle/ */
+const getShuffledNumbers = (array: PokemonNumber[]) => {
+  const numbers = array.slice(0);
+  let currentIndex = numbers.length;
+
+  while (currentIndex) {
+    const randomIndex = Math.floor(Math.random() * currentIndex--);
+
+    const valueToSwap = numbers[currentIndex];
+    numbers[currentIndex] = numbers[randomIndex];
+    numbers[randomIndex] = valueToSwap;
+  }
+
+  return numbers;
+};
 
 export const getPokemonNumbers = (options: Pick<SettingsState, 'generations' | 'difficulty'>) => {
   const numbers = options.generations
     .filter((gen) => GENERATIONS[gen].supportedDifficulties.includes(options.difficulty))
     .flatMap((genToInc) => (
-      range(GENERATIONS[genToInc].start, GENERATIONS[genToInc].end + 1)
+      getGenerationNumbers(GENERATIONS[genToInc].start, GENERATIONS[genToInc].end) as PokemonNumber[]
     ));
 
   return {
-    numbers: shuffle(numbers) as PokemonNumber[],
+    numbers: getShuffledNumbers(numbers),
     generations: options.generations,
   };
 };

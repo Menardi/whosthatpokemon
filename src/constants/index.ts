@@ -1,3 +1,5 @@
+import type { PokemonNumber } from './pokemon';
+
 export const DIFFICULTY = {
   EASY: 4,
   NORMAL: 0,
@@ -13,8 +15,8 @@ export type GenerationId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type Generation = {
   id: GenerationId;
-  start: number;
-  end: number;
+  start: PokemonNumber;
+  end: PokemonNumber;
   supportedDifficulties: readonly Difficulty[];
   games: string;
 };

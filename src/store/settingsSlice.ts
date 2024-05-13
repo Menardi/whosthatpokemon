@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import isEqual from 'lodash/isEqual';
 
 import { DIFFICULTY, type Difficulty, type GenerationId } from '../constants';
 import type { LanguageId } from '../constants/lang';
@@ -24,6 +23,16 @@ const initialState: SettingsState = {
   soundEnabled: false,
   language: 'en',
   pendingSettings: null,
+};
+
+const areGenerationsEqual = (g1?: GenerationId[], g2?: GenerationId[]) => {
+  if (!g1 || !g2) return false;
+  if (g1.length !== g2.length) return false;
+
+  const gen1 = g1.slice().sort();
+  const gen2 = g2.slice().sort();
+
+  return gen1.every((genId, index) => genId === gen2[index]);
 };
 
 export const settingsSlice = createSlice({
@@ -67,7 +76,7 @@ export const settingsSlice = createSlice({
 
       // If this change reverts back to the original generations, remove this pending setting
       // and clear pendingSettings altogether if nothing else is pending.
-      if (isEqual(state.pendingSettings.generations, state.generations)) {
+      if (areGenerationsEqual(state.generations, state.pendingSettings.generations)) {
         delete state.pendingSettings.generations;
 
         if (Object.keys(state.pendingSettings).length === 0) {
