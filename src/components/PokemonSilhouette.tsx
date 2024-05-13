@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef } from 'preact/hooks';
+import classNames from 'classnames';
+import { useEffect, useRef } from 'preact/hooks';
 
 import { DIFFICULTY, Difficulty } from '../constants';
-import type { PokemonNumber } from '../constants/pokemon';
 import { useAppDispatch } from '../store';
 import { setPokemonLoaded } from '../store/gameSlice';
 import { useCurrentPokemonNumber, useGameState, useSettings } from '../util/hooks';
@@ -80,7 +80,15 @@ const PokemonSilhouette = () => {
   }, [number, shouldSilhouette, settings.difficulty]);
 
   return (
-    <div className={`canvas-container ${gameState.answered && settings.difficulty !== DIFFICULTY.EASY ? 'canvas-container-animated' : ''}`}>
+    <div
+      className={classNames(
+        'canvas-container',
+        {
+          'canvas-container-animated': gameState.answered && settings.difficulty !== DIFFICULTY.EASY,
+          'canvas-container-sprite-mode': settings.difficulty === DIFFICULTY.ULTRA || settings.difficulty === DIFFICULTY.MASTER,
+        },
+      )}
+    >
       <canvas ref={canvasRef}  />
     </div>
   );

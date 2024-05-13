@@ -237,8 +237,8 @@ header button {
   min-height: 350px;
 }
 
-.canvas-container canvas {
-  image-rendering: optimizeQuality;
+.canvas-container-sprite-mode {
+  image-rendering: pixelated;
 }
 
 @keyframes canvasAnimation {
