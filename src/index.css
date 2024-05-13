@@ -238,6 +238,7 @@ header button {
 }
 
 .canvas-container canvas {
+  -ms-interpolation-mode: nearest-neighbor;
   image-rendering: pixelated;
 }
 
