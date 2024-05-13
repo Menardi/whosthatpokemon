@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'preact/hooks';
 
 import { DIFFICULTY } from '../constants';
+import { useAppDispatch } from '../store';
+import { setPokemonLoaded } from '../store/gameSlice';
 import { useCurrentPokemonNumber, useGameState, useLang, useSettings } from '../util/hooks';
 import { getPokemonSoundUrl } from '../util/pokemon';
 
 const AudioPlayer = () => {
+  const dispatch = useAppDispatch();
+
   const ref = useRef<HTMLAudioElement>(null);
   const lang = useLang();
   const gameState = useGameState();
@@ -15,10 +19,17 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     if (gameState.answered) {
-      // Edge returns undefined here, where other browsers return a promise
-      ref.current?.play()?.catch(() => {});
+      ref.current?.play().catch(() => {});
     }
   }, [gameState.answered]);
+
+  useEffect(() => {
+    if (shouldShowPlayer) {
+      ref.current?.play()
+        .then(() => dispatch(setPokemonLoaded()))
+        .catch(() => {});
+    }
+  }, [gameState.pokemon.currentIndex]);
 
   if (!settings.soundEnabled) {
     if (shouldShowPlayer) {
