@@ -17,6 +17,9 @@ const IMAGE_DIRECTORIES = {
   [key in Difficulty]: string | null;
 };
 
+/** Sprites get scaled up, but shouldn't be bigger than this size */
+const MAX_SPRITE_SIZE = 400;
+
 const PokemonSilhouette = () => {
   const dispatch = useAppDispatch();
 
@@ -43,9 +46,10 @@ const PokemonSilhouette = () => {
 
     image.addEventListener('load', () => {
       // On higher difficulties, the images are smaller. This makes them bigger.
-      if (image.width <= 100) {
-        canvas.width = image.width * 4;
-        canvas.height = image.height * 4;
+      if (image.width <= 200) {
+        const multiplier = Math.floor(MAX_SPRITE_SIZE / image.width);
+        canvas.width = image.width * multiplier;
+        canvas.height = image.height * multiplier;
         // scales up sprites without smoothing so they look more crisp
         ctx.imageSmoothingEnabled = false;
       } else {
