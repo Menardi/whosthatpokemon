@@ -46,7 +46,7 @@ const PokemonSilhouette = () => {
 
     image.addEventListener('load', () => {
       // On higher difficulties, the images are smaller. This makes them bigger.
-      if (image.width <= 200) {
+      if (Math.max(image.width, image.height) <= 200) {
         const multiplier = Math.floor(MAX_SPRITE_SIZE / image.width);
         canvas.width = image.width * multiplier;
         canvas.height = image.height * multiplier;
