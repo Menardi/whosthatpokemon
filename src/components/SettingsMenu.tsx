@@ -115,6 +115,8 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
             </button>
           </div>
         </div>
+
+        <div className="menu-credits" dangerouslySetInnerHTML={{ __html: lang.footer }} />
       </div>
     </>
   );

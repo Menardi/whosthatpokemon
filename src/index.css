@@ -181,6 +181,24 @@ ul {
   gap: 10px;
 }
 
+.menu-credits {
+  display: none;
+  padding: 8px;
+  margin: 16px -4px 0;
+  background-color: var(--color-box-background);
+  border-radius: 8px;
+  color: var(--color-text-contrast);
+  font-size: 80%;
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+
+.menu-credits a {
+  font-weight: 700;
+  color: var(--color-text-contrast);
+  text-decoration: underline;
+}
+
 .stats .streak-note {
   font-size: 80%;
 }
@@ -401,6 +419,7 @@ footer {
 
 footer a {
   color: var(--color-text-muted);
+  text-decoration: underline;
 }
 
 @media (max-width: 460px) {
@@ -529,6 +548,10 @@ footer a {
   .menu.settings { left: -60%; }
   .menu.settings.shown {
     left: 0;
+  }
+
+  .menu-credits {
+    display: block;
   }
 
   .menu.stats { right: -60%; }
