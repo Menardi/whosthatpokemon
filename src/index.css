@@ -100,7 +100,8 @@ ul {
 }
 
 .language-selector-flags button {
-  display: block;
+  display: flex;
+  justify-content: center;
   border-radius: 2px;
   overflow: hidden;
 }
@@ -141,6 +142,10 @@ ul {
 .menu h3 {
   font-size: 90%;
   color: var(--color-side-box-faded);
+}
+
+.menu-section-mobile-only {
+  display: none;
 }
 
 .menu-section button {
@@ -502,7 +507,7 @@ footer a {
     padding-top: 50px;
   }
 
-  .language-selector-flags,
+  .app-inner-main .language-selector-flags,
   footer {
     display: none;
   }
@@ -519,6 +524,14 @@ footer a {
     transition: all 0.2s;
     overflow-y: auto;
     z-index: 100;
+  }
+
+  .menu .language-selector-flags li {
+    flex: 1;
+  }
+
+  .menu .language-selector-flags li button {
+    width: 100%;
   }
 
   .open-menu-overlay {
@@ -539,6 +552,10 @@ footer a {
   .menu h2 {
     color: var(--color-text-contrast);
     text-shadow: none;
+  }
+
+  .menu-section-mobile-only {
+    display: block;
   }
 
   .menu-section-inner {

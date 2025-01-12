@@ -4,6 +4,7 @@ import { DIFFICULTY, GENERATIONS } from '../constants';
 import { useAppDispatch } from '../store';
 import { setDifficulty, setForgivingSpellingEnabled, setSound, toggleGeneration } from '../store/settingsSlice';
 import { useLang, useSettings } from '../util/hooks';
+import LanguageSelectorFlags from './LanguageSelectorFlags';
 
 /** These props are only used in the mobile view. The settings menu is always visible on desktop. */
 type SettingsMenuProps = {
@@ -114,6 +115,11 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
               {lang.on}
             </button>
           </div>
+        </div>
+
+        <div className="menu-section menu-section-mobile-only">
+          <h2>{lang.language}</h2>
+          <LanguageSelectorFlags />
         </div>
 
         <div className="menu-credits" dangerouslySetInnerHTML={{ __html: lang.footer }} />
