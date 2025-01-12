@@ -79,8 +79,8 @@ type TranslationObject = {
 };
 
 const LANG_FR: TranslationObject = {
-  title: 'Quel est ce Pokémon?',
-  dontknow: 'Je ne sais pas!',
+  title: 'Quel est ce Pokémon ?',
+  dontknow: 'Je ne sais pas !',
   generation: 'Génération',
   difficulty: 'Difficulté',
   'difficulty-0': 'Normale',
@@ -100,12 +100,12 @@ const LANG_FR: TranslationObject = {
   previous: 'Précédent',
   alsoknownas: 'Aussi connu sous le nom de',
   nextpokemon: 'Pokémon suivante dans _TIME_ secondes (ou Entrée pour sauter)',
-  loadfail: 'C\'est lent à charger. <a href="#" id="loadNewPokemonCta">Essayez un autre?</a>',
-  slowconn: 'Connexion lente?',
-  loadnew: 'Charger un nouveau Pokémon?',
+  loadfail: 'C\'est lent à charger. <a href="#" id="loadNewPokemonCta">Essayez un autre ?</a>',
+  slowconn: 'Connexion lente ?',
+  loadnew: 'Charger un nouveau Pokémon ?',
   streakInfo: 'Vos records sont distincts pour chaque difficulté',
   settingsEffect: 'Vos nouveaux paramètres prendront effet pour la prochaine Pokémon',
-  genfinished: "Il n'y a plus de Pokémon ! Essayez une génération ou une difficulté différente. Les Gen 8 et 9 ne prennent pas en charge les difficultés Hyper et Master car ces jeux n'ont pas de sprites.",
+  genfinished: "Il n'y a plus de Pokémon ! Essayez une génération ou une difficulté différente. Les Gen 8 et 9 ne prennent pas en charge les difficultés Hyper et Master car ces jeux n'ont pas de sprites.",
   startAgain: 'Start again',
   footer: 'Contribuez à <a href="https://github.com/Menardi/whosthatpokemon" title="Who\'s That Pokémon à Github">Github</a>. Les images et les sons contribué par <a href="https://github.com/sora10pls">sora10pls</a>.<br />Infos japonaises de <a href="https://tabikana.com">Tabikana Travel Japanese</a>. Les images et les sons &copy; Nintendo.',
   language: 'Langue',
