@@ -133,6 +133,7 @@ const AnswerInput = () => {
         </div>
       ) : (
         <button
+          tabIndex={2}
           className="dont-know-button"
           onClick={onGiveUp}
         >
