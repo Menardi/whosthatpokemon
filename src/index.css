@@ -10,6 +10,7 @@
   --color-text-muted: #666;
   --color-positive: #27ae60;
   --color-negative: #c0392b;
+  --color-negative-focused: #d96659;
   --color-modal-content: #fff;
   --font-family: 'Cantora One', sans-serif;
 }
@@ -56,6 +57,12 @@ button {
   font-family: var(--font-family);
   color: var(--color-text-contrast);
   cursor: pointer;
+}
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--color-negative-focused);
+    z-index: 2;
+    border-radius: 3px;
 }
 
 h1, h2, h3 {
@@ -155,9 +162,19 @@ ul {
   color: var(--color-side-box-faded);
 }
 
+.menu-section button:focus-visible {
+  background-color: #ffffff14;
+  outline-color: var(--color-negative-focused);
+}
+
 .menu-section button.selected {
   background-color: var(--color-side-box-selected);
   color: var(--color-side-box);
+}
+
+.menu-section button.selected:focus-visible {
+  background-color: #fff5f5;
+  outline-color: var(--color-negative-focused);
 }
 
 .menu-section button.pending {
@@ -298,7 +315,7 @@ header button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
 .answer-input-container {
@@ -361,6 +378,12 @@ header button {
 .dont-know-button {
   text-shadow: 1px 1px var(--color-negative);
   font-size: 120%;
+  padding: 1px 8px;
+}
+
+.dont-know-button:focus-visible {
+  outline-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.103);
 }
 
 .also-known-as h2 {
