@@ -109,6 +109,7 @@ const AnswerInput = () => {
           name="pokemonGuess"
           autocomplete="off"
           autocorrect="off"
+          autofocus
           tabindex={1}
           spellcheck={false}
           onInput={onInput}
