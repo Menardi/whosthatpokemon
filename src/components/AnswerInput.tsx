@@ -87,6 +87,19 @@ const AnswerInput = () => {
     }
   }, [number]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === lang.dontknowshortcut) {
+        event.preventDefault();
+        onGiveUp();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onGiveUp]);
+
   return (
     <div className="answer-area">
       <div className="answer-input-container">
@@ -136,7 +149,7 @@ const AnswerInput = () => {
           className="dont-know-button"
           onClick={onGiveUp}
         >
-          {lang.dontknow}
+          {lang.dontknow} ({lang.dontknowshortcut})
         </button>
       )}
 

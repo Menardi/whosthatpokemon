@@ -31,6 +31,7 @@ export const LANGUAGES = {
 const LANG_EN = {
   title: "Who's That Pokémon?",
   dontknow: "I don't know!",
+  dontknowshortcut: 'Tab',
   generation: 'Generation',
   difficulty: 'Difficulty',
   'difficulty-0': 'Normal',
