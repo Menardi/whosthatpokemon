@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'preact/hooks';
+import { useCallback, useEffect, useMemo } from 'preact/hooks';
 import type { JSXInternal } from 'preact/src/jsx';
 
 import { POKEMON_NAMES } from '../constants/pokemon';
@@ -22,6 +22,17 @@ const StatsModal = ({ onClose }: StatsModalProps) => {
   const lang = useLang();
   const settings = useSettings();
   const stats = useStats();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const tableData = useMemo(() => {
     const sortSign = stats.tableSort.ascending ? -1 : 1;
