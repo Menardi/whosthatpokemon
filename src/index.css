@@ -1,16 +1,21 @@
 :root {
   --color-background: #d7dbdd;
   --color-box-background: rgba(255, 255, 255, 0.25);
+  --color-focused-outline: #d96659;
   --color-side-box: #34495e;
+  --color-side-box-focused-background: rgba(255, 255, 255, 0.07);;
   --color-side-box-selected: #fff;
+  --color-side-box-selected-focused-background: #fff5f5;
   --color-side-box-faded: #9dbbd9;
+  --color-input-focused-outline: #fff;
+  --color-input-focused-background: rgba(255, 255, 255, 0.1);
   --color-primary: #3498db;
   --color-text: #333;
   --color-text-contrast: #fff;
   --color-text-muted: #666;
+  --color-text-muted-shadow: #e1e1e1;
   --color-positive: #27ae60;
   --color-negative: #c0392b;
-  --color-negative-focused: #d96659;
   --color-modal-content: #fff;
   --font-family: 'Cantora One', sans-serif;
 }
@@ -60,7 +65,7 @@ button {
 }
 
 a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--color-negative-focused);
+    outline: 2px solid var(--color-focused-outline);
     z-index: 2;
     border-radius: 3px;
 }
@@ -163,8 +168,8 @@ ul {
 }
 
 .menu-section button:focus-visible {
-  background-color: #ffffff14;
-  outline-color: var(--color-negative-focused);
+  background-color: var(--color-side-box-focused-background);
+  outline-color: var(--color-focused-outline);
 }
 
 .menu-section button.selected {
@@ -173,8 +178,8 @@ ul {
 }
 
 .menu-section button.selected:focus-visible {
-  background-color: #fff5f5;
-  outline-color: var(--color-negative-focused);
+  background-color: var(--color-side-box-selected-focused-background);
+  outline-color: var(--color-focused-outline);
 }
 
 .menu-section button.pending {
@@ -382,8 +387,8 @@ header button {
 }
 
 .dont-know-button:focus-visible {
-  outline-color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.103);
+  outline-color: var(--color-input-focused-outline);
+  background-color: var(--color-input-focused-background);
 }
 
 .also-known-as h2 {
@@ -442,7 +447,7 @@ footer {
   font-size: 75%;
   margin: 1em;
   text-align: center;
-  text-shadow: 1px 1px #e1e1e1;
+  text-shadow: 1px 1px var(--color-text-muted-shadow);
 }
 
 footer a {
