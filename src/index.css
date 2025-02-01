@@ -1,13 +1,19 @@
 :root {
   --color-background: #d7dbdd;
   --color-box-background: rgba(255, 255, 255, 0.25);
+  --color-focused-outline: #d96659;
   --color-side-box: #34495e;
+  --color-side-box-focused-background: rgba(255, 255, 255, 0.07);;
   --color-side-box-selected: #fff;
+  --color-side-box-selected-focused-background: #fff5f5;
   --color-side-box-faded: #9dbbd9;
+  --color-input-focused-outline: #fff;
+  --color-input-focused-background: rgba(255, 255, 255, 0.1);
   --color-primary: #3498db;
   --color-text: #333;
   --color-text-contrast: #fff;
   --color-text-muted: #666;
+  --color-text-muted-shadow: #e1e1e1;
   --color-positive: #27ae60;
   --color-negative: #c0392b;
   --color-modal-content: #fff;
@@ -56,6 +62,12 @@ button {
   font-family: var(--font-family);
   color: var(--color-text-contrast);
   cursor: pointer;
+}
+
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--color-focused-outline);
+    z-index: 2;
+    border-radius: 3px;
 }
 
 h1, h2, h3 {
@@ -155,9 +167,19 @@ ul {
   color: var(--color-side-box-faded);
 }
 
+.menu-section button:focus-visible {
+  background-color: var(--color-side-box-focused-background);
+  outline-color: var(--color-focused-outline);
+}
+
 .menu-section button.selected {
   background-color: var(--color-side-box-selected);
   color: var(--color-side-box);
+}
+
+.menu-section button.selected:focus-visible {
+  background-color: var(--color-side-box-selected-focused-background);
+  outline-color: var(--color-focused-outline);
 }
 
 .menu-section button.pending {
@@ -298,7 +320,7 @@ header button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
 .answer-input-container {
@@ -361,6 +383,12 @@ header button {
 .dont-know-button {
   text-shadow: 1px 1px var(--color-negative);
   font-size: 120%;
+  padding: 1px 8px;
+}
+
+.dont-know-button:focus-visible {
+  outline-color: var(--color-input-focused-outline);
+  background-color: var(--color-input-focused-background);
 }
 
 .also-known-as h2 {
@@ -419,7 +447,7 @@ footer {
   font-size: 75%;
   margin: 1em;
   text-align: center;
-  text-shadow: 1px 1px #e1e1e1;
+  text-shadow: 1px 1px var(--color-text-muted-shadow);
 }
 
 footer a {

@@ -70,9 +70,9 @@ const AnswerInput = () => {
     }
   };
 
-  const onGiveUp = () => {
-    if (isInputRecentlyFocused) {
-      inputRef.current?.focus(); // re-focus the input if this button press blurred it
+  const onGiveUp = (forceFocus: boolean) => {
+    if (isInputRecentlyFocused || forceFocus) {
+      inputRef.current?.focus(); // re-focus the input if this button press blurred it, or the give up button was triggered via enter/space
     }
 
     dispatch(revealPokemon({ isCorrect: false }));
@@ -133,8 +133,10 @@ const AnswerInput = () => {
         </div>
       ) : (
         <button
+          tabIndex={2}
           className="dont-know-button"
-          onClick={onGiveUp}
+          onClick={() => onGiveUp(false)}
+          onKeyDown={(event) => (event.key === 'Enter' || event.key === ' ') && onGiveUp(true)}
         >
           {lang.dontknow}
         </button>
