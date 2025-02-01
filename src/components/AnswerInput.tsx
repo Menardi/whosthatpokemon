@@ -70,9 +70,14 @@ const AnswerInput = () => {
     }
   };
 
-  const onGiveUp = (forceFocus: boolean) => {
-    if (isInputRecentlyFocused || forceFocus) {
-      inputRef.current?.focus(); // re-focus the input if this button press blurred it, or the give up button was triggered via enter/space
+  const onGiveUpClick: JSXInternal.MouseEventHandler<HTMLButtonElement> = (ev) => {
+    // `detail` on a click event represents the number of mouse clicks or touches. If it's zero,
+    // it means the click was trigged by keyboard.
+    const wasTriggeredByKeyboard = ev.detail === 0;
+
+    // Re-focus the input if this button press blurred it, or the give up button was triggered via keyboard
+    if (isInputRecentlyFocused || wasTriggeredByKeyboard) {
+      inputRef.current?.focus();
     }
 
     dispatch(revealPokemon({ isCorrect: false }));
@@ -135,8 +140,7 @@ const AnswerInput = () => {
         <button
           tabIndex={2}
           className="dont-know-button"
-          onClick={() => onGiveUp(false)}
-          onKeyDown={(event) => (event.key === 'Enter' || event.key === ' ') && onGiveUp(true)}
+          onClick={onGiveUpClick}
         >
           {lang.dontknow}
         </button>
