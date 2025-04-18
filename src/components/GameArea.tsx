@@ -1,10 +1,6 @@
-import { useCallback, useEffect } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 
-import { DIFFICULTY, MILLISECONDS_BETWEEN_POKEMON } from '../constants';
-import { useAppDispatch } from '../store';
-import { goToNextPokemon } from '../store/actions';
-import { goToNextIndex } from '../store/gameSlice';
-import { processPendingSettings } from '../store/settingsSlice';
+import { DIFFICULTY } from '../constants';
 import { useLang, useGameState, useSettings } from '../util/hooks';
 import { preloadPokemonMedia } from '../util/pokemon';
 import AnswerInput from './AnswerInput';
@@ -17,7 +13,6 @@ type GameAreaProps = {
 };
 
 const GameArea = ({ onMenuOpen }: GameAreaProps) => {
-  const dispatch = useAppDispatch();
   const lang = useLang();
   const settings = useSettings();
 
@@ -33,12 +28,6 @@ const GameArea = ({ onMenuOpen }: GameAreaProps) => {
           settings.soundEnabled,
         );
       }
-
-      const timeoutId = setTimeout(() => {
-        dispatch(goToNextPokemon());
-      }, MILLISECONDS_BETWEEN_POKEMON);
-
-      return () => clearTimeout(timeoutId);
     }
   }, [gameState.answered]);
 

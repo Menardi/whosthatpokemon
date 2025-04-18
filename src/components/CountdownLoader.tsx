@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { MILLISECONDS_BETWEEN_POKEMON } from '../constants';
+import styles from './css/CountdownLoader.module.css';
 
 type CountdownLoaderProps = {
   target?: number;
@@ -60,14 +61,14 @@ const CountdownLoader = ({
   }, [target]);
 
   return (
-    <div className="countdown-loader">
+    <div className={styles.container}>
       <canvas
         width={canvasRenderSize}
         height={canvasRenderSize}
         style={{ width: size, height: size }}
         ref={ref}
       />
-      <span>{count}</span>
+      <span className={styles.countdownText}>{count}</span>
     </div>
   );
 };

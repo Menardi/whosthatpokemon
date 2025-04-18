@@ -1,17 +1,17 @@
 node_modules
 index.js
-public/images/*
-!public/images/flags/
-!public/images/icons/
-public/sounds/*
+/public/images/artwork
+/public/images/sprites
+/public/sounds/*
+pokemedia
 *.zip
 .DS_Store
 dist/
 *.css.d.ts
 
 # Directories from the old app structure
-images/
-sounds/
+/images/
+/sounds/
 /test-results/
 /playwright-report/
 /blob-report/

@@ -6,7 +6,7 @@ import SettingsMenu from './components/SettingsMenu';
 import StatsListener from './components/StatsListener';
 import StatsMenu from './components/StatsMenu';
 import { useAppDispatch } from './store';
-import { resetPokemon } from './store/actions';
+import { goToNextPokemon, resetPokemon } from './store/actions';
 import { migrateToRedux } from './store/migrate';
 import { useGameState, useLang, useSettings, useVisualViewportHeight } from './util/hooks';
 
@@ -16,7 +16,6 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   const game = useGameState();
-  const settings = useSettings();
 
   const [openedMenu, setOpenedMenu] = useState<'settings' | 'stats' | null>(null);
   const viewportHeight = useVisualViewportHeight();
@@ -25,6 +24,9 @@ const App = () => {
     if (!game.initialized) {
       migrateToRedux();
       dispatch(resetPokemon());
+    } else if (game.answered !== null) {
+      // User has reloaded the page while viewing a correct answer - move to the next Pokémon
+      dispatch(goToNextPokemon());
     }
   }, []);
 

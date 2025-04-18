@@ -9,6 +9,7 @@ import { revealPokemon } from '../store/gameSlice';
 import { useCurrentPokemonNumber, useGameState, useLang, useSettings } from '../util/hooks';
 import { removeAccents, soundAlike } from '../util/spelling';
 import CountdownLoader from './CountdownLoader';
+import NextPokemonTimer from './NextPokemonTimer';
 
 const AnswerInput = () => {
   const dispatch = useAppDispatch();
@@ -115,7 +116,7 @@ const AnswerInput = () => {
           } : {})}
         />
 
-        {gameState.answered && <CountdownLoader />}
+        {gameState.answered && <NextPokemonTimer />}
 
         <span className="progress-counter">
           {`${gameState.pokemon.currentIndex + 1} / ${gameState.pokemon.numbers.length}`}

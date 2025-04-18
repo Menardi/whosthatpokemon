@@ -305,33 +305,12 @@ header button {
   position: relative;
 }
 
-.answer-input-container .countdown-loader {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 8px;
-}
-
 .progress-counter {
   position: absolute;
   top: 100%;
   right: 0;
   padding: 2px;
   font-size: 80%;
-}
-
-.countdown-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.countdown-loader span {
-  position: absolute;
-  color: var(--color-text-contrast);
-  font-size: 80%;
-  line-height: 1;
 }
 
 .answer-input {
