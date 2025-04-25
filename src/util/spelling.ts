@@ -147,6 +147,10 @@ const ACCENT_MAP = {
   Ô:'O',
   ç:'c',
   Ç:'C',
+  // Convert full-width Japanese characters for Porygon-Z and Porygon 2
+  ｚ: 'z',
+  Ｚ: 'Z',
+  '２': '2',
 } as const;
 
 // Based on https://github.com/aristus/accent-folding/blob/master/accent-fold.js

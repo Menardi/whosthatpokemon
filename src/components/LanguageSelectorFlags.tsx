@@ -14,6 +14,7 @@ const LanguageSelectorFlags = () => {
           <button
             className={settings.language === lang.code ? 'selected' : ''}
             onClick={() => dispatch(setLanguage(lang.code))}
+            data-lang={lang.code}
           >
             <img src={lang.flagUrl} />
           </button>

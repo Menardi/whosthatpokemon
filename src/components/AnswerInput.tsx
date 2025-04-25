@@ -37,7 +37,7 @@ const AnswerInput = () => {
 
   const checkGuess = (guess: string) => {
     const normalisedGuess = removeAccents(guess.toLowerCase());
-    const normalisedAnswer = removeAccents(pokemonNames[settings.language]);
+    const normalisedAnswer = removeAccents(pokemonNames[settings.language].toLowerCase());
 
     if (
       (settings.forgivingSpellingEnabled && settings.language === 'en' && soundAlike(normalisedGuess, normalisedAnswer))
