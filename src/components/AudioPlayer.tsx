@@ -33,23 +33,28 @@ const AudioPlayer = () => {
 
   if (!settings.soundEnabled) {
     if (shouldShowPlayer) {
-      return <p className="sound-off-warning">{lang.eliteNeedsAudio}</p>;
+      return (
+        <div className="audio-player-container">
+          <p className="sound-off-warning">{lang.eliteNeedsAudio}</p>
+        </div>
+      );
     }
 
     return null;
   }
 
   return (
-    <audio
-      className="audio-player"
-      controls
-      controlsList="nodownload"
-      style={{ display: shouldShowPlayer ? 'block' : 'none' }}
-      src={getPokemonSoundUrl(number)}
-      ref={ref}
-    >
-      Your browser doesn't support the audio element.
-    </audio>
+    <div className="audio-player-container" style={{ display: shouldShowPlayer ? 'flex' : 'none' }}>
+      <audio
+        className="audio-player"
+        controls
+        controlsList="nodownload"
+        src={getPokemonSoundUrl(number)}
+        ref={ref}
+      >
+        Your browser doesn't support the audio element.
+      </audio>
+    </div>
   );
 };
 

@@ -252,7 +252,8 @@ header button {
   display: none;
 }
 
-.canvas-container {
+.canvas-container,
+.audio-player-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -467,7 +468,8 @@ footer a {
     display: block;
   }
 
-  .canvas-container {
+  .canvas-container,
+  .audio-player-container {
     min-height: 0;
     flex: 1;
     padding: 10px;
