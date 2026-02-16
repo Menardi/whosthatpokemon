@@ -71,7 +71,7 @@ const StatsModal = ({ onClose }: StatsModalProps) => {
       <div className={styles.backdrop} onClick={onClose} />
 
       <div className={styles.content}>
-        <table className={styles.table} cellSpacing={0}>
+        <table className={styles.table} cellSpacing="0">
           <thead>
             <tr data-sort-ascending={stats.tableSort.ascending}>
               <th
