@@ -34,10 +34,10 @@
     "vite": "^6.3.3"
   },
   "dependencies": {
+    "@menardi/redux-persist": "^7.0.1",
     "@reduxjs/toolkit": "^1.9.7",
     "classnames": "^2.5.1",
     "preact": "^10.21.0",
-    "react-redux": "^8.1.3",
-    "redux-persist": "^6.0.0"
+    "react-redux": "^8.1.3"
   }
 }

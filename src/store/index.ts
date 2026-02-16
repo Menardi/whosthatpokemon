@@ -1,8 +1,6 @@
+import { persistReducer, persistStore, ALL_PERSIST_ACTIONS } from '@menardi/redux-persist';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import storage from 'redux-persist/lib/storage';
 
 import { gameSlice } from './gameSlice';
 import { settingsSlice } from './settingsSlice';
@@ -17,10 +15,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer({
   key: 'wtp',
   version: 1,
-  storage,
-  stateReconciler: autoMergeLevel2,
-  timeout: 0,
-  // @ts-expect-error The redux-persist types are not quite right
+  storage: localStorage,
 }, rootReducer);
 
 export const store = configureStore({
@@ -28,7 +23,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => (
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: ALL_PERSIST_ACTIONS,
       },
     })
   ),
