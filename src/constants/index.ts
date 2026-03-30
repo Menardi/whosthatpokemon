@@ -67,15 +67,13 @@ export const GENERATIONS: { [key in GenerationId]: Generation } = {
   7: {
     id: 7,
     start: 722,
-    end: 807,
+    end: 809,
     supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ULTRA, DIFFICULTY.MASTER, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     games: 'Sun, Moon, Ultra Sun, & Ultra Moon',
   },
   8: {
     id: 8,
-    // Technically gen 8 starts at 810, but 808 and 809 don't have sprites, and so are closer to being gen 8
-    // than gen 7 (they were introduced in Let's Go)
-    start: 808,
+    start: 810,
     end: 905,
     supportedDifficulties: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
     games: 'Let\'s Go, Sword, Shield, & Legends: Arceus',
@@ -88,5 +86,14 @@ export const GENERATIONS: { [key in GenerationId]: Generation } = {
     games: 'Scarlet & Violet',
   },
 } as const;
+
+/** Meltan and Melmetal were introduced in Let's Go, so although they are in Gen 7, they don't
+ *  have official sprites. These overrides remove ensure they are not included in sprite difficulties. */
+export const PER_POKEMON_DIFFICULTY_OVERRIDES: {
+  [key in PokemonNumber]?: Generation['supportedDifficulties'];
+} = {
+  808: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+  809: [DIFFICULTY.NORMAL, DIFFICULTY.ELITE, DIFFICULTY.EASY],
+};
 
 export const MILLISECONDS_BETWEEN_POKEMON = 3000;

@@ -1,4 +1,4 @@
-import { DIFFICULTY, Difficulty, GENERATIONS } from '../constants';
+import { DIFFICULTY, Difficulty, GENERATIONS, PER_POKEMON_DIFFICULTY_OVERRIDES } from '../constants';
 import type { PokemonNumber } from '../constants/pokemon';
 import { SettingsState } from '../store/settingsSlice';
 
@@ -29,6 +29,10 @@ export const getPokemonNumbers = (options: Pick<SettingsState, 'generations' | '
     .filter((gen) => GENERATIONS[gen].supportedDifficulties.includes(options.difficulty))
     .flatMap((genToInc) => (
       getGenerationNumbers(GENERATIONS[genToInc].start, GENERATIONS[genToInc].end) as PokemonNumber[]
+    ))
+    .filter((pokemonNumber) => (
+      !PER_POKEMON_DIFFICULTY_OVERRIDES[pokemonNumber]
+      || PER_POKEMON_DIFFICULTY_OVERRIDES[pokemonNumber].includes(options.difficulty)
     ));
 
   return {
